@@ -1,0 +1,10 @@
+{
+  "presets": ["latest"],
+  "plugins": ["transform-runtime", "syntax-dynamic-import", "transform-object-rest-spread"],
+  "comments": false,
+  "env": {
+    "test": {
+      "plugins": [ "istanbul"]
+    }
+  }
+}
