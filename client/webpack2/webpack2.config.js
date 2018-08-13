@@ -2,7 +2,7 @@
 * @Author: lushijie
 * @Date:   2017-05-12 14:00:40
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-10 15:09:24
+* @Last Modified time: 2018-08-13 10:41:52
 */
 const webpack = require('webpack');
 const argv = require('yargs').argv;
@@ -48,7 +48,7 @@ module.exports = {
   devtool: isPubEnv ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
   output: {
     path: path.join(PRO_PATH, `/client/static/dist/chunk_${CHUNK}`),
-    publicPath: '/static',
+    publicPath: `/static/dist/chunk_${CHUNK}`,
     filename: isPubEnv ? `[name].[hash:6].js` : `[name].js`,
     chunkFilename: isPubEnv ? `[name].[chunkhash:6].chunk.js` : `[name].chunk.js`,
   },
@@ -62,12 +62,11 @@ module.exports = {
       mixins: path.join(SRC_PATH, `/mixins`),
       plugins: path.join(SRC_PATH, `/plugins`),
       request: path.join(SRC_PATH, `/request`),
-      store: path.join(SRC_PATH, `/store`),
+      vuex: path.join(SRC_PATH, `/vuex`),
       validators: path.join(SRC_PATH, `/validators`),
       utils: path.join(SRC_PATH, `/utils`),
       layouts: path.join(SRC_PATH, `/layouts`),
-      admin: path.join(SRC_PATH, `/app/admin`),
-      user: path.join(SRC_PATH, `/app/user`),
+      demo: path.join(SRC_PATH, `/app/demo`),
     }
   },
   optimization: {
@@ -146,6 +145,8 @@ module.exports = {
       filename: 'style.bundle.css'
     }),
     new webpack.DefinePlugin(getDefineOptions(CONF.DEFINE)),
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin({
+      template: path.join(PRO_PATH, `/client/src/app/${CHUNK}/index.html`)
+    })
   ]
 }

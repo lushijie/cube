@@ -2,15 +2,15 @@
 * @Author: lushijie
 * @Date:   2017-05-26 19:36:52
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-10 14:23:48
+* @Last Modified time: 2018-08-13 11:21:53
 */
 const path = require('path');
 const helper = require('lushijie-utils');
 const fs = require('fs-extra');
 
 const PRO_PATH = path.join(__dirname, '..', '..');
-const runTimeFilePath = path.join(PRO_PATH, 'client/runtime.json');
-const runtime = JSON.parse(fs.readFileSync(runTimeFilePath, {encoding: 'utf8'}) || '{}');
+const runTimePath = path.join(PRO_PATH, 'client/runtime.json');
+const runtime = JSON.parse(fs.readFileSync(runTimePath, {encoding: 'utf8'}) || '{}');
 
 module.exports = function({chunk}) {
   const env = runtime[chunk];
@@ -22,7 +22,7 @@ module.exports = function({chunk}) {
     common: {
       DEFINE: {
         INJECT: {
-          APPNAME: '360 技术管理后台',
+          APPNAME: '示例管理系统',
           ...temp
         }
       },
@@ -33,7 +33,7 @@ module.exports = function({chunk}) {
     development: {
       DEFINE: {
         INJECT: {
-          DOMAIN: 'http://test.code.360.cn:8360'
+          DOMAIN: 'http://test.abc.com'
         }
       }
     },
@@ -42,7 +42,7 @@ module.exports = function({chunk}) {
       devtool: '',
       DEFINE: {
         INJECT: {
-          DOMAIN: 'http://code.360.cn',
+          DOMAIN: 'http://abc.com',
         }
       }
     }
