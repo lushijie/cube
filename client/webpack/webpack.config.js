@@ -2,7 +2,7 @@
 * @Author: lushijie
 * @Date:   2017-05-12 14:00:40
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-13 15:20:00
+* @Last Modified time: 2018-08-13 16:51:53
 */
 const webpack = require('webpack');
 const argv = require('yargs').argv;
@@ -16,7 +16,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const CHUNK = argv.chunk;
-const CONF = require('./webpack2.env.js')({chunk: CHUNK});
+const CONF = require('./webpack.env.js')({chunk: CHUNK});
 const PRO_PATH = CONF.PRO_PATH;
 const SRC_PATH = path.join(PRO_PATH, '/client/src');
 const isPubEnv = CONF.ENV === 'production';

@@ -2,12 +2,12 @@
 * @Author: lushijie
 * @Date:   2018-04-12 10:18:09
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-07-02 17:42:02
+* @Last Modified time: 2018-08-13 16:51:48
 */
 const chalk = require('chalk');
 const exec = require('child_process').exec;
 const path = require('path');
-const PLUGINS = require('./webpack2.plugins.js');
+const PLUGINS = require('./webpack.plugins.js');
 
 const vendors = {
   admin: [

@@ -2,7 +2,7 @@
 * @Author: lushijie
 * @Date:   2018-06-14 10:46:16
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-07-02 17:43:13
+* @Last Modified time: 2018-08-13 16:51:48
 */
 const argv = require('yargs').argv;
 const path = require('path');
@@ -24,14 +24,14 @@ if (!CHUNK || !MODE) {
   return console.log(chalk.red('=== 运行参数缺失不予执行 === \n'));
 }
 console.log(chalk.green(`\n=== < 模块: ${CHUNK}, 模式: ${MODE} 启动编译> ===`));
-const webpackenv = require('./webpack2.env.js')({mode: MODE, chunk: CHUNK});
-const webpackdll = require('./webpack2.dll.js')(webpackenv);
+const webpackenv = require('./webpack.env.js')({mode: MODE, chunk: CHUNK});
+const webpackdll = require('./webpack.dll.js')(webpackenv);
 
 (function(){
   const PRO_PATH = webpackenv.PRO_PATH;
   const bundle = path.join(PRO_PATH, `/server/www/static/bundle_${CHUNK}`);
   const vendor = path.join(PRO_PATH, `/server/www/static/vendor_${CHUNK}`);
-  const manifest = path.join(PRO_PATH, `/client/webpack2/manifest/${CHUNK}.*`);
+  const manifest = path.join(PRO_PATH, `/client/webpack/manifest/${CHUNK}.*`);
   const view = path.join(PRO_PATH, `/server/view/${CHUNK}.html`);
   exec(`rm -rf ${bundle} && rm -rf ${vendor} && rm -rf ${manifest} && rm -rf ${view}`);
 })();
@@ -44,7 +44,7 @@ webpack(Object.assign({}, webpackdll), (err, stats) => {
   } else {
     console.log(chalk.green(stats));
 
-    const webpackconfig = require('./webpack2.config.js')(webpackenv);
+    const webpackconfig = require('./webpack.config.js')(webpackenv);
     if (webpackenv.ENV === 'development') {
       webpack(Object.assign({}, webpackconfig, {
         watch: true,
