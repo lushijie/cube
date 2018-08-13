@@ -2,7 +2,7 @@
 * @Author: lushijie
 * @Date:   2017-05-12 14:00:40
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-13 11:24:32
+* @Last Modified time: 2018-08-13 15:20:00
 */
 const webpack = require('webpack');
 const argv = require('yargs').argv;
@@ -62,7 +62,7 @@ module.exports = {
       mixins: path.join(SRC_PATH, `/mixins`),
       plugins: path.join(SRC_PATH, `/plugins`),
       request: path.join(SRC_PATH, `/request`),
-      vuex: path.join(SRC_PATH, `/vuex`),
+      store: path.join(SRC_PATH, `/store`),
       validators: path.join(SRC_PATH, `/validators`),
       utils: path.join(SRC_PATH, `/utils`),
       demo: path.join(SRC_PATH, `/app/demo`),

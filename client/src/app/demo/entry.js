@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import BlankLayout from 'demo/layouts/blank.vue';
 import Router from 'demo/router.js';
-import VuexStore from 'vuex';
+import Store from 'store';
 import 'filters';
 // import 'plugins/demo';
 // // import 'mixins/user';
@@ -20,7 +20,7 @@ Vue.config.errorHandler = function(err, vm) {
 const vm = new Vue({
   el: '#root', // #root 元素会被replace
   router: Router,
-  store: VuexStore,
+  store: Store,
   data: {
     bus: new Vue() // 设立 BUS 总线
   },
