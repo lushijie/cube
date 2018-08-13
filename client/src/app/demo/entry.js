@@ -3,7 +3,7 @@ import BlankLayout from 'demo/layouts/blank.vue';
 import Router from 'demo/router.js';
 import Store from 'store';
 import 'filters';
-// import 'plugins/demo';
+import 'plugins/demo';
 // // import 'mixins/user';
 // // import 'static/css/app.css';
 

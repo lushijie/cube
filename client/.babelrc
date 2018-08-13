@@ -1,7 +1,17 @@
 {
   "presets": ["latest"],
-  "plugins": ["transform-runtime", "syntax-dynamic-import", "transform-object-rest-spread"],
-  "comments": false,
+  "plugins": [
+    "transform-runtime",
+    "syntax-dynamic-import",
+    "transform-object-rest-spread",
+    [
+      "component",
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      }
+    ]
+  ],
   "env": {
     "test": {
       "plugins": [ "istanbul"]
