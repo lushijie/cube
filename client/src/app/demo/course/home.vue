@@ -1,10 +1,8 @@
 <template>
   <div>
     课程页面
-    <button @click.prevent="addCount">addCount</button>
-    <button @click.prevent="increment">increment</button>
-
-    <el-button type="primary">123</el-button>
+    <el-button type="primary" @click.prevent="increment">increment</el-button>
+    <el-button type="primary" @click.prevent="addCount">addCount</el-button>
   </div>
 </template>
 
