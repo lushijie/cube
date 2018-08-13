@@ -2,7 +2,7 @@
 * @Author: lushijie
 * @Date:   2017-05-12 14:00:40
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-13 10:41:52
+* @Last Modified time: 2018-08-13 11:24:32
 */
 const webpack = require('webpack');
 const argv = require('yargs').argv;
@@ -65,7 +65,6 @@ module.exports = {
       vuex: path.join(SRC_PATH, `/vuex`),
       validators: path.join(SRC_PATH, `/validators`),
       utils: path.join(SRC_PATH, `/utils`),
-      layouts: path.join(SRC_PATH, `/layouts`),
       demo: path.join(SRC_PATH, `/app/demo`),
     }
   },

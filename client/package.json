@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "demo:debug": "node start.js --chunk=demo --env=development && webpack-dev-server --config=./webpack2/webpack2.config.js --chunk=demo",
-    "demo:dev": "node start.js --chunk=demo --env=development && webpack --config=./webpack2/webpack2.config.js --chunk=demo",
+    "demo:dev": "node start.js --chunk=demo --env=development && webpack --config=./webpack2/webpack2.config.js --chunk=demo -p",
     "demo:pub": "node start.js --chunk=demo --env=production && webpack --config=./webpack2/webpack2.config.js --chunk=demo"
   },
   "author": "lushijie1218@126.com",
