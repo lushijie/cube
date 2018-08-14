@@ -2,7 +2,7 @@
 * @Author: lushijie
 * @Date:   2017-01-17 14:32:02
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-14 12:00:23
+* @Last Modified time: 2018-08-14 14:36:54
 */
 import Vue from 'vue';
 import VueRouter from 'vue-router';
@@ -25,6 +25,7 @@ const router = new VueRouter({
       children: [
         require('./dashboard/router'),
         require('./create/router'),
+        require('./test/router'),
       ]
     },
 

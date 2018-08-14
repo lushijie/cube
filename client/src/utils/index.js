@@ -2,7 +2,7 @@
 * @Author: lushijie
 * @Date:   2017-06-20 09:34:17
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-14 11:44:27
+* @Last Modified time: 2018-08-14 16:35:22
 */
 import Vue from 'vue';
 import Crypto from 'crypto';
@@ -303,6 +303,19 @@ const Utils = {
     });
 
     new RootComponent().$mount(`#${innerContainerId}`);
+  },
+
+  travelTree(tree, cb) {
+    if (tree) {
+      const {children, ...attrs} = tree;
+      cb(attrs);
+    }
+
+    if (tree.children) {
+      tree.children.forEach(ele => {
+        Utils.travelTree(ele, cb);
+      })
+    }
   }
 };
 

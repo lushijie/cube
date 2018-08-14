@@ -10,8 +10,28 @@ export default {
         uuid: Utils.uuid,
         label: '页面容器',
         root: true,
+        selected: true,
         children: [
-          // TODO
+          {
+            tag: 'block-a',
+            uuid: Utils.uuid,
+            label: '组件a',
+            selected: false,
+            children: [
+              {
+                tag: 'block-c',
+                uuid: Utils.uuid,
+                label: '组件c',
+                selected: false
+              }
+            ]
+          },
+          {
+            tag: 'block-b',
+            uuid: Utils.uuid,
+            label: '组件b',
+            selected: false
+          }
         ]
       }
     },
@@ -22,8 +42,14 @@ export default {
 
   getters: {
     metaData(state) {
-      return {...state.routeMeta};
+      return { ...state.routeMeta };
     },
+
+    treeRoot(state) {
+      return () => {
+        return { ...state.tree.root }
+      }
+    }
   },
 
   mutations: {
@@ -38,11 +64,15 @@ export default {
     },
 
     addPackages(state, payload) {
-      state.packages = [...payload];
+      state.packages = [ ...payload ];
     },
 
     updateTreeChildren(state, payload) {
-      state.tree.root.children = [...payload];
+      state.tree.root.children = [ ...payload ];
+    },
+
+    updateTreeRoot(state, payload) {
+      state.tree.root = { ...payload };
     }
   },
 
