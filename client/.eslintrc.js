@@ -62,7 +62,7 @@ module.exports = {
     "constructor-super": "error",
     "curly": ["error", "multi-line"],
     "dot-location": ["error", "property"],
-    "eol-last": "error",
+    // "eol-last": "error",
     "eqeqeq": ["error", "always", {
       "null": "ignore"
     }],

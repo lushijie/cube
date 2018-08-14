@@ -2,7 +2,7 @@
 * @Author: lushijie
 * @Date:   2017-05-26 19:36:52
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-13 11:21:53
+* @Last Modified time: 2018-08-13 19:42:50
 */
 const path = require('path');
 const helper = require('lushijie-utils');
@@ -16,7 +16,8 @@ module.exports = function({chunk}) {
   const env = runtime[chunk];
   const temp = {
     CHUNK: chunk,
-    ENV: env
+    ENV: env,
+    PRO_PATH
   }
   const CONFIG = {
     common: {
@@ -26,7 +27,6 @@ module.exports = function({chunk}) {
           ...temp
         }
       },
-      PRO_PATH: PRO_PATH,
       ...temp,
     },
 

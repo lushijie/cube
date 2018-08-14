@@ -2,10 +2,11 @@
 * @Author: lushijie
 * @Date:   2017-06-20 09:34:17
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-06-12 19:16:18
+* @Last Modified time: 2018-08-14 11:29:35
 */
-const crypto = require('crypto');
-const querystring = require('querystring');
+import Vue from 'vue';
+import Crypto from 'crypto';
+import Querystring from 'querystring';
 
 const Utils = {
   isNumber(obj) {
@@ -36,7 +37,7 @@ const Utils = {
   },
 
   md5(str) {
-    return crypto.createHash('md5').update(str + '', 'utf8').digest('hex');
+    return Crypto.createHash('md5').update(str + '', 'utf8').digest('hex');
   },
 
   getPageID() {
@@ -166,7 +167,7 @@ const Utils = {
    * getQueryJoin({name: 'lushijie'})
    */
   getQueryJoin(queryObject) {
-    return querystring.stringify(queryObject);
+    return Querystring.stringify(queryObject);
   },
 
   /**
@@ -263,6 +264,46 @@ const Utils = {
       }
     }
     return fmt;
+  },
+
+  get uuid() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = Math.random() * 16 | 0;
+      return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+  },
+
+  interop(require) {
+    return require && require.__esModule ? require['default'] : require;
+  },
+
+  renderJSONToComponent(domJSON, outerContainerId = 'preview', innerContainerId = 'preview-inner') {
+    console.log(outerContainerId, innerContainerId);
+    if (!document.getElementById(outerContainerId)) {
+      throw new Error('外部容器不存在');
+    }
+
+    // for second+ time render
+    if (!document.getElementById(innerContainerId)) {
+      document.getElementById(outerContainerId).outerHTML = `<div id="${outerContainerId}"><div id="${innerContainerId}"></div></div>`;
+    };
+
+    function createComponent(node, h) {
+      const tag = node.tag;
+      const properties = node.properties || {};
+      const children = node.children || [];
+      return h(tag, properties, children.map(ele => {
+        return createComponent(ele, h);
+      }));
+    }
+
+    const RootComponent = Vue.component('root-component', {
+      render: function(h) {
+        return createComponent(domJSON, h);
+      },
+    });
+
+    new RootComponent().$mount(`#${innerContainerId}`);
   }
 };
 

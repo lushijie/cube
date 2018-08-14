@@ -1,9 +1,11 @@
 import Vue from 'vue';
+import packages from 'demo/packages';
 import BlankLayout from 'demo/layouts/blank.vue';
 import Router from 'demo/router.js';
 import Store from 'store';
 import 'filters';
 import 'plugins/demo';
+
 // // import 'mixins/user';
 // // import 'static/css/app.css';
 
@@ -15,6 +17,17 @@ Vue.config.silent = INJECT.ENV === 'production';
 Vue.config.errorHandler = function(err, vm) {
   console.warn(err, vm);
 };
+
+// 注册所有组件
+const allPackages = [];
+(function() {
+  Object.keys(packages).forEach((key) => {
+    allPackages.push(key);
+    Vue.component(key, packages[key]);
+  });
+
+  Store.commit('demo/addPackages', allPackages);
+})();
 
 // 挂载到根节点
 const vm = new Vue({

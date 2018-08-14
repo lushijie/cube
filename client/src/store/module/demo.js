@@ -2,6 +2,8 @@ export default {
   namespaced: true,
 
   state: {
+    tree: {},
+    packages: [],
     count: 0,
     routeMeta: {}
   },
@@ -21,6 +23,10 @@ export default {
 
     addCount(state, payload) {
       state.count++;
+    },
+
+    addPackages(state, payload) {
+      state.packages = [...payload];
     }
   },
 
