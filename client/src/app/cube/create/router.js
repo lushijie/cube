@@ -1,16 +1,16 @@
-import BlankLayout from 'demo/layouts/blank.vue';
+import BlankLayout from 'cube/scope/layouts/blank.vue';
 import HomeView from './home.vue';
 
 module.exports = {
-  path: 'course',
+  path: 'create',
   component: BlankLayout,
   meta: {
-    title: '培训课程'
+    title: '首页'
   },
   children: [
     {
       path: '',
-      name: 'course',
+      name: 'cube-create',
       component: HomeView
     }
   ]

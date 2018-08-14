@@ -2,12 +2,12 @@
 * @Author: lushijie
 * @Date:   2017-01-17 14:32:02
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-13 17:58:50
+* @Last Modified time: 2018-08-14 12:00:23
 */
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import BlankLayout from 'demo/layouts/blank.vue';
-import NotFound from 'demo/layouts/404.vue';
+import BlankLayout from 'cube/scope/layouts/blank.vue';
+import NotFound from 'cube/scope/layouts/404.vue';
 import Utils from 'utils';
 import Store from 'store';
 Vue.use(VueRouter);
@@ -20,9 +20,10 @@ const router = new VueRouter({
   routes: [
     {
       path: '',
+      redirect: 'dashboard',
       component: BlankLayout,
       children: [
-        require('./course/router'),
+        require('./dashboard/router'),
         require('./create/router'),
       ]
     },
@@ -36,7 +37,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const mergedMeta = Utils.getRouterMeta(to.matched);
-  Store.commit('demo/updateRouteMeta', { ...mergedMeta });
+  Store.commit('cube/updateRouteMeta', { ...mergedMeta });
   next();
 });
 

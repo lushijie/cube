@@ -2,7 +2,7 @@
 * @Author: lushijie
 * @Date:   2017-06-20 09:34:17
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-14 11:29:35
+* @Last Modified time: 2018-08-14 11:44:27
 */
 import Vue from 'vue';
 import Crypto from 'crypto';
@@ -278,7 +278,6 @@ const Utils = {
   },
 
   renderJSONToComponent(domJSON, outerContainerId = 'preview', innerContainerId = 'preview-inner') {
-    console.log(outerContainerId, innerContainerId);
     if (!document.getElementById(outerContainerId)) {
       throw new Error('外部容器不存在');
     }

@@ -1,6 +1,8 @@
 import HomeView from './home.vue';
 
 module.exports = {
-  path: 'create',
+  path: 'dashboard',
+  meta: {
+  },
   component: HomeView
 }

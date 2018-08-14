@@ -2,7 +2,7 @@
 * @Author: lushijie
 * @Date:   2017-05-12 14:00:40
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-13 16:51:53
+* @Last Modified time: 2018-08-14 11:34:06
 */
 const webpack = require('webpack');
 const argv = require('yargs').argv;
@@ -65,7 +65,7 @@ module.exports = {
       store: path.join(SRC_PATH, `/store`),
       validators: path.join(SRC_PATH, `/validators`),
       utils: path.join(SRC_PATH, `/utils`),
-      demo: path.join(SRC_PATH, `/app/demo`),
+      cube: path.join(SRC_PATH, `/app/cube`),
     }
   },
   optimization: {

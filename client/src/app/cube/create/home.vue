@@ -3,18 +3,14 @@
     课程页面
     <el-button type="primary" @click.prevent="increment">increment</el-button>
     <el-button type="primary" @click.prevent="addCount">addCount</el-button>
-
-    <abc ref="abc123" v-bind="abc123"></abc>
   </div>
 </template>
 
 <script>
   import { mapGetters, mapActions, mapState, mapMutations } from 'vuex';
-  import abc from './abc.vue';
 
   export default {
     components: {
-      abc
     },
     data() {
       return {
@@ -26,13 +22,13 @@
       }
     },
     methods: {
-      ...mapMutations('demo', ['addCount']),
-      ...mapActions('demo', ['increment']),
+      ...mapMutations('cube', ['addCount']),
+      ...mapActions('cube', ['increment']),
     },
 
     computed: {
-      ...mapGetters('demo', ['metaData']),
-      ...mapState('demo', ['routeMeta']),
+      ...mapGetters('cube', ['metaData']),
+      ...mapState('cube', ['routeMeta']),
     },
 
     mounted() {

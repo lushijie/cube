@@ -1,13 +1,13 @@
 import Vue from 'vue';
-import packages from 'demo/packages';
-import BlankLayout from 'demo/layouts/blank.vue';
-import Router from 'demo/router.js';
+import packages from 'cube/packages';
+import BlankLayout from 'cube/scope/layouts/blank.vue';
+import Router from 'cube/router.js';
 import Store from 'store';
 import 'filters';
-import 'plugins/demo';
+import 'plugins/cube';
 
 // // import 'mixins/user';
-// // import 'static/css/app.css';
+// import 'static/css/app.css';
 
 // ENV config
 Vue.config.devtools = INJECT.ENV !== 'production';
@@ -18,20 +18,22 @@ Vue.config.errorHandler = function(err, vm) {
   console.warn(err, vm);
 };
 
-// 注册所有组件
+// 全局注册所有 cube 组件
 const allPackages = [];
 (function() {
   Object.keys(packages).forEach((key) => {
-    allPackages.push(key);
-    Vue.component(key, packages[key]);
+    allPackages.push({
+      tag: key,
+      label: packages[key].label
+    });
+    Vue.component(key, packages[key].component);
   });
-
-  Store.commit('demo/addPackages', allPackages);
+  Store.commit('cube/addPackages', allPackages);
 })();
 
 // 挂载到根节点
 const vm = new Vue({
-  el: '#root', // #root 元素会被replace
+  el: '#root',
   router: Router,
   store: Store,
   data: {

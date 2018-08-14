@@ -1,9 +1,5 @@
-import admin from './admin'
-import user from './user'
-import demo from './demo'
+import cube from './cube'
 
 export default {
-  admin,
-  user,
-  demo
+  cube
 }
