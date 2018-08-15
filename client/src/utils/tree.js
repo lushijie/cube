@@ -257,6 +257,13 @@ export default class TreeOperate {
       const tag = node.tag;
       const properties = node.properties || {};
       const children = node.children || [];
+
+      if (node.selected) {
+        console.log(node, '命中');
+        node.properties['class'] = node.properties['class'] || {};
+        node.properties['class']['cube-selected'] = true;
+      }
+
       return h(tag, properties, children.map(ele => {
         return createComponent(ele, h);
       }));
