@@ -2,22 +2,22 @@
   <div id="cube-prop">
     <ul>
       <li
-        v-for="(value, key) in selectedProps">
-        {{ key }}: <el-input v-model="selectedProps[key]" placeholder="请输入内容"></el-input>
+        v-for="(value, key) in bindProps">
+        {{ key }}: <el-input v-model="bindProps[key]" placeholder="请输入内容"></el-input>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-  // import Utils from 'utils';
+  import Utils from 'utils';
+  import Tree from 'utils/tree.js';
+  const treeInst = new Tree();
 
   export default {
     data() {
       return {
-        // selectedNode: null,
-        // selectedUUID: null,
-        // selectedProps: null
+        bindProps: treeInst.getSeletedNode().properties.props
       };
     },
 
@@ -31,7 +31,7 @@
       },
 
       selectedProps() {
-        return this.selectedNode.properties.props;
+        return Utils.extend({}, this.selectedNode.properties.props);
       },
 
       selectedUUID() {
@@ -40,23 +40,26 @@
     },
 
     watch: {
-      // selectedProps: {
-      //   deep: true,
-      //   handler(newVal, oldVal) {
-      //     console.log('attrs change ...');
-      //     // this.treeInst.matchUpdateNodeByUUID(this.selectedUUID, (node) => {
-      //     //   node.properties.props = Utils.extend({}, newVal);
-      //     // });
-      //   }
-      // }
+      selectedNode: {
+        deep: true,
+        handler(newVal, oldVal) {
+          if (newVal.uuid !== oldVal.uuid) {
+            this.bindProps = this.selectedProps;
+          }
+        }
+      },
+
+      bindProps: {
+        deep: true,
+        handler(newVal, oldVal) {
+          this.treeInst.matchUpdateNodeByUUID(this.selectedUUID, (node) => {
+            node.properties.props = Utils.extend({}, newVal);
+          });
+        }
+      }
     },
 
     mounted() {
-      // this.$root.$data.bus.$on('treeChange', () => {
-      //   this.selectedNode = this.treeInst.getSeletedNode();
-      //   this.selectedProps = this.selectedNode.properties.props;
-      //   this.selectedUUID = this.selectedNode.uuid;
-      // });
     }
   }
 </script>
