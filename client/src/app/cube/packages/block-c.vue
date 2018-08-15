@@ -1,10 +1,6 @@
 <template>
   <div>
-    <slot name="header"></slot>
-    <slot name="content">
-      c: {{ c }}
-    </slot>
-    <slot name="footer"></slot>
+    c: {{ c }}
   </div>
 </template>
 

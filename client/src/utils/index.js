@@ -2,9 +2,8 @@
 * @Author: lushijie
 * @Date:   2017-06-20 09:34:17
 * @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-14 16:35:22
+* @Last Modified time: 2018-08-15 10:55:17
 */
-import Vue from 'vue';
 import Crypto from 'crypto';
 import Querystring from 'querystring';
 
@@ -275,47 +274,6 @@ const Utils = {
 
   interop(require) {
     return require && require.__esModule ? require['default'] : require;
-  },
-
-  renderJSONToComponent(domJSON, outerContainerId = 'preview', innerContainerId = 'preview-inner') {
-    if (!document.getElementById(outerContainerId)) {
-      throw new Error('外部容器不存在');
-    }
-
-    // for second+ time render
-    if (!document.getElementById(innerContainerId)) {
-      document.getElementById(outerContainerId).outerHTML = `<div id="${outerContainerId}"><div id="${innerContainerId}"></div></div>`;
-    };
-
-    function createComponent(node, h) {
-      const tag = node.tag;
-      const properties = node.properties || {};
-      const children = node.children || [];
-      return h(tag, properties, children.map(ele => {
-        return createComponent(ele, h);
-      }));
-    }
-
-    const RootComponent = Vue.component('root-component', {
-      render: function(h) {
-        return createComponent(domJSON, h);
-      },
-    });
-
-    new RootComponent().$mount(`#${innerContainerId}`);
-  },
-
-  travelTree(tree, cb) {
-    if (tree) {
-      const {children, ...attrs} = tree;
-      cb(attrs);
-    }
-
-    if (tree.children) {
-      tree.children.forEach(ele => {
-        Utils.travelTree(ele, cb);
-      })
-    }
   }
 };
 

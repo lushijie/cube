@@ -11,7 +11,7 @@
 
       <!-- 组件操作 -->
       <el-col :span="6">
-        <h4>已组件操作</h4>
+        <h4>组件操作</h4>
         <div class="grid-content cube-tree-grid">
           <CubeStruct :menu="rootNode"></CubeStruct>
         </div>
@@ -21,7 +21,7 @@
       <el-col :span="6">
         <h4>预览展示</h4>
         <div class="grid-content cube-tree-preview">
-            <CubePreview></CubePreview>
+          <CubePreview></CubePreview>
         </div>
       </el-col>
 
@@ -29,7 +29,6 @@
       <el-col :span="6">
         <h4>属性编辑</h4>
         <div class="grid-content cube-tree-prop">
-
         </div>
       </el-col>
     </el-row>
@@ -37,6 +36,7 @@
 </template>
 
 <script>
+  import Utils from 'utils';
   import { mapState } from 'vuex';
   import CubeList from './cube-list.vue';
   import CubeStruct from './cube-struct.vue';
@@ -59,9 +59,9 @@
     },
 
     computed: {
-      ...mapState('cube', ['packages', 'tree']),
+      ...mapState('cube', ['node']),
       rootNode() {
-        return {...this.tree.root};
+        return Utils.extend({}, this.node.tree);
       }
     },
 
@@ -72,7 +72,4 @@
 </script>
 
 <style scoped>
-  .txt-center {
-    /*text-align: center;*/
-  }
 </style>

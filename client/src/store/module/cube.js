@@ -1,26 +1,29 @@
-import Utils from 'utils';
+// import Utils from 'utils';
 export default {
   namespaced: true,
 
   state: {
-    tree: {
+    packages: [],
+    count: 0,
+    routeMeta: {},
+    node: {
       id: 123456,
-      root: {
+      tree: {
         tag: 'div',
-        uuid: Utils.uuid,
+        uuid: '123456',
         label: '页面容器',
         root: true,
         selected: true,
         children: [
           {
             tag: 'block-a',
-            uuid: Utils.uuid,
+            uuid: '123457',
             label: '组件a',
             selected: false,
             children: [
               {
                 tag: 'block-c',
-                uuid: Utils.uuid,
+                uuid: '123458',
                 label: '组件c',
                 selected: false
               }
@@ -28,16 +31,13 @@ export default {
           },
           {
             tag: 'block-b',
-            uuid: Utils.uuid,
+            uuid: '123459',
             label: '组件b',
             selected: false
           }
         ]
       }
-    },
-    packages: [],
-    count: 0,
-    routeMeta: {}
+    }
   },
 
   getters: {
@@ -45,9 +45,9 @@ export default {
       return { ...state.routeMeta };
     },
 
-    treeRoot(state) {
+    treeChange(state) {
       return () => {
-        return { ...state.tree.root }
+        return { ...state.node.tree }
       }
     }
   },
@@ -68,11 +68,11 @@ export default {
     },
 
     updateTreeChildren(state, payload) {
-      state.tree.root.children = [ ...payload ];
+      state.node.tree.children = [ ...payload ];
     },
 
-    updateTreeRoot(state, payload) {
-      state.tree.root = { ...payload };
+    updateTree(state, payload) {
+      state.node.tree = { ...payload };
     }
   },
 

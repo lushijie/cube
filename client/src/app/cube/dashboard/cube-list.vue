@@ -27,11 +27,13 @@
     methods: {
       createComponent(item) {
         const uuid = Utils.uuid;
-        const children = Utils.extend([], this.tree.root.children);
+        const children = Utils.extend([], this.node.tree.children);
+
         children.push({
           tag: item.tag,
           uuid: uuid,
           label: item.label,
+          selected: true,
           properties: {
             props: {
               a: 'aaa',
@@ -44,13 +46,13 @@
           },
           ref: uuid
         });
+
         this.$store.commit('cube/updateTreeChildren', children);
-        Utils.renderJSONToComponent(Utils.extend({}, this.tree.root));
       }
     },
 
     computed: {
-      ...mapState('cube', ['packages', 'tree']),
+      ...mapState('cube', ['packages', 'node']),
     },
 
     mounted() {
