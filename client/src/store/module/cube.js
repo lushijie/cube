@@ -16,7 +16,10 @@ export default {
         selected: true,
         properties: {
           props: {
-            r: '根节点的属性'
+            r: '根节点的属性',
+            rr: {
+              rrr: '嵌套属性'
+            }
           }
         },
         children: [

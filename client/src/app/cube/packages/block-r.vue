@@ -1,6 +1,7 @@
 <template>
   <div>
-    r: {{ r }}
+    <p>r: {{ r }}</p>
+    <p style="padding-left: 30px;">rrr: {{ rr.rrr }}</p>
     <slot></slot>
   </div>
 </template>
@@ -9,6 +10,9 @@
   export default {
     props: {
       r: String,
+      rr: {
+        rrr: String
+      }
     },
     components: {
     },

@@ -1,16 +1,12 @@
 <template>
   <div id="cube-prop">
-    <ul>
-      <li
-        v-for="(value, key) in bindProps">
-        {{ key }}: <el-input v-model="bindProps[key]" placeholder="请输入内容"></el-input>
-      </li>
-    </ul>
+    <PropItemVue :attrs="bindProps"/>
   </div>
 </template>
 
 <script>
   import Utils from 'utils';
+  import PropItemVue from './cube-prop-item.vue';
   import Tree from 'utils/tree.js';
   const treeInst = new Tree();
 
@@ -19,6 +15,10 @@
       return {
         bindProps: treeInst.getSeletedNode().properties.props
       };
+    },
+
+    components: {
+      PropItemVue
     },
 
     methods: {
@@ -65,11 +65,5 @@
 </script>
 
 <style scoped>
-  #cube-prop ul {
-    list-style: none;
-  }
-  div.el-input {
-    display: inline-block;
-    width: auto;
-  }
+
 </style>
