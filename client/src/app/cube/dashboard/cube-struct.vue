@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="cube-struct">
     <div ref="menu.uuid" :data-id="menu.uuid">
       <span
         class="menu-item"
@@ -12,7 +12,7 @@
         <i
           v-if="!menu.root"
           class="el-icon-close btn-delete"
-          @click="deleteNode(menu)">
+          @click.stop="deleteNode(menu)">
         </i>
       </span>
     </div>
@@ -48,7 +48,7 @@
 
     methods: {
       selectNode(item) {
-        this.treeInst.selectNodeByUUID(item.uuid);
+        this.treeInst.setSelectedNodeByUUID(item.uuid);
       },
 
       deleteNode(item) {

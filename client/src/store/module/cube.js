@@ -6,26 +6,42 @@ export default {
     packages: [],
     count: 0,
     routeMeta: {},
+    selectedNode: null,
     node: {
       id: 123456,
       tree: {
-        tag: 'div',
+        tag: 'block-r',
         uuid: '123456',
         label: '页面容器',
         root: true,
         selected: true,
+        properties: {
+          props: {
+            r: 'rrrr'
+          }
+        },
         children: [
           {
             tag: 'block-a',
             uuid: '123457',
             label: '组件a',
             selected: false,
+            properties: {
+              props: {
+                a: 'aaaa'
+              }
+            },
             children: [
               {
                 tag: 'block-c',
                 uuid: '123458',
                 label: '组件c',
-                selected: false
+                selected: false,
+                properties: {
+                  props: {
+                    c: 'cccc'
+                  }
+                },
               }
             ]
           },
@@ -33,7 +49,12 @@ export default {
             tag: 'block-b',
             uuid: '123459',
             label: '组件b',
-            selected: false
+            selected: false,
+            properties: {
+              props: {
+                b: 'bbbb'
+              }
+            },
           }
         ]
       }
@@ -53,26 +74,26 @@ export default {
   },
 
   mutations: {
+    addCount(state, payload) {
+      state.count++;
+    },
+
     updateRouteMeta(state, payload) {
       state.routeMeta = {
         ...payload
       }
     },
 
-    addCount(state, payload) {
-      state.count++;
-    },
-
     addPackages(state, payload) {
       state.packages = [ ...payload ];
     },
 
-    updateTreeChildren(state, payload) {
-      state.node.tree.children = [ ...payload ];
-    },
-
     updateTree(state, payload) {
       state.node.tree = { ...payload };
+    },
+
+    updateSeletedNode(state, payload) {
+      state.selectedNode = { ...payload };
     }
   },
 

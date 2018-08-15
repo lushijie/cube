@@ -1,5 +1,5 @@
 <template>
-  <div id="preview" class="grid-content cube-tree-preview">
+  <div id="cube-preview" class="grid-content cube-tree-preview">
   </div>
 </template>
 
@@ -7,10 +7,12 @@
   import Vue from 'vue';
   import Utils from 'utils';
   import { mapState } from 'vuex';
+  import TreeOperate from 'utils/tree.js';
+
   export default {
     data() {
       return {
-        // TODO
+        treeInst: new TreeOperate()
       }
     },
 
@@ -23,7 +25,7 @@
     },
 
     methods: {
-      renderJSONToComponent(domJSON, outerContainerId = 'preview', innerContainerId = 'preview-inner') {
+      renderJSONToComponent(domJSON, outerContainerId = 'cube-preview', innerContainerId = 'preview-inner') {
         if (!document.getElementById(outerContainerId)) {
           throw new Error('外部容器不存在');
         }
@@ -50,17 +52,20 @@
 
         new RootComponent().$mount(`#${innerContainerId}`);
       },
+
+      vuexChange() {
+        console.log('vuex change ...');
+        this.$store.commit('cube/updateSeletedNode', this.treeInst.getSeletedNode());
+        this.renderJSONToComponent(Utils.extend({}, this.node.tree));
+      }
     },
 
     mounted() {
       this.$store.watch(this.$store.getters['cube/treeChange'], () => {
-        console.log('vuex change ...');
-        this.renderJSONToComponent(Utils.extend({}, this.node.tree));
+        this.vuexChange();
       });
 
-      console.log(Utils.extend({}, this.node.tree));
-
-      this.renderJSONToComponent(Utils.extend({}, this.node.tree));
+      this.vuexChange();
     }
   }
 </script>

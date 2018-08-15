@@ -1,5 +1,5 @@
 <template>
-  <div id="cube-list-container">
+  <div id="cube-list">
     <ul>
       <li v-for="item in packages">
         <el-button type="primary" @click.prevent="createComponent(item)">{{item.label}}</el-button>
@@ -11,6 +11,7 @@
 <script>
   import Utils from 'utils';
   import { mapState } from 'vuex';
+  import TreeOperate from 'utils/tree.js';
 
   export default {
     props: {
@@ -21,15 +22,15 @@
 
     data() {
       return {
+        treeInst: new TreeOperate()
       }
     },
 
     methods: {
       createComponent(item) {
         const uuid = Utils.uuid;
-        const children = Utils.extend([], this.node.tree.children);
 
-        children.push({
+        this.treeInst.addNode('123456', {
           tag: item.tag,
           uuid: uuid,
           label: item.label,
@@ -46,8 +47,6 @@
           },
           ref: uuid
         });
-
-        this.$store.commit('cube/updateTreeChildren', children);
       }
     },
 
@@ -61,10 +60,10 @@
 </script>
 
 <style scoped>
-  #cube-list-container ul {
+  #cube-list ul {
     list-style: none;
   }
-  #cube-list-container li {
+  #cube-list li {
     margin-bottom: 20px;
   }
 </style>
