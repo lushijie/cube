@@ -259,7 +259,6 @@ export default class TreeOperate {
       const children = node.children || [];
 
       if (node.selected) {
-        console.log(node, '命中');
         node.properties['class'] = node.properties['class'] || {};
         node.properties['class']['cube-selected'] = true;
       }
