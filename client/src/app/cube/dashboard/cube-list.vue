@@ -11,7 +11,6 @@
 <script>
   import Utils from 'utils';
   import { mapState } from 'vuex';
-  import TreeOperate from 'utils/tree.js';
 
   export default {
     props: {
@@ -22,7 +21,6 @@
 
     data() {
       return {
-        treeInst: new TreeOperate()
       }
     },
 

@@ -5,8 +5,8 @@ import Router from 'cube/router.js';
 import Store from 'store';
 import 'filters';
 import 'plugins/cube';
+import 'mixins/cube';
 
-// // import 'mixins/user';
 // import 'static/css/app.css';
 
 // ENV config

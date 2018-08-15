@@ -1,10 +1,11 @@
 import Store from 'store';
 import Utils from 'utils';
+import Vue from 'vue';
 
 export default class TreeOperate {
   /**
    * 获取整个节点树
-   * @return {[type]} [description]
+   * @return object
    */
   getTree() {
     return Utils.extend({}, Store.state.cube.node.tree);
@@ -12,7 +13,7 @@ export default class TreeOperate {
 
   /**
    * 获取根节点的 uuid
-   * @return {[type]} [description]
+   * @return uuid
    */
   getRootUUID() {
     return this.getTree().uuid;
@@ -132,15 +133,17 @@ export default class TreeOperate {
   deleteNodeByUUID(uuid) {
     const tree = this.getTree();
     let currentSelected = false;
+    let matched = false;
 
     function travel(tree) {
       if (tree.uuid === uuid && tree.root) {
         throw new Error('根节点不允许删除');
       }
 
-      if (tree.children) {
+      if (!matched && tree.children) {
         tree.children.forEach((ele, index) => {
           if (ele.uuid === uuid) {
+            matched = true;
             currentSelected = ele.selected;
             tree.children.splice(index, 1);
           } else {
@@ -149,8 +152,8 @@ export default class TreeOperate {
         });
       }
     }
-    travel(tree);
 
+    travel(tree);
     Store.commit('cube/updateTree', tree);
 
     if (currentSelected) {
@@ -165,12 +168,14 @@ export default class TreeOperate {
   getSeletedNode() {
     const tree = this.getTree();
     let target = null;
+    let matched = false;
 
     function travel(tree) {
       if (tree.selected) {
+        matched = true;
         target = tree;
       } else {
-        if (tree.children) {
+        if (!matched && tree.children) {
           tree.children.forEach(ele => {
             travel(ele);
           });
@@ -206,5 +211,41 @@ export default class TreeOperate {
     travel(tree);
     Store.commit('cube/updateTree', tree);
     this.setSelectedNodeByUUID(node.uuid);
+  }
+
+  /**
+   * [renderTree description]
+   * @param  {[type]} vdom    [description]
+   * @param  {String} outerId [description]
+   * @param  {String} innerId [description]
+   * @return {[type]}         [description]
+   */
+  renderTree(outerId = 'cube-preview', innerId = 'cube-preview-inner') {
+    if (!document.getElementById(outerId)) {
+      throw new Error('外部容器不存在');
+    }
+
+    // for second+ time render
+    if (!document.getElementById(innerId)) {
+      document.getElementById(outerId).outerHTML = `<div id="${outerId}"><div id="${innerId}"></div></div>`;
+    };
+
+    function createComponent(node, h) {
+      const tag = node.tag;
+      const properties = node.properties || {};
+      const children = node.children || [];
+      return h(tag, properties, children.map(ele => {
+        return createComponent(ele, h);
+      }));
+    }
+
+    const self = this;
+    const RootComponent = Vue.component('root-component', {
+      render: function(h) {
+        return createComponent(self.getTree(), h);
+      },
+    });
+
+    new RootComponent().$mount(`#${innerId}`);
   }
 }

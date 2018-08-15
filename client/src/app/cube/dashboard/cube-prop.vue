@@ -10,21 +10,20 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
-  import TreeOperate from 'utils/tree.js';
-
   export default {
     data() {
       return {
-        treeInst: new TreeOperate()
       }
     },
 
     computed: {
-      ...mapState('cube', ['selectedNode']),
+      selectedNode() {
+        return this.treeInst.getSeletedNode();
+      }
     },
 
     mounted() {
+
     }
   }
 </script>

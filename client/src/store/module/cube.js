@@ -6,7 +6,7 @@ export default {
     packages: [],
     count: 0,
     routeMeta: {},
-    selectedNode: null,
+    // selectedNode: null,
     node: {
       id: 123456,
       tree: {
@@ -90,10 +90,6 @@ export default {
 
     updateTree(state, payload) {
       state.node.tree = { ...payload };
-    },
-
-    updateSeletedNode(state, payload) {
-      state.selectedNode = { ...payload };
     }
   },
 

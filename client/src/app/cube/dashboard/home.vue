@@ -58,7 +58,10 @@
     },
 
     methods: {
-
+      handleTreeChange() {
+        console.log('treeChange...');
+        this.$root.bus.$emit('treeChange');
+      }
     },
 
     computed: {
@@ -69,7 +72,10 @@
     },
 
     mounted() {
-
+      this.$store.watch(this.$store.getters['cube/treeChange'], () => {
+        this.handleTreeChange();
+      });
+      this.handleTreeChange();
     }
   };
 </script>

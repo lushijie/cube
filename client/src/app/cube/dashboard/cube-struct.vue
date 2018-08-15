@@ -5,7 +5,7 @@
         class="menu-item"
         :class="{'menu-item-selected': menu.selected}"
         style="margin-bottom: 10px;"
-        @click="selectNode(menu)">
+        @click="setSelectedNode(menu)">
 
         {{ menu.label }} - {{ menu.tag }}
 
@@ -23,8 +23,6 @@
 </template>
 
 <script>
-  import TreeOperate from 'utils/tree.js';
-
   export default {
     name: 'MenuVue',
 
@@ -42,12 +40,11 @@
 
     data() {
       return {
-        treeInst: new TreeOperate()
       }
     },
 
     methods: {
-      selectNode(item) {
+      setSelectedNode(item) {
         this.treeInst.setSelectedNodeByUUID(item.uuid);
       },
 

@@ -1,23 +1,18 @@
-/*
-* @Author: lushijie
-* @Date:   2018-01-23 11:03:34
-* @Last Modified by:   lushijie
-* @Last Modified time: 2018-07-18 16:37:08
-*/
 import Vue from 'vue';
 import Utils from 'utils';
 import CommonMixins from './common.js';
 import { mapGetters } from 'vuex';
+import Tree from 'utils/tree.js';
 
 const mixins = {
   data() {
     return {
-      INJECT: INJECT,
+      treeInst: new Tree(),
     }
   },
   computed: {
     ...mapGetters({
-      'routeMeta': 'user/getRouteMeta',
+      'routeMeta': 'cube/getRouteMeta',
     }),
   }
 }
