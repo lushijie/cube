@@ -32,9 +32,10 @@
     methods: {
       createComponent(item) {
         const uuid = Utils.uuid;
+        const fatherUUID = this.treeInst.getRandomUUID();
         const attr = item.tag.split('-')[1];
 
-        this.treeInst.addNode('123456', {
+        this.treeInst.addNode(fatherUUID, {
           tag: item.tag,
           uuid: uuid,
           label: item.label,

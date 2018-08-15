@@ -20,6 +20,28 @@ export default class TreeOperate {
   }
 
   /**
+   * 获取属于当前树的一个随机 UUID
+   * @return {[type]} [description]
+   */
+  getRandomUUID() {
+    const tree = this.getTree();
+    const uuids = [];
+
+    function travel(tree) {
+      uuids.push(tree.uuid);
+
+      if (tree.children) {
+        tree.children.forEach(ele => {
+          travel(ele);
+        });
+      }
+    }
+
+    travel(tree);
+    return uuids[Math.floor(Math.random() * uuids.length)];
+  }
+
+  /**
    * 根据 uuid 获取节点，不会回写，仅限读使用
    * @param  {[type]} uuid [description]
    * @return {[type]}      [description]
@@ -39,8 +61,8 @@ export default class TreeOperate {
         }
       }
     }
-    travel(tree);
 
+    travel(tree);
     return target;
   }
 
@@ -66,8 +88,8 @@ export default class TreeOperate {
         });
       }
     }
-    travel(tree);
 
+    travel(tree);
     Store.commit('cube/updateTree', tree);
     return target;
   }
@@ -93,8 +115,8 @@ export default class TreeOperate {
         });
       }
     }
-    travel(tree);
 
+    travel(tree);
     Store.commit('cube/updateTree', tree);
   }
 
@@ -120,8 +142,8 @@ export default class TreeOperate {
         });
       }
     }
-    travel(tree);
 
+    travel(tree);
     Store.commit('cube/updateTree', tree);
   }
 
@@ -182,8 +204,8 @@ export default class TreeOperate {
         }
       }
     }
-    travel(tree);
 
+    travel(tree);
     return target;
   }
 
@@ -199,6 +221,7 @@ export default class TreeOperate {
     function travel(tree) {
       if (!matched && tree.uuid === fatherUUID) {
         matched = true;
+        tree.children = tree.children || [];
         tree.children.push(node);
       }
       if (!matched && tree.children) {
