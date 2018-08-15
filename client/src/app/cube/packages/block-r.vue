@@ -1,8 +1,11 @@
 <template>
   <div>
-    <p>r: {{ r }}</p>
-    <p style="padding-left: 30px;">rrr: {{ rr.rrr }}</p>
-    <slot></slot>
+    <span>r: {{ r }}</span>
+    <br>
+    <span>rrr: {{ rr.rrr }}</span>
+    <div style="margin-left: 15px;">
+      <slot></slot>
+    </div>
   </div>
 </template>
 

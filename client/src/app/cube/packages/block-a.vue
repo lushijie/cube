@@ -1,7 +1,9 @@
 <template>
   <div>
     a: {{ a }}
-    <slot></slot>
+    <div style="margin-left: 15px;">
+      <slot></slot>
+    </div>
   </div>
 </template>
 

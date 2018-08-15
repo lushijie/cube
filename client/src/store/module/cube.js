@@ -18,7 +18,7 @@ export default {
           props: {
             r: '根节点的属性',
             rr: {
-              rrr: '嵌套属性'
+              rrr: '根节点嵌套属性'
             }
           }
         },

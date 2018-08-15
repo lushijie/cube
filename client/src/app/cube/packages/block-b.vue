@@ -1,6 +1,9 @@
 <template>
   <div>
     b: {{ b }}
+    <div style="margin-left: 15px;">
+      <slot></slot>
+    </div>
   </div>
 </template>
 

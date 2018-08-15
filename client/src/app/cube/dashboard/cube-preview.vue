@@ -32,7 +32,7 @@
 <style>
   /* 动态注入的结构，使用全局样式 */
   .cube-selected {
-    padding: 5px;
+    padding: 3px;
     border: 1px solid #409eff;
   }
 </style>
