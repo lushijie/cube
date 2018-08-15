@@ -6,7 +6,6 @@ import Store from 'store';
 import 'filters';
 import 'plugins/cube';
 import 'mixins/cube';
-
 // import 'static/css/app.css';
 
 // ENV config
@@ -24,7 +23,8 @@ const allPackages = [];
   Object.keys(packages).forEach((key) => {
     allPackages.push({
       tag: key,
-      label: packages[key].label
+      label: packages[key].label,
+      config: packages[key].config
     });
     Vue.component(key, packages[key].component);
   });

@@ -1,4 +1,3 @@
-// import Utils from 'utils';
 export default {
   namespaced: true,
 
@@ -17,7 +16,7 @@ export default {
         selected: true,
         properties: {
           props: {
-            r: 'rrrr'
+            r: '根节点的属性'
           }
         },
         children: [
@@ -28,7 +27,7 @@ export default {
             selected: false,
             properties: {
               props: {
-                a: 'aaaa'
+                a: '组件a的属性'
               }
             },
             children: [
@@ -39,7 +38,7 @@ export default {
                 selected: false,
                 properties: {
                   props: {
-                    c: 'cccc'
+                    c: '组件c的属性'
                   }
                 },
               }
@@ -52,7 +51,7 @@ export default {
             selected: false,
             properties: {
               props: {
-                b: 'bbbb'
+                b: '组件b的属性'
               }
             },
           }

@@ -1,8 +1,13 @@
 <template>
   <div id="cube-list">
     <ul>
-      <li v-for="item in packages">
-        <el-button type="primary" @click.prevent="createComponent(item)">{{item.label}}</el-button>
+      <li v-if="item.config.visible" v-for="item in packages">
+        <el-button
+          type="primary"
+          icon="el-icon-plus"
+          @click.prevent="createComponent(item)">
+          {{item.label}}
+        </el-button>
       </li>
     </ul>
   </div>
@@ -27,6 +32,7 @@
     methods: {
       createComponent(item) {
         const uuid = Utils.uuid;
+        const attr = item.tag.split('-')[1];
 
         this.treeInst.addNode('123456', {
           tag: item.tag,
@@ -35,9 +41,7 @@
           selected: true,
           properties: {
             props: {
-              a: 'aaa',
-              b: 'bbb',
-              c: 'ccc',
+              [attr]: `新建节点${attr}`
             },
             attrs: {
               id: uuid
