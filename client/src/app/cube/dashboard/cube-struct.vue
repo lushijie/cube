@@ -29,7 +29,7 @@
     </ul>
 
     <!-- 具名卡槽 -->
-    <ul class="slot-container" v-else="getPackageSlots(menu.tag)">
+    <ul class="slot-container" v-if="getPackageSlots(menu.tag) && getPackageSlots(menu.tag).length > 0">
       <li
         class="slot-item"
         :data-uuid="menu.uuid"
@@ -82,6 +82,7 @@
         const descInfo = this.packages.filter(ele => {
           return ele.tag === tag;
         })[0] || [];
+
         if (!descInfo.config.slots) {
           descInfo.config.slots = false;
         }
