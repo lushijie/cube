@@ -31,7 +31,7 @@ export default {
             properties: {
               props: {
                 a: '组件a的属性'
-              }
+              },
             },
             children: [
               {
@@ -42,7 +42,8 @@ export default {
                 properties: {
                   props: {
                     c: '组件c的属性'
-                  }
+                  },
+                  slot: 'header'
                 },
               }
             ]
@@ -55,7 +56,7 @@ export default {
             properties: {
               props: {
                 b: '组件b的属性'
-              }
+              },
             },
           }
         ]

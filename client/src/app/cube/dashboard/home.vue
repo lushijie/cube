@@ -81,5 +81,7 @@
 </script>
 
 <style scoped>
-
+  .el-col {
+    padding: 6px;
+  }
 </style>

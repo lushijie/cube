@@ -3,9 +3,7 @@
     <span>r: {{ r }}</span>
     <br>
     <span>rrr: {{ rr.rrr }}</span>
-    <div style="margin-left: 15px;">
-      <slot></slot>
-    </div>
+    <slot></slot>
   </div>
 </template>
 
