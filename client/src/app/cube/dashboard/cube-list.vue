@@ -1,11 +1,10 @@
 <template>
   <div id="cube-list">
     <ul>
-      <li v-if="item.config.visible" v-for="item in packages" :block-tag="item.tag" draggable="true" class="block-component-item">
+      <li v-if="item.config.visible" v-for="item in packages" :data-block-tag="item.tag" draggable="true" class="block-component-item" :data-block-label="item.label">
         <el-button
           type="primary"
-          icon="el-icon-plus"
-          @click.prevent="createComponent(item)">
+          icon="el-icon-plus">
           {{item.label}}
         </el-button>
       </li>
@@ -30,25 +29,165 @@
     },
 
     methods: {
-      createComponent(item) {
-        const uuid = Utils.uuid;
-        const fatherUUID = this.treeInst.getRandomUUID();
-        const attr = item.tag.split('-')[1];
+      addClass(el, className) {
+        if (!el.length) {
+          el = [el];
+        }
 
-        this.treeInst.addNode(fatherUUID, {
-          tag: item.tag,
-          uuid: uuid,
-          label: item.label,
-          selected: true,
-          properties: {
-            props: {
-              [attr]: `新建节点${attr}`
-            },
-            attrs: {
-              id: uuid
+        el.forEach(ele => {
+          if (ele.classList) {
+            ele.classList.add(className);
+          } else {
+            ele.className += ' ' + className;
+          }
+        });
+      },
+
+      removeClass(el, className) {
+        if (!el.length) {
+          el = [el];
+        }
+
+        el.forEach(ele => {
+          if (ele.classList) {
+            ele.classList.remove(className);
+          } else {
+            ele.className = ele.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+          }
+        })
+      },
+
+      removeAllDragOver() {
+        this.removeClass(document.querySelectorAll('.slot-item'), 'drag-over');
+      },
+
+      closest(el, selector) {
+        let matchesFn;
+
+        // find vendor prefix
+        ['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector'].some(function(fn) {
+          if (typeof document.body[fn] === 'function') {
+            matchesFn = fn;
+            return true;
+          }
+          return false;
+        })
+
+        let parent;
+
+        // traverse parents
+        while (el) {
+          parent = el.parentElement;
+          if (parent && parent[matchesFn](selector)) {
+            return parent;
+          }
+          el = parent;
+        }
+
+        return null;
+      },
+
+      bindEvent() {
+        const self = this;
+
+        // 移除事件1
+        document.querySelectorAll('.block-component-item').forEach(function(target, index) {
+          target.ondragstart = null;
+          target.ondrag = null;
+          target.ondragend = null;
+        });
+
+        // 移除事件2
+        document.querySelectorAll('.slot-item').forEach(function(target, index) {
+          target.ondragenter = null;
+          target.ondragover = null;
+          target.ondragleave = null;
+          target.ondrop = null;
+        });
+
+        // 拖拽元素
+        document.querySelectorAll('.block-component-item').forEach(function(target, index) {
+          target.ondragstart = function(event) {
+            const infoStr = `${event.target.getAttribute('data-block-tag')}-_-${event.target.getAttribute('data-block-label')}`
+            event.dataTransfer.setData('block-info', infoStr);
+          };
+
+          target.ondrag = function(event) {
+            // TODO
+          };
+
+          target.ondragend = function(event) {
+            // TODO
+          };
+        });
+
+        // 放置元素
+        document.querySelectorAll('.slot-item').forEach(function(target, index) {
+          target.ondragenter = function(event) {
+            event.preventDefault();
+          };
+
+          target.ondragover = function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            self.removeAllDragOver();
+            self.addClass(target, 'drag-over');
+          };
+
+          target.ondragleave = function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            const from = event.fromElement || event.relatedTarget;
+            const to = event.toElement || event.relatedTarget;
+
+            // 移除界外
+            if (!self.closest(from, '.slot-item')) {
+              self.removeAllDragOver();
+              return;
             }
-          },
-          ref: uuid
+
+            // 移到内部元素
+            if (this.contains(to)) {
+              if (to.getAttribute('class').indexOf('slot-item') > -1) {
+                self.removeAllDragOver();
+                self.addClass(to, 'drag-over');
+              }
+            }
+          }
+
+          target.ondrop = function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+
+            // 拖拽完成
+            const dragOverEle = document.querySelectorAll('.drag-over')[0];
+            const blockInfo = event.dataTransfer.getData('block-info').split('-_-');
+
+            // 重置 drag-over 状态
+            self.removeAllDragOver();
+
+            const uuid = Utils.uuid;
+            self.treeInst.addNode(dragOverEle.getAttribute('data-uuid'), {
+              tag: blockInfo[0],
+              uuid: uuid,
+              label: blockInfo[1],
+              selected: true,
+              properties: {
+                props: {
+                  [blockInfo[0].split('-')[1]]: `新建节点${blockInfo[0].split('-')[1]}`
+                },
+                attrs: {
+                  id: uuid
+                },
+                slot: dragOverEle.getAttribute('slot-name')
+              },
+              ref: uuid
+            });
+
+            setTimeout(() => {
+              self.bindEvent();
+            }, 50);
+          }
         });
       }
     },
@@ -58,78 +197,7 @@
     },
 
     mounted() {
-      function removeClass(el, className) {
-        if (el.classList) {
-          el.classList.remove(className);
-        } else {
-          el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-        }
-      }
-
-      function addClass(el, className) {
-        if (el.classList) {
-          el.classList.add(className);
-        } else {
-          el.className += ' ' + className;
-        }
-      }
-
-      // function getClosest(elem, selector) {
-      //   for (; elem && elem !== document; elem = elem.parentNode) {
-      //     if (elem.matches(selector)) return elem;
-      //   }
-      //   return null;
-      // }
-
-      document.querySelectorAll('.block-component-item').forEach(function(ele, index) {
-        ele.ondragstart = function(event) {
-          event.dataTransfer.setData('block-tag', event.target.getAttribute('block-tag'));
-        };
-
-        ele.ondrag = function(event) {
-          // console.log('drag...', event);
-        };
-
-        ele.ondragend = function(event) {
-          // console.log('dragend...', event);
-        };
-      });
-
-      document.querySelectorAll('.slot-item').forEach(function(target, index) {
-        target.ondragenter = function(event) {
-          event.preventDefault();
-          addClass(target, 'drag-enter');
-          console.log('target dragenter...');
-        };
-
-        target.ondragover = function(event) {
-          event.preventDefault();
-          // console.log('target ondragover...');
-        };
-
-        target.ondragleave = function(event) {
-          event.preventDefault();
-          const to = event.toElement || event.relatedTarget;
-          if (to === target) return;
-          if (this.contains(to)) {
-            if (to.getAttribute('class').indexOf('slot-item') > -1) {
-              removeClass(target, 'drag-enter')
-            }
-          } else {
-            removeClass(target, 'drag-enter');
-          }
-        }
-
-        target.ondrop = function(event) {
-          event.stopPropagation();
-          event.preventDefault();
-          removeClass(target, 'drag-enter');
-          // console.log('target drop...');
-          // console.log('target ondrop...', event)
-          // const dragId = event.dataTransfer.getData('state');
-          // target.querySelectorAll('ul')[0].appendChild(document.getElementById(dragId));
-        }
-      });
+      this.bindEvent();
     }
   };
 </script>

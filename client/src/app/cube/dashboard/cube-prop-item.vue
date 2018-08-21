@@ -11,7 +11,7 @@
         <span v-else>
           <template>
             <div style="margin-left: 12px;">
-              <p style="margin: 5px 0 0;">{{ key }}</p>
+              <p style="margin: 5px 0 0;">{{ key }}包含的属性</p>
               <PropItemVue :attrs="attrs[key]"></PropItemVue>
             </div>
           </template>

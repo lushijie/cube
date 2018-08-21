@@ -109,11 +109,21 @@
   }
 
   .slot-item {
-    padding: 10px;
+    position: relative;
+    padding: 10px 10px 60px;
     border: 1px solid #f00;
   }
 
-  .slot-item.drag-enter {
+  .slot-item:after{
+    position: absolute;
+    content: '+';
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    bottom: 20px;
+  }
+
+  .slot-item.drag-over {
     background-color: #ccc;
   }
 
