@@ -1,7 +1,7 @@
 <template>
   <div>
     <ul>
-      <li v-for="(value, key) in attrs">
+      <li v-for="(value, key) in attrs" :key="key">
         <span v-if="!isObject(attrs[key])">
           {{ key }}: <el-input v-model="attrs[key]" placeholder="请输入内容"></el-input>
         </span>

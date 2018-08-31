@@ -22,7 +22,7 @@ export default {
             }
           }
         },
-        children: [
+        slots: [
           {
             tag: 'block-a',
             uuid: 'a123457',
@@ -33,7 +33,7 @@ export default {
                 a: '组件a的属性'
               },
             },
-            children: [
+            slots: [
               {
                 tag: 'block-c',
                 uuid: 'c123458',

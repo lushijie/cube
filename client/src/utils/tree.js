@@ -30,8 +30,8 @@ export default class TreeOperate {
     function travel(tree) {
       uuids.push(tree.uuid);
 
-      if (tree.children) {
-        tree.children.forEach(ele => {
+      if (tree.slots) {
+        tree.slots.forEach(ele => {
           travel(ele);
         });
       }
@@ -54,8 +54,8 @@ export default class TreeOperate {
       if (tree.uuid === uuid) {
         matched = tree;
       } else {
-        if (!matched && tree.children) {
-          tree.children.forEach(ele => {
+        if (!matched && tree.slots) {
+          tree.slots.forEach(ele => {
             travel(ele);
           });
         }
@@ -82,8 +82,8 @@ export default class TreeOperate {
         tree.selected = false;
       }
 
-      if (tree.children) {
-        tree.children.forEach(ele => {
+      if (tree.slots) {
+        tree.slots.forEach(ele => {
           travel(ele);
         });
       }
@@ -109,8 +109,8 @@ export default class TreeOperate {
         fail(tree);
       }
 
-      if (tree.children) {
-        tree.children.forEach(ele => {
+      if (tree.slots) {
+        tree.slots.forEach(ele => {
           travel(ele);
         });
       }
@@ -136,8 +136,8 @@ export default class TreeOperate {
         cb(tree);
       }
 
-      if (!matched && tree.children) {
-        tree.children.forEach(ele => {
+      if (!matched && tree.slots) {
+        tree.slots.forEach(ele => {
           travel(ele);
         });
       }
@@ -162,12 +162,12 @@ export default class TreeOperate {
         throw new Error('根节点不允许删除');
       }
 
-      if (!matched && tree.children) {
-        tree.children.forEach((ele, index) => {
+      if (!matched && tree.slots) {
+        tree.slots.forEach((ele, index) => {
           if (ele.uuid === uuid) {
             matched = ele;
             currentSelected = ele.selected;
-            tree.children.splice(index, 1);
+            tree.slots.splice(index, 1);
           } else {
             travel(ele);
           }
@@ -202,8 +202,8 @@ export default class TreeOperate {
       if (tree.selected) {
         matched = tree;
       } else {
-        if (!matched && tree.children) {
-          tree.children.forEach(ele => {
+        if (!matched && tree.slots) {
+          tree.slots.forEach(ele => {
             travel(ele);
           });
         }
@@ -226,11 +226,11 @@ export default class TreeOperate {
     function travel(tree) {
       if (!matched && tree.uuid === fatherUUID) {
         matched = true;
-        tree.children = tree.children || [];
-        tree.children.push(node);
+        tree.slots = tree.slots || [];
+        tree.slots.push(node);
       }
-      if (!matched && tree.children) {
-        tree.children.forEach(ele => {
+      if (!matched && tree.slots) {
+        tree.slots.forEach(ele => {
           travel(ele);
         });
       }
@@ -261,14 +261,14 @@ export default class TreeOperate {
     function createComponent(node, h) {
       const tag = node.tag;
       const properties = node.properties || {};
-      const children = node.children || [];
+      const slots = node.slots || [];
 
       if (node.selected) {
         node.properties['class'] = node.properties['class'] || {};
         node.properties['class']['cube-selected'] = true;
       }
 
-      return h(tag, properties, children.map(ele => {
+      return h(tag, properties, slots.map(ele => {
         return createComponent(ele, h);
       }));
     }

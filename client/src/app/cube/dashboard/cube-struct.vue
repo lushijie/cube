@@ -24,7 +24,7 @@
         data-slot-name="default"
         data-slot-title="匿名卡槽">
         <template
-          v-for="childMenu in menu.children"
+          v-for="childMenu in menu.slots"
           v-if="(childMenu.properties.slot === 'default') || (!childMenu.properties.slot)">
           <!-- 自调用 -->
           <MenuVue :menu="childMenu" :key="childMenu.uuid"></MenuVue>
@@ -43,7 +43,7 @@
         :data-slot-name="item.sname"
         :data-slot-title="item.slabel">
         <template
-          v-for="childMenu in menu.children"
+          v-for="childMenu in menu.slots"
           v-if="childMenu.properties.slot === item.sname">
           <MenuVue :menu="childMenu" :key="childMenu.uuid"></MenuVue>
         </template>
@@ -218,16 +218,15 @@
             // 移除所有的 drag-over 状态
             self.removeAllDragOver();
 
-            console.info('dragInfo', dragInfo);
-            if (dragInfo.uuid) {
-              // 如果存在uuid, 组件操作栏拖拽操作，移除旧节点，把其放入新节点
-              const deletedNode = self.treeInst.deleteNodeByUUID(dragInfo.uuid);
-              console.info(fatherUUID, fatherSlotName);
-              if (fatherSlotName) {
-                deletedNode.properties = deletedNode.properties || {};
-                deletedNode.properties.slot = fatherSlotName;
+            if (dragInfo.uuid) { // 如果存在uuid, 组件操作栏拖拽操作，移除旧节点，把其放入新节点
+              if (fatherUUID !== dragInfo.uuid) { // 禁止拖拽自己到自身的子级节点中
+                const deletedNode = self.treeInst.deleteNodeByUUID(dragInfo.uuid);
+                if (fatherSlotName) {
+                  deletedNode.properties = deletedNode.properties || {};
+                  deletedNode.properties.slot = fatherSlotName;
+                }
+                self.treeInst.addNode(fatherUUID, deletedNode);
               }
-              self.treeInst.addNode(fatherUUID, deletedNode);
             } else {
               // 从组件列表拖入，新建节点操作
               const uuid = Utils.uuid;
