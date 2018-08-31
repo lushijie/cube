@@ -262,6 +262,7 @@ export default class TreeOperate {
 
     travel(tree);
     Store.commit('cube/updateTree', tree);
+    this.setSelectedNodeByUUID(node.uuid);
   }
 
   /**

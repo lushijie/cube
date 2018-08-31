@@ -39,7 +39,23 @@ module.exports = {
     component: Utils.interop(require('./block-c.vue')),
     config: {
       visible: true,
-      slots: false
+      slots: false // 不允许出现子组件
+    }
+  },
+  'block-d': {
+    label: '组件d',
+    component: Utils.interop(require('./block-d.vue')),
+    config: {
+      visible: true,
+      slots: false // 不允许出现子组件
+    }
+  },
+  'block-e': {
+    label: '组件e',
+    component: Utils.interop(require('./block-e.vue')),
+    config: {
+      visible: true,
+      slots: false // 不允许出现子组件
     }
   }
 };

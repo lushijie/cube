@@ -10,7 +10,7 @@
 
       <!-- 放置组件的位置(before), data-uuid 为已有的相邻组件的uuid -->
       <div
-        class="menu-item-seat menu-item-seat__before"
+        class="cube-seat before"
         :data-uuid="menu.uuid"
         :data-put-before="true"
         v-if="!menu.root">
@@ -19,9 +19,9 @@
       <div
         :class="{
           'menu-item': true,
-          'menu-item-normal': !menu.root,
-          'menu-item-root': menu.root,
-          'menu-item-selected': menu.selected
+          'normal': !menu.root,
+          'root': menu.root,
+          'selected': menu.selected
         }"
         @click="setSelectedNode(menu)">
 
@@ -30,7 +30,7 @@
         <!-- root 节点不允许删除 -->
         <i
           v-if="!menu.root"
-          class="el-icon-close btn-delete"
+          class="el-icon-close menu-item__del"
           @click.stop="deleteNode(menu)">
         </i>
       </div>
@@ -51,7 +51,7 @@
           :title="'匿名卡槽'"
           data-slot-name="default"
           data-slot-title="匿名卡槽"
-          class="menu-item-seat menu-item-seat__slot">
+          class="cube-seat slot">
           <!-- 匿名 slot 占位-->
         </div>
       </li>
@@ -72,7 +72,7 @@
           :title="item.slabel"
           :data-slot-name="item.sname"
           :data-slot-title="item.slabel"
-          class="menu-item-seat menu-item-seat__slot">
+          class="cube-seat slot">
           <!-- 具名 slot 占位-->
         </div>
       </li>
@@ -129,7 +129,7 @@
 
       // 移除所有的 drag-over 状态
       removeAllDragOver() {
-        djs.findAll('.menu-item-seat').forEach(ele => {
+        djs.findAll('.cube-seat').forEach(ele => {
           djs.removeClass(ele, 'drag-over');
         });
       },
@@ -189,7 +189,7 @@
 
       bindDropEvent() {
         // 移除slot的释放事件, 防止重复绑定
-        document.querySelectorAll('.menu-item-seat').forEach(function(target, index) {
+        document.querySelectorAll('.cube-seat').forEach(function(target, index) {
           target.ondragenter = null;
           target.ondragover = null;
           target.ondragleave = null;
@@ -198,7 +198,7 @@
 
         // 放置组件
         const self = this;
-        document.querySelectorAll('.menu-item-seat').forEach(function(target, index) {
+        document.querySelectorAll('.cube-seat').forEach(function(target, index) {
           target.ondragenter = function(event) {
             event.preventDefault();
           };
@@ -228,14 +228,14 @@
             const to = event.toElement || event.relatedTarget;
 
             // 移除界外
-            if (!self.closest(from, '.menu-item-seat')) {
+            if (!self.closest(from, '.cube-seat')) {
               self.removeAllDragOver();
               return;
             }
 
             // 移到内部元素
             if (this.contains(to)) {
-              if (to.getAttribute('class').indexOf('menu-item-seat') > -1) {
+              if (to.getAttribute('class').indexOf('cube-seat') > -1) {
                 self.removeAllDragOver();
                 djs.addClass(target, 'drag-over');
               }
@@ -343,13 +343,6 @@
     padding: 3px;
     margin-top: 1px;
   }
-
-  .btn-delete {
-    padding: 3px;
-  }
-  .btn-delete:hover {
-    color: #f56c6c;
-  }
   .menu-item {
     position: relative;
     margin: 0;
@@ -359,16 +352,21 @@
     color: #409eff;
     cursor: pointer;
   }
-  .menu-item-selected {
+  .menu-item.selected {
     background-color: #409eff;
     color: #fff;
   }
-  .menu-item-seat {
-    height: 40px;
-    background-color: #ffb;
+  .menu-item__del {
+    padding: 3px;
   }
-
-  .menu-item-seat.drag-over {
-    background-color: #ff6;
+  .menu-item__del:hover {
+    color: #f56c6c;
+  }
+  .cube-seat {
+    height: 25px;
+    background-color: #ffc;
+  }
+  .cube-seat.drag-over {
+    background-color: #ff2;
   }
 </style>
