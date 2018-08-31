@@ -241,6 +241,29 @@ export default class TreeOperate {
     this.setSelectedNodeByUUID(node.uuid);
   }
 
+  insertNodeBefore(uuid, node) {
+    const tree = this.getTree();
+    let matched = null;
+
+    function travel(tree) {
+      if (tree.slots) {
+        tree.slots.forEach((ele, index) => {
+          if (!matched) {
+            if (ele.uuid === uuid) {
+              matched = ele;
+              tree.slots.splice(index, 0, node);
+            } else {
+              travel(ele);
+            }
+          }
+        });
+      }
+    }
+
+    travel(tree);
+    Store.commit('cube/updateTree', tree);
+  }
+
   /**
    * [renderTree description]
    * @param  {[type]} vdom    [description]

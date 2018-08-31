@@ -48,10 +48,12 @@
         document.querySelectorAll('.block-component-item').forEach(function(target, index) {
           target.ondragstart = function(event) {
             const info = {
+              uuid: null, // 拖拽新建的元素无 UUID
               tag: event.target.getAttribute('data-block-tag'),
               label: event.target.getAttribute('data-block-label')
             };
-            event.dataTransfer.setData('drag-info', JSON.stringify(info));
+            window.localStorage.setItem('drag-info', JSON.stringify(info));
+            // event.dataTransfer.setData('drag-info', JSON.stringify(info));
           };
 
           target.ondrag = function(event) {
