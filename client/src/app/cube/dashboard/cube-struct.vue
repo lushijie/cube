@@ -3,9 +3,13 @@
 <template>
   <div class="cube-struct" :data-uuid="menu.uuid" draggable="true">
     <!-- 组件节点展示 -->
-    <span
-      class="menu-item"
-      :class="{'menu-item-selected': menu.selected}"
+    <div
+      :class="{
+        'menu-item': true,
+        'menu-item-selected': menu.selected,
+        'menu-item-normal': !menu.root,
+        'menu-item-root': menu.root
+      }"
       @click="setSelectedNode(menu)">
       {{ menu.label }} - {{ menu.tag }}
       <i
@@ -13,7 +17,7 @@
         class="el-icon-close btn-delete"
         @click.stop="deleteNode(menu)">
       </i>
-    </span>
+    </div>
 
     <!-- 匿名卡槽占位 -->
     <ul class="slot-container" v-if="getPackageSlots(menu.tag) === true">
@@ -274,22 +278,18 @@
 
 <style scoped>
   .slot-container {
-    margin: 0;
+    margin: 5px 0 0;
     list-style: none;
     padding-left: 0;
     border: 1px solid #f00;
     padding: 3px;
   }
-  .slot-container .menu-item {
-    margin: 5px 0;
-  }
   .slot-item {
     position: relative;
-    padding: 10px 10px 60px;
+    padding: 10px 10px 40px;
     border: 1px dashed rgb(23, 101, 247);
     margin-top: 1px;
   }
-
   .slot-item:after{
     position: absolute;
     content: '+';
@@ -308,7 +308,8 @@
     color: #f56c6c;
   }
   .menu-item {
-    display: inline-block;
+    position: relative;
+    margin: 10px 0 0;
     padding: 5px 10px;
     border-radius: 5px;
     border: 1px solid #409eff;
