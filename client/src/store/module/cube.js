@@ -7,10 +7,10 @@ export default {
     routeMeta: {},
     // selectedNode: null,
     node: {
-      id: 123456,
+      id: 123,
       tree: {
         tag: 'block-r',
-        uuid: '123456',
+        uuid: 'r123456',
         label: '页面容器',
         root: true,
         selected: true,
@@ -25,7 +25,7 @@ export default {
         children: [
           {
             tag: 'block-a',
-            uuid: '123457',
+            uuid: 'a123457',
             label: '组件a',
             selected: false,
             properties: {
@@ -36,7 +36,7 @@ export default {
             children: [
               {
                 tag: 'block-c',
-                uuid: '123458',
+                uuid: 'c123458',
                 label: '组件c',
                 selected: false,
                 properties: {
@@ -50,7 +50,7 @@ export default {
           },
           {
             tag: 'block-b',
-            uuid: '123459',
+            uuid: 'b123459',
             label: '组件b',
             selected: false,
             properties: {

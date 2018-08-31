@@ -47,8 +47,11 @@
         // 拖拽元素
         document.querySelectorAll('.block-component-item').forEach(function(target, index) {
           target.ondragstart = function(event) {
-            const info = `${event.target.getAttribute('data-block-tag')}&&${event.target.getAttribute('data-block-label')}`;
-            event.dataTransfer.setData('drag-info', info);
+            const info = {
+              tag: event.target.getAttribute('data-block-tag'),
+              label: event.target.getAttribute('data-block-label')
+            };
+            event.dataTransfer.setData('drag-info', JSON.stringify(info));
           };
 
           target.ondrag = function(event) {

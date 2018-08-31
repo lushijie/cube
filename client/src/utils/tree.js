@@ -48,13 +48,13 @@ export default class TreeOperate {
    */
   getNodeByUUID(uuid) {
     const tree = this.getTree();
-    let target = null;
+    let matched = null;
 
     function travel(tree) {
       if (tree.uuid === uuid) {
-        target = tree;
+        matched = tree;
       } else {
-        if (tree.children) {
+        if (!matched && tree.children) {
           tree.children.forEach(ele => {
             travel(ele);
           });
@@ -63,7 +63,7 @@ export default class TreeOperate {
     }
 
     travel(tree);
-    return target;
+    return matched;
   }
 
   /**
@@ -165,7 +165,7 @@ export default class TreeOperate {
       if (!matched && tree.children) {
         tree.children.forEach((ele, index) => {
           if (ele.uuid === uuid) {
-            matched = true;
+            matched = ele;
             currentSelected = ele.selected;
             tree.children.splice(index, 1);
           } else {
@@ -175,12 +175,19 @@ export default class TreeOperate {
       }
     }
 
+    // 遍历查找，命中后执行操作
     travel(tree);
+
+    // 重置 vuex 数据
     Store.commit('cube/updateTree', tree);
 
+    // 如果删除之前该节点为选中状态，删除该节点之后，设置root节点为选中状态
     if (currentSelected) {
       this.setSelectedNodeByUUID(this.getRootUUID());
     }
+
+    // 返回删除的节点信息
+    return matched;
   }
 
   /**
@@ -189,13 +196,11 @@ export default class TreeOperate {
    */
   getSeletedNode() {
     const tree = this.getTree();
-    let target = null;
     let matched = false;
 
     function travel(tree) {
       if (tree.selected) {
-        matched = true;
-        target = tree;
+        matched = tree;
       } else {
         if (!matched && tree.children) {
           tree.children.forEach(ele => {
@@ -206,7 +211,7 @@ export default class TreeOperate {
     }
 
     travel(tree);
-    return target;
+    return matched;
   }
 
   /**

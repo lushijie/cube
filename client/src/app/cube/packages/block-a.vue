@@ -2,6 +2,7 @@
   <div>
     a: {{ a }}
     <slot name="header"></slot>
+    <slot name="footer"></slot>
   </div>
 </template>
 
