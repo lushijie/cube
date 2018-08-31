@@ -71,8 +71,8 @@ export default {
 
     treeChange(state) {
       return () => {
-        return { ...state.node.tree }
-      }
+        return { ...state.node.tree };
+      };
     }
   },
 
@@ -84,7 +84,7 @@ export default {
     updateRouteMeta(state, payload) {
       state.routeMeta = {
         ...payload
-      }
+      };
     },
 
     addPackages(state, payload) {
@@ -98,7 +98,7 @@ export default {
 
   actions: {
     increment(context) {
-      context.commit('addCount')
+      context.commit('addCount');
     }
   },
-}
+};

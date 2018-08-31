@@ -7,10 +7,10 @@ const mixins = {
   data() {
     return {
       treeInst: new Tree(),
-    }
+    };
   },
   computed: {
   }
-}
+};
 
 Vue.mixin(Utils.extend({}, mixins, CommonMixins));

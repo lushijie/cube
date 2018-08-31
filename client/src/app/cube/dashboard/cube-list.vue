@@ -25,7 +25,7 @@
 
     data() {
       return {
-      }
+      };
     },
 
     methods: {
@@ -54,7 +54,7 @@
           } else {
             ele.className = ele.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
           }
-        })
+        });
       },
 
       removeAllDragOver() {
@@ -71,7 +71,7 @@
             return true;
           }
           return false;
-        })
+        });
 
         let parent;
 
@@ -108,7 +108,7 @@
         // 拖拽元素
         document.querySelectorAll('.block-component-item').forEach(function(target, index) {
           target.ondragstart = function(event) {
-            const infoStr = `${event.target.getAttribute('data-block-tag')}-_-${event.target.getAttribute('data-block-label')}`
+            const infoStr = `${event.target.getAttribute('data-block-tag')}-_-${event.target.getAttribute('data-block-label')}`;
             event.dataTransfer.setData('block-info', infoStr);
           };
 
@@ -153,7 +153,7 @@
                 self.addClass(to, 'drag-over');
               }
             }
-          }
+          };
 
           target.ondrop = function(event) {
             event.stopPropagation();
@@ -187,7 +187,7 @@
             setTimeout(() => {
               self.bindEvent();
             }, 50);
-          }
+          };
         });
       }
     },

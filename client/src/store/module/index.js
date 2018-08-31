@@ -1,5 +1,5 @@
-import cube from './cube'
+import cube from './cube';
 
 export default {
   cube
-}
+};

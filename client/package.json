@@ -4,6 +4,7 @@
   "description": "",
   "main": ".eslintrc.js",
   "scripts": {
+    "lint": "eslint --ext .js,.vue src --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "cube:debug": "node start.js --chunk=cube --env=development && webpack-dev-server --config=./webpack/webpack.config.js --chunk=cube",
     "cube:dev": "node start.js --chunk=cube --env=development && webpack --config=./webpack/webpack.config.js --chunk=cube -p",

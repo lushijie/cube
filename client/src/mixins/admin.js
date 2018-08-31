@@ -39,7 +39,7 @@ const mixins = {
       csrf: {
         'x-csrf-token': document.querySelector('meta[name="csrf"]').getAttribute('value')
       }
-    }
+    };
   },
   methods: {
     $resetForm(evt, ref) {
@@ -52,7 +52,7 @@ const mixins = {
         'page-count': +pager.totalPages,
         'current-page': +pager.currentPage,
         'page-size': +pager.pageSize
-      }
+      };
     }
   },
   computed: {

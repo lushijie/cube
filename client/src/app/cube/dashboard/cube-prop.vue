@@ -61,7 +61,7 @@
 
     mounted() {
     }
-  }
+  };
 </script>
 
 <style scoped>

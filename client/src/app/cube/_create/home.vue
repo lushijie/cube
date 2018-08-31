@@ -19,7 +19,7 @@
           b: '777',
           c: '999'
         }
-      }
+      };
     },
     methods: {
       ...mapMutations('cube', ['addCount']),

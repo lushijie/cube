@@ -5,4 +5,4 @@ module.exports = {
   meta: {
   },
   component: HomeView
-}
+};

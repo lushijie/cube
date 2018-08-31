@@ -6,7 +6,7 @@
 */
 import Vue from 'vue';
 import Vuex from 'vuex';
-import modules from './module'
+import modules from './module';
 
 Vue.use(Vuex);
 

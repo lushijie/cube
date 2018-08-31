@@ -19,8 +19,8 @@ export default {
           name: item.name,
           path: item.path,
           regex: item.regex
-        }
-      })
+        };
+      });
       return data;
     }
   }

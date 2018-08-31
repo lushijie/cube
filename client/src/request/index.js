@@ -7,7 +7,7 @@
 import Vue from 'vue';
 import Utils from 'utils';
 import VueResource from 'vue-resource';
-import NormalConstants from 'admin/constants/admin-normal.js'
+import NormalConstants from 'admin/constants/admin-normal.js';
 
 Vue.use(VueResource);
 Vue.http.options.root = '/';

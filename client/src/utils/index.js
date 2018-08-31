@@ -140,8 +140,9 @@ const Utils = {
    getDestructResult(['houseId', 'item:item1'], this.state);
   */
   getDestructResult(properties, sourceObject) {
-    const destObject = {},
-      aliasMap = {};
+    const destObject = {};
+
+    const aliasMap = {};
     properties = Array.isArray(properties) ? properties : [properties];
 
     // 建立别名映衬

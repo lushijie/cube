@@ -54,7 +54,7 @@
 
     data() {
       return {
-      }
+      };
     },
 
     methods: {

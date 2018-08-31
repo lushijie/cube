@@ -7,7 +7,7 @@
   export default {
     data() {
       return {
-      }
+      };
     },
 
     methods: {
@@ -26,7 +26,7 @@
         this.treeInst.renderTree();
       });
     }
-  }
+  };
 </script>
 
 <style>

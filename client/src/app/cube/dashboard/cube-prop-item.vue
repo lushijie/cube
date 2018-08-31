@@ -39,7 +39,7 @@
 
     mounted() {
     }
-  }
+  };
 </script>
 
 <style scoped>
