@@ -6,8 +6,11 @@
 */
 import Crypto from 'crypto';
 import Querystring from 'querystring';
+import DeepEqual from 'deep-equal';
 
 const Utils = {
+  isDeepEqual: DeepEqual,
+
   isNumber(obj) {
     return typeof obj === 'number' && isFinite(obj);
   },

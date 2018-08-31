@@ -25,6 +25,7 @@ module.exports = {
 
   globals: {
     // TODO
+    INJECT: true
   },
 
   rules: {
@@ -33,7 +34,7 @@ module.exports = {
       ignoreReadBeforeAssign: false
     }],
     'no-console': ['error', {
-      allow: ['debug', 'warn', 'error']
+      allow: ['info', 'debug', 'warn', 'error']
     }],
     'accessor-pairs': 'error',
     'arrow-spacing': ['error', {

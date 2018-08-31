@@ -23,7 +23,7 @@
 
     mounted() {
       this.$root.$data.bus.$on('treeChange', () => {
-        this.treeInst.renderTree();
+        this.treeInst.renderTree(); // treeInst mixin
       });
     }
   };

@@ -59,7 +59,7 @@
 
     methods: {
       handleTreeChange() {
-        console.log('treeChange...');
+        console.debug('treeChange...');
         this.$root.bus.$emit('treeChange');
       }
     },
@@ -72,8 +72,10 @@
     },
 
     mounted() {
-      this.$store.watch(this.$store.getters['cube/treeChange'], () => {
-        this.handleTreeChange();
+      this.$store.watch(this.$store.getters['cube/treeChange'], (pre, after) => {
+        if (!Utils.isDeepEqual(pre, after)) {
+          this.handleTreeChange();
+        }
       });
       this.handleTreeChange();
     }

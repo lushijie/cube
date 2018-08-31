@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue src --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cube:debug": "node start.js --chunk=cube --env=development && webpack-dev-server --config=./webpack/webpack.config.js --chunk=cube",
+    "cube:watch": "node start.js --chunk=cube --env=development && webpack-dev-server --config=./webpack/webpack.config.js --chunk=cube",
     "cube:dev": "node start.js --chunk=cube --env=development && webpack --config=./webpack/webpack.config.js --chunk=cube -p",
     "cube:pub": "node start.js --chunk=cube --env=production && webpack --config=./webpack/webpack.config.js --chunk=cube"
   },
@@ -48,7 +48,10 @@
     "yargs": "^12.0.1"
   },
   "dependencies": {
+    "deep-equal": "^1.0.1",
+    "dom.js": "^0.2.0",
     "element-ui": "^2.4.6",
+    "fs-extra": "^7.0.0",
     "lushijie-utils": "^1.0.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
