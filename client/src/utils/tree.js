@@ -2,9 +2,9 @@ import Store from 'store';
 import Utils from 'utils';
 import Vue from 'vue';
 
-export default class TreeOperate {
+export default class Tree {
   /**
-   * 获取整个节点树
+   * 获取整个节点树, 深拷贝
    * @return object
    */
   getTree() {
@@ -15,15 +15,15 @@ export default class TreeOperate {
    * 获取根节点的 uuid
    * @return uuid
    */
-  getRootUUID() {
+  getRootUid() {
     return this.getTree().uuid;
   }
 
   /**
-   * 获取属于当前树的一个随机 UUID
+   * 获取属于当前树的一个随机 Uid
    * @return {[type]} [description]
    */
-  getRandomUUID() {
+  getRandomUid() {
     const tree = this.getTree();
     const uuids = [];
 
@@ -46,7 +46,7 @@ export default class TreeOperate {
    * @param  {[type]} uuid [description]
    * @return {[type]}      [description]
    */
-  getNodeByUUID(uuid) {
+  getNodeByUid(uuid) {
     const tree = this.getTree();
     let matched = null;
 
@@ -70,7 +70,7 @@ export default class TreeOperate {
    * 设置某 uuid 的节点为选中状态
    * @param {[type]} uuid [description]
    */
-  setSelectedNodeByUUID(uuid) {
+  selectNodeByUid(uuid) {
     const tree = this.getTree();
     let target = null;
 
@@ -95,47 +95,44 @@ export default class TreeOperate {
   }
 
   /**
-   * 根据 uuid 更新节点，命中的执行 success 回调，不命中的执行 fail 回调
-   * @param  {[type]} ) {}          [description]
-   * @return {[type]}   [description]
+   * 获取当前选中的节点
+   * @return {[type]} [description]
    */
-  travelUpdateNodeByUUID(uuid, success, fail = function() {}) {
-    const tree = this.getTree();
-
-    function travel(tree) {
-      if (tree.uuid === uuid) {
-        success(tree);
-      } else {
-        fail(tree);
-      }
-
-      if (tree.slots) {
-        tree.slots.forEach(ele => {
-          travel(ele);
-        });
-      }
-    }
-
-    travel(tree);
-    Store.commit('cube/updateTree', tree);
-  }
-
-  /**
-   * 根据 uuid 更新节点，命中的执行更新策略，不命中的不执行
-   * @param  {[type]}   uuid [description]
-   * @param  {Function} cb   [description]
-   * @return {[type]}        [description]
-   */
-  matchUpdateNodeByUUID(uuid, cb) {
+  getSeletedNode() {
     const tree = this.getTree();
     let matched = false;
 
     function travel(tree) {
-      if (!matched && tree.uuid === uuid) {
-        matched = true;
-        cb(tree);
+      if (tree.selected) {
+        matched = tree;
+      } else {
+        if (!matched && tree.slots) {
+          tree.slots.forEach(ele => {
+            travel(ele);
+          });
+        }
       }
+    }
 
+    travel(tree);
+    return matched;
+  }
+
+  /**
+   * 添加节点
+   * @param {[type]} fatherUid [description]
+   * @param {[type]} node       [description]
+   */
+  addNode(fatherUid, node) {
+    const tree = this.getTree();
+    let matched = false;
+
+    function travel(tree) {
+      if (!matched && tree.uuid === fatherUid) {
+        matched = true;
+        tree.slots = tree.slots || [];
+        tree.slots.push(node);
+      }
       if (!matched && tree.slots) {
         tree.slots.forEach(ele => {
           travel(ele);
@@ -145,6 +142,36 @@ export default class TreeOperate {
 
     travel(tree);
     Store.commit('cube/updateTree', tree);
+    this.selectNodeByUid(node.uuid);
+  }
+
+  /**
+   * before uuid节点插入， uuid这个节点一定处于 slots 中
+   * @param {*} uuid
+   * @param {*} node
+   */
+  insertNodeBefore(uuid, node) {
+    const tree = this.getTree();
+    let matched = null;
+
+    function travel(tree) {
+      if (tree.slots) {
+        tree.slots.forEach((ele, index) => {
+          if (!matched) {
+            if (ele.uuid === uuid) {
+              matched = ele;
+              tree.slots.splice(index, 0, node);
+            } else {
+              travel(ele);
+            }
+          }
+        });
+      }
+    }
+
+    travel(tree);
+    Store.commit('cube/updateTree', tree);
+    this.selectNodeByUid(node.uuid);
   }
 
   /**
@@ -152,7 +179,7 @@ export default class TreeOperate {
    * @param  {[type]} uuid [description]
    * @return {[type]}      [description]
    */
-  deleteNodeByUUID(uuid) {
+  deleteNodeByUid(uuid) {
     const tree = this.getTree();
     let currentSelected = false;
     let matched = false;
@@ -183,7 +210,7 @@ export default class TreeOperate {
 
     // 如果删除之前该节点为选中状态，删除该节点之后，设置root节点为选中状态
     if (currentSelected) {
-      this.setSelectedNodeByUUID(this.getRootUUID());
+      this.selectNodeByUid(this.getRootUid());
     }
 
     // 返回删除的节点信息
@@ -191,44 +218,47 @@ export default class TreeOperate {
   }
 
   /**
-   * 获取当前选中的节点
-   * @return {[type]} [description]
+   * 遍历所有节点，根据 uuid 更新节点，命中的执行 success 回调，不命中的执行 fail 回调
+   * @param  {[type]} ) {}          [description]
+   * @return {[type]}   [description]
    */
-  getSeletedNode() {
+  travelUpdateNodeByUid(uuid, success, fail = function() {}) {
     const tree = this.getTree();
-    let matched = false;
 
     function travel(tree) {
-      if (tree.selected) {
-        matched = tree;
+      if (tree.uuid === uuid) {
+        success(tree);
       } else {
-        if (!matched && tree.slots) {
-          tree.slots.forEach(ele => {
-            travel(ele);
-          });
-        }
+        fail(tree);
+      }
+
+      if (tree.slots) {
+        tree.slots.forEach(ele => {
+          travel(ele);
+        });
       }
     }
 
     travel(tree);
-    return matched;
+    Store.commit('cube/updateTree', tree);
   }
 
   /**
-   * 添加节点
-   * @param {[type]} fatherUUID [description]
-   * @param {[type]} node       [description]
+   * 根据 uuid 更新节点，命中的执行更新策略，不命中的不执行
+   * @param  {[type]}   uuid [description]
+   * @param  {Function} cb   [description]
+   * @return {[type]}        [description]
    */
-  addNode(fatherUUID, node) {
+  matchUpdateNodeByUid(uuid, cb) {
     const tree = this.getTree();
     let matched = false;
 
     function travel(tree) {
-      if (!matched && tree.uuid === fatherUUID) {
+      if (!matched && tree.uuid === uuid) {
         matched = true;
-        tree.slots = tree.slots || [];
-        tree.slots.push(node);
+        cb(tree);
       }
+
       if (!matched && tree.slots) {
         tree.slots.forEach(ele => {
           travel(ele);
@@ -238,31 +268,6 @@ export default class TreeOperate {
 
     travel(tree);
     Store.commit('cube/updateTree', tree);
-    this.setSelectedNodeByUUID(node.uuid);
-  }
-
-  insertNodeBefore(uuid, node) {
-    const tree = this.getTree();
-    let matched = null;
-
-    function travel(tree) {
-      if (tree.slots) {
-        tree.slots.forEach((ele, index) => {
-          if (!matched) {
-            if (ele.uuid === uuid) {
-              matched = ele;
-              tree.slots.splice(index, 0, node);
-            } else {
-              travel(ele);
-            }
-          }
-        });
-      }
-    }
-
-    travel(tree);
-    Store.commit('cube/updateTree', tree);
-    this.setSelectedNodeByUUID(node.uuid);
   }
 
   /**

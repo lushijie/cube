@@ -23,9 +23,10 @@
           'root': menu.root,
           'selected': menu.selected
         }"
+        :data-tag="menu.tag"
         @click="setSelectedNode(menu)">
 
-        {{ menu.label }} - {{ menu.tag }}
+        {{ menu.label }}
 
         <!-- root 节点不允许删除 -->
         <i
@@ -107,11 +108,11 @@
 
     methods: {
       setSelectedNode(item) {
-        this.treeInst.setSelectedNodeByUUID(item.uuid);
+        this.treeInst.selectNodeByUid(item.uuid);
       },
 
       deleteNode(item) {
-        this.treeInst.deleteNodeByUUID(item.uuid);
+        this.treeInst.deleteNodeByUid(item.uuid);
       },
 
       // 获取配置文件的 slots 信息
@@ -209,10 +210,10 @@
             self.removeAllDragOver();
 
             const to = event.toElement || event.relatedTarget;
-            const dragUUID = JSON.parse(window.localStorage.getItem('drag-info')).uuid;
-            if (dragUUID) {
+            const dragUid = JSON.parse(window.localStorage.getItem('drag-info')).uuid;
+            if (dragUid) {
               // 如果是移动元素，不能移动到自己的子级元素
-              if (!document.querySelectorAll(`.cube-struct[data-uuid="${dragUUID}"]`)[0].contains(to)) {
+              if (!document.querySelectorAll(`.cube-struct[data-uuid="${dragUid}"]`)[0].contains(to)) {
                 djs.addClass(target, 'drag-over');
               }
             } else {
@@ -250,14 +251,14 @@
             self.removeAllDragOver(); // 获得释放位置后， 移除所有的 drag-over 状态
 
             if (!dropTarget) {
-              console.warn('获取目标位置失败');
+              console.warn('没有获取到目标位置');
               return;
             }
 
             // const dragInfo = JSON.parse(event.dataTransfer.getData('drag-info'));
             const dragInfo = JSON.parse(window.localStorage.getItem('drag-info'));
             const isPutBefore = dropTarget.getAttribute('data-put-before');
-            const relatedUUID = dropTarget.getAttribute('data-uuid');
+            const relatedUid = dropTarget.getAttribute('data-uuid');
             let relatedSlotName = dropTarget.getAttribute('data-slot-name');
 
             // 新建节点信息，1.移动的节点 2.从组件列表拖拽新建的
@@ -265,13 +266,13 @@
 
             // 如果放置到 before 位置, 新节点slot名字一定与紧靠在其后面的那个组件的slot一致
             if (isPutBefore) {
-              relatedSlotName = (self.treeInst.getNodeByUUID(relatedUUID).properties || {}).slot || 'default';
+              relatedSlotName = (self.treeInst.getNodeByUid(relatedUid).properties || {}).slot || 'default';
             }
 
             // 移动节点
             if (dragInfo.uuid) {
-              if (relatedUUID !== dragInfo.uuid) { // 禁止拖拽自己到自身的子级节点中
-                newNode = self.treeInst.deleteNodeByUUID(dragInfo.uuid);
+              if (relatedUid !== dragInfo.uuid) { // 禁止拖拽自己到自身的子级节点中
+                newNode = self.treeInst.deleteNodeByUid(dragInfo.uuid);
                 if (relatedSlotName) {
                   newNode.properties = newNode.properties || {};
                   newNode.properties.slot = relatedSlotName;
@@ -299,9 +300,9 @@
             }
 
             // 落点位置，组件的before 与 slot 处理逻辑不一致
-            // isPutBefore, 此时的relatedUUID 其实为其相邻组件的uuid
-            // !isPutBefore, 此时的relatedUUID 为slot所有者组件的uuid
-            self.treeInst[isPutBefore ? 'insertNodeBefore' : 'addNode'](relatedUUID, newNode);
+            // isPutBefore, 此时的relatedUid 其实为其相邻组件的uuid
+            // !isPutBefore, 此时的relatedUid 为slot所有者组件的uuid
+            self.treeInst[isPutBefore ? 'insertNodeBefore' : 'addNode'](relatedUid, newNode);
 
             setTimeout(() => {
               self.bindDragDropEvent();
@@ -357,16 +358,20 @@
     color: #fff;
   }
   .menu-item__del {
+    float: right;
     padding: 3px;
   }
   .menu-item__del:hover {
     color: #f56c6c;
   }
   .cube-seat {
+    transition: height 0.3s;
     height: 25px;
     background-color: #ffc;
   }
   .cube-seat.drag-over {
     background-color: #ff2;
+    transition: height 0.3s;
+    height: 45px;
   }
 </style>

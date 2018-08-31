@@ -48,7 +48,7 @@
         document.querySelectorAll('.block-component-item').forEach(function(target, index) {
           target.ondragstart = function(event) {
             const info = {
-              uuid: null, // 拖拽新建的元素无 UUID
+              uuid: null, // 拖拽新建的元素无 Uid
               tag: event.target.getAttribute('data-block-tag'),
               label: event.target.getAttribute('data-block-label')
             };

@@ -19,10 +19,10 @@ module.exports = {
           sname: 'header',
           slabel: '头部卡槽'
         },
-        {
-          sname: 'footer',
-          slabel: '底部卡槽'
-        }
+        // {
+        //   sname: 'footer',
+        //   slabel: '底部卡槽'
+        // }
       ]
     }
   },

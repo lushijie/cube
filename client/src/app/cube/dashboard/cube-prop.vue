@@ -34,7 +34,7 @@
         return Utils.extend({}, this.selectedNode.properties.props);
       },
 
-      selectedUUID() {
+      selectedUid() {
         return this.selectedNode.uuid;
       }
     },
@@ -52,7 +52,7 @@
       bindProps: {
         deep: true,
         handler(newVal, oldVal) {
-          this.treeInst.matchUpdateNodeByUUID(this.selectedUUID, (node) => {
+          this.treeInst.matchUpdateNodeByUid(this.selectedUid, (node) => {
             node.properties.props = Utils.extend({}, newVal);
           });
         }

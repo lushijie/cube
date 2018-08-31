@@ -10,7 +10,7 @@
       </el-col>
 
       <!-- 组件操作 -->
-      <el-col :span="6" style="max-height: 100vh; overflow: scroll">
+      <el-col :span="6">
         <h4>组件操作</h4>
         <div class="grid-content cube-tree-grid">
           <CubeStruct :menu="tree"></CubeStruct>
@@ -85,5 +85,9 @@
 <style scoped>
   .el-col {
     padding: 6px;
+  }
+  .cube-tree-grid {
+    max-height: 95vh;
+    overflow: auto
   }
 </style>
