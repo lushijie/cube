@@ -1,6 +1,6 @@
 <template>
   <div>
-    a: {{ a }}
+    <span class="click-btn" @click="clickTest"> a: {{ a }} </span>
     <slot name="header"></slot>
     <!-- <slot name="footer"></slot> -->
   </div>
@@ -11,13 +11,19 @@
     props: {
       a: String,
     },
+
     components: {
     },
+
     data() {
       return {
       };
     },
+
     methods: {
+      clickTest() {
+        console.info(this.a);
+      }
     },
 
     computed: {
@@ -29,4 +35,7 @@
 </script>
 
 <style scoped>
+  .click-btn {
+    cursor: pointer;
+  }
 </style>
