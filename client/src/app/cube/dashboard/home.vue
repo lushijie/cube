@@ -1,12 +1,17 @@
 <template>
   <div>
+    <!-- 全局操作栏 -->
     <el-row>
       <el-col :span="6" style="float:right; text-align: right;">
-        <el-button :type="isNodeSaved ? 'success' : 'danger'" @click="cacheTree" :loading="saveLoading">
-          {{ isNodeSaved ? '已保存' : '点击保存' }}
+        <el-button
+          :type="isTreeSaved ? 'success' : 'danger'"
+          @click="cacheTree"
+          :loading="saveLoading">
+          {{ isTreeSaved ? '已保存' : '点击保存' }}
         </el-button>
       </el-col>
     </el-row>
+
     <el-row>
       <!-- 组件列表 -->
       <el-col :span="6">
@@ -83,7 +88,7 @@
     },
 
     computed: {
-      ...mapState('cube', ['isNodeSaved', 'node']),
+      ...mapState('cube', ['isTreeSaved', 'node']),
       tree() {
         return Utils.extend({}, this.node.tree);
       }

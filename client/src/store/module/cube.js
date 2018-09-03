@@ -4,7 +4,7 @@ export default {
   state: {
     packages: [],
     routeMeta: {},
-    isNodeSaved: true,
+    isTreeSaved: true,
     node: {
       id: 123456, // 默认 ID 会被复写掉
       tree: {
@@ -95,7 +95,7 @@ export default {
     },
 
     setNodeSaved(state, payload) {
-      state.isNodeSaved = payload;
+      state.isTreeSaved = payload;
     }
   },
 
