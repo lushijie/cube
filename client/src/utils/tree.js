@@ -8,7 +8,7 @@ export default class Tree {
    * @return id
    */
   getTreeId() {
-    return Store.state.cube.node.id;
+    return Store.state.cube.tree.id;
   }
 
   /**
@@ -121,7 +121,7 @@ export default class Tree {
     }
 
     travel(tree);
-    Store.commit('cube/updateTree', tree);
+    Store.commit('cube/updateTreeStruct', tree);
     return target;
   }
 
@@ -172,7 +172,7 @@ export default class Tree {
     }
 
     travel(tree);
-    Store.commit('cube/updateTree', tree);
+    Store.commit('cube/updateTreeStruct', tree);
     this.selectNodeByUid(node.uuid);
   }
 
@@ -201,7 +201,7 @@ export default class Tree {
     }
 
     travel(tree);
-    Store.commit('cube/updateTree', tree);
+    Store.commit('cube/updateTreeStruct', tree);
     this.selectNodeByUid(node.uuid);
   }
 
@@ -237,7 +237,7 @@ export default class Tree {
     travel(tree);
 
     // 重置 vuex 数据
-    Store.commit('cube/updateTree', tree);
+    Store.commit('cube/updateTreeStruct', tree);
 
     // 如果删除之前该节点为选中状态，删除该节点之后，设置root节点为选中状态
     if (currentSelected) {
@@ -271,7 +271,7 @@ export default class Tree {
     }
 
     travel(tree);
-    Store.commit('cube/updateTree', tree);
+    Store.commit('cube/updateTreeStruct', tree);
   }
 
   /**
@@ -298,7 +298,7 @@ export default class Tree {
     }
 
     travel(tree);
-    Store.commit('cube/updateTree', tree);
+    Store.commit('cube/updateTreeStruct', tree);
   }
 
   /**

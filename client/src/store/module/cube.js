@@ -88,11 +88,11 @@ export default {
     },
 
     updateTree(state, payload) {
-      state.tree.struct = { ...payload };
+      state.tree = { ...payload };
     },
 
-    updateNode(state, payload) {
-      state.node = { ...payload };
+    updateTreeStruct(state, payload) {
+      state.tree.struct = { ...payload };
     },
 
     setNodeSaved(state, payload) {

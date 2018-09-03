@@ -102,12 +102,12 @@
 
       if (storedTree) {
         // 如果 localStorage（或者数据库中）存在则为编辑状态，需要从存储中读取
-        Store.commit('cube/updateNode', storedTree);
+        Store.commit('cube/updateTree', storedTree);
       } else {
         // 如果不存在已经保存的，需要新建并保存
-        const initTree = Utils.extend({}, this.node);
+        const initTree = Utils.extend({}, this.tree);
         initTree.id = treeId;
-        Store.commit('cube/updateNode', initTree);
+        Store.commit('cube/updateTree', initTree);
         this.treeInst.cacheTree();
       }
 
@@ -116,7 +116,7 @@
           this.handleTreeChange();
         }
 
-        Store.commit('cube/setNodeSaved', Utils.isDeepEqual(storedTree, this.node));
+        Store.commit('cube/setNodeSaved', Utils.isDeepEqual(storedTree, this.tree));
       });
 
       this.handleTreeChange();
