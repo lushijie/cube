@@ -103,7 +103,7 @@
         const initTree = Utils.extend({}, Store.state.cube.node);
         initTree.id = treeId;
         Store.commit('cube/updateNode', initTree);
-        this.treeInst.saveTree();
+        this.treeInst.cacheTree();
         console.info(12313);
       }
 
