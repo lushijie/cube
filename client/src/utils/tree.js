@@ -1,6 +1,9 @@
 import Store from 'store';
 import Utils from 'utils';
 import Vue from 'vue';
+import components from 'cube/components';
+
+const registedComponents = new Set();
 
 export default class Tree {
   /**
@@ -29,13 +32,35 @@ export default class Tree {
   }
 
   /**
+   * 获取结构中所用到的组件名称
+   * @return array
+   */
+  getUsedComponents() {
+    const nodes = this.getStruct();
+    const usedComponents = new Set();
+    function travel(node) {
+      if (node.tag) {
+        usedComponents.add(node.tag);
+      }
+      if (node.slots) {
+        node.slots.forEach(ele => {
+          travel(ele);
+        });
+      }
+    }
+
+    travel(nodes);
+    return [ ...usedComponents ];
+  }
+
+  /**
    * 缓存树到localStorage
    * @return void
    */
-  setCacheTree() {
-    const cacheId = this.getCacheId(this.getTreeId());
+  setCacheTree(treeId) {
+    const cacheId = this.getCacheId(treeId);
     window.localStorage.setItem(cacheId, JSON.stringify({
-      id: this.getTreeId(),
+      id: treeId,
       struct: this.getStruct()
     }));
 
@@ -341,6 +366,14 @@ export default class Tree {
         return createComponent(ele, h);
       }));
     }
+
+    // 注册使用到的组件
+    this.getUsedComponents().forEach(componentName => {
+      if (!registedComponents.has(componentName)) {
+        registedComponents.add(componentName);
+        Vue.component(componentName, components[componentName].component);
+      }
+    });
 
     const self = this;
     const RootComponent = Vue.component('root-component', {

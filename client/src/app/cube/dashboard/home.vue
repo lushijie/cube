@@ -78,10 +78,10 @@
         this.$root.bus.$emit('structChange');
       },
 
-      setCacheTree() {
+      setCacheTree(treeId) {
         this.saveLoading = true;
         setTimeout(() => {
-          this.treeInst.setCacheTree();
+          this.treeInst.setCacheTree(treeId);
           this.$root.bus.$emit('structChange');
           this.saveLoading = false;
         }, 300);
@@ -100,7 +100,7 @@
       if (!tmpTree.id) { // 新建
         tmpTree = Utils.extend({}, this.tree);
         tmpTree.id = treeId;
-        this.treeInst.setCacheTree();
+        this.treeInst.setCacheTree(treeId);
       }
       Store.commit('cube/updateTree', tmpTree);
 

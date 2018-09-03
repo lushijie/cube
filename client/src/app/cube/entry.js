@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import packages from 'cube/packages';
+import components from 'cube/components';
 import BlankLayout from 'cube/scope/layouts/blank.vue';
 import Router from 'cube/router.js';
 import Store from 'store';
@@ -17,18 +17,20 @@ Vue.config.errorHandler = function(err, vm) {
   console.warn(err, vm);
 };
 
-// 全局注册所有 cube 组件
-const allPackages = [];
+// 格式化 components 信息另行存储
+const formatPackages = [];
 (function() {
-  Object.keys(packages).forEach((key) => {
-    allPackages.push({
+  Object.keys(components).forEach((key) => {
+    formatPackages.push({
       tag: key,
-      label: packages[key].label,
-      config: packages[key].config
+      label: components[key].label,
+      config: components[key].config
     });
-    Vue.component(key, packages[key].component);
+
+    // 不再全量注册，移动到 renderTree 中实现
+    // Vue.component(key, components[key].component);
   });
-  Store.commit('cube/addPackages', allPackages);
+  Store.commit('cube/addPackages', formatPackages);
 })();
 
 // 挂载到根节点
