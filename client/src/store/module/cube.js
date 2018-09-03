@@ -47,17 +47,6 @@ export default {
         //         },
         //       }
         //     ]
-        //   },
-        //   {
-        //     tag: 'block-b',
-        //     uuid: Utils.uuid,
-        //     label: '组件b',
-        //     selected: false,
-        //     properties: {
-        //       props: {
-        //         b: '组件b的属性'
-        //       },
-        //     },
         //   }
         // ]
       }
@@ -73,18 +62,19 @@ export default {
       return { ...state.tree.struct };
     },
 
-    structChange(state) {
-      return () => {
-        return { ...state.tree.struct };
-      };
-    },
-
     packages(state) {
       return [ ...state.packages ];
     },
 
     routeMeta(state) {
       return { ...state.routeMeta };
+    },
+
+    structChange(state) {
+      return () => {
+        return { ...state.tree.struct
+        };
+      };
     }
   },
 
