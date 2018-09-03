@@ -30,6 +30,7 @@
     },
 
     mounted() {
+      console.info('abc123456');
     }
   };
 </script>

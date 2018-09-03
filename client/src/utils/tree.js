@@ -1,8 +1,7 @@
 import Store from 'store';
 import Utils from 'utils';
 import Vue from 'vue';
-import components from 'cube/components';
-
+// import packages from 'cube/packages';
 const registedComponents = new Set();
 
 export default class Tree {
@@ -274,7 +273,8 @@ export default class Tree {
     Store.commit('cube/updateTreeStruct', nodes);
 
     // 如果删除之前该节点为选中状态，删除该节点之后，设置root节点为选中状态
-    if (currentSelected) {
+    // 如果删除的节点包含选中节点，删除该节点之后，设置root节点为选中状态
+    if (currentSelected || !this.getSeletedNode()) {
       this.selectNodeByUid(this.getRootUid());
     }
 
@@ -371,7 +371,9 @@ export default class Tree {
     this.getUsedComponents().forEach(componentName => {
       if (!registedComponents.has(componentName)) {
         registedComponents.add(componentName);
-        Vue.component(componentName, components[componentName].component);
+        console.info(componentName);
+        // Vue.component(componentName, packages[componentName].component);
+        Vue.component(componentName, Utils.interop(require(`../app/cube/packages/${componentName}.vue`)));
       }
     });
 

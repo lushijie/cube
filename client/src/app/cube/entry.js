@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import components from 'cube/components';
+import packages from 'cube/packages';
 import BlankLayout from 'cube/scope/layouts/blank.vue';
 import Router from 'cube/router.js';
 import Store from 'store';
@@ -20,11 +20,11 @@ Vue.config.errorHandler = function(err, vm) {
 // 格式化 components 信息另行存储
 const formatPackages = [];
 (function() {
-  Object.keys(components).forEach((key) => {
+  Object.keys(packages).forEach((key) => {
     formatPackages.push({
       tag: key,
-      label: components[key].label,
-      config: components[key].config
+      label: packages[key].label,
+      config: packages[key].config
     });
 
     // 不再全量注册，移动到 renderTree 中实现
