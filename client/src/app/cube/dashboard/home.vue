@@ -116,7 +116,7 @@
           this.handleTreeChange();
         }
 
-        Store.commit('cube/setNodeSaved', Utils.isDeepEqual(storedTree, this.tree));
+        Store.commit('cube/updateTreeSaved', Utils.isDeepEqual(storedTree, this.tree));
       });
 
       this.handleTreeChange();

@@ -39,7 +39,7 @@ export default class Tree {
       struct: this.getTree()
     }));
 
-    Store.commit('cube/setNodeSaved', true);
+    Store.commit('cube/updateTreeSaved', true);
   }
 
   /**

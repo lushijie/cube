@@ -65,9 +65,13 @@ export default {
   },
 
   getters: {
-    // metaData(state) {
-    //   return { ...state.routeMeta };
-    // },
+    tree(state) {
+      return { ...state.tree };
+    },
+
+    treeStruct(state) {
+      return { ...state.tree.struct };
+    },
 
     treeChange(state) {
       return () => {
@@ -88,15 +92,16 @@ export default {
     },
 
     updateTree(state, payload) {
-      state.tree = { ...payload };
+      state.tree = { ...payload
+      };
+    },
+
+    updateTreeSaved(state, payload) {
+      state.isTreeSaved = payload;
     },
 
     updateTreeStruct(state, payload) {
       state.tree.struct = { ...payload };
-    },
-
-    setNodeSaved(state, payload) {
-      state.isTreeSaved = payload;
     }
   },
 
