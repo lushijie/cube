@@ -12,7 +12,7 @@ export default class Tree {
   }
 
   /**
-   * 获取 localStorage 缓存的ID
+   * 获取 localStorage 缓存的Id
    * @param savedId
    * @return cacheId
    */
@@ -32,7 +32,7 @@ export default class Tree {
    * 缓存树到localStorage
    * @return void
    */
-  cacheTree() {
+  setCacheTree() {
     const cacheId = this.getCacheId(this.getTreeId());
     window.localStorage.setItem(cacheId, JSON.stringify({
       id: this.getTreeId(),
@@ -41,6 +41,14 @@ export default class Tree {
 
     // 标记，已经缓存
     Store.commit('cube/updateTreeSaved', true);
+  }
+
+  /**
+   * 从 localStrage 获取缓存树
+   */
+  getCacheTree(treeId) {
+    const cacheId = this.getCacheId(treeId);
+    return JSON.parse(window.localStorage.getItem(cacheId) || '{}');
   }
 
   /**

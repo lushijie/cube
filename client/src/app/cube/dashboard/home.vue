@@ -5,7 +5,7 @@
       <el-col :span="6" style="float:right; text-align: right;">
         <el-button
           :type="isTreeSaved ? 'success' : 'danger'"
-          @click="cacheTree"
+          @click="setCacheTree"
           :loading="saveLoading">
           {{ isTreeSaved ? '已保存' : '点击保存' }}
         </el-button>
@@ -77,10 +77,10 @@
         this.$root.bus.$emit('structChange');
       },
 
-      cacheTree() {
+      setCacheTree() {
         this.saveLoading = true;
         setTimeout(() => {
-          this.treeInst.cacheTree();
+          this.treeInst.setCacheTree();
           this.$root.bus.$emit('structChange');
           this.saveLoading = false;
         }, 300);
@@ -93,30 +93,27 @@
     },
 
     mounted() {
-      // 在 URL 中获取 tree id
-      const treeId = this.currentRouteData.query.id;
-      const cacheId = this.treeInst.getCacheId(treeId);
-      const storedTree = JSON.parse(window.localStorage.getItem(cacheId));
+      const treeId = this.currentRouteData.query.id; // 在 URL 中获取 tree id
+      let tmpTree = this.treeInst.getCacheTree(treeId); // localStorage读取
 
-      if (storedTree) {
-        // 如果 localStorage（或者数据库中）存在则为编辑状态，需要从存储中读取
-        Store.commit('cube/updateTree', storedTree);
-      } else {
-        // 如果不存在已经保存的，需要新建并保存
-        const initTree = Utils.extend({}, this.tree);
-        initTree.id = treeId;
-        Store.commit('cube/updateTree', initTree);
-        this.treeInst.cacheTree();
+      if (!tmpTree.id) { // 新建
+        tmpTree = Utils.extend({}, this.tree);
+        tmpTree.id = treeId;
+        this.treeInst.setCacheTree();
       }
+      Store.commit('cube/updateTree', tmpTree);
 
+      // 监听struct change 事件
       this.$store.watch(this.$store.getters['cube/structChange'], (pre, after) => {
         if (!Utils.isDeepEqual(pre, after)) {
           this.handleTreeStructChange();
         }
 
-        Store.commit('cube/updateTreeSaved', Utils.isDeepEqual(storedTree, this.tree));
+        // 设置树的保存状态
+        Store.commit('cube/updateTreeSaved', Utils.isDeepEqual(tmpTree, this.tree));
       });
 
+      // 首次主动触发
       this.handleTreeStructChange();
     }
   };
