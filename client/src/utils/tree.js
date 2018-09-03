@@ -3,6 +3,11 @@ import Utils from 'utils';
 import Vue from 'vue';
 
 export default class Tree {
+
+  getTreeId() {
+    return Store.state.cube.node.id;
+  }
+
   /**
    * 获取整个节点树, 深拷贝
    * @return object
@@ -268,6 +273,23 @@ export default class Tree {
 
     travel(tree);
     Store.commit('cube/updateTree', tree);
+  }
+
+  /**
+   *
+   * @param {*} treeId
+   */
+  getSaveId(treeId) {
+    return `tree-${treeId}`;
+  }
+
+  saveTree() {
+    window.localStorage.setItem(`${this.getSaveId(this.getTreeId())}`, JSON.stringify({
+      id: this.getTreeId(),
+      tree: this.getTree()
+    }));
+
+    Store.commit('cube/setNodeSaved', true);
   }
 
   /**

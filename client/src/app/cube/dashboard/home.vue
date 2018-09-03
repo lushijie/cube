@@ -1,6 +1,13 @@
 <template>
   <div>
     <el-row>
+      <el-col :span="6" style="float:right; text-align: right;">
+        <el-button :type="isNodeSaved ? 'success' : 'warning'" @click="saveTree" :loading="saveLoading">
+          {{ isNodeSaved ? '已保存' : '点击保存' }}
+        </el-button>
+      </el-col>
+    </el-row>
+    <el-row>
       <!-- 组件列表 -->
       <el-col :span="6">
         <h4>组件列表</h4>
@@ -38,6 +45,7 @@
 
 <script>
   import Utils from 'utils';
+  import Store from 'store';
   import { mapState } from 'vuex';
   import CubeList from './cube-list.vue';
   import CubeStruct from './cube-struct.vue';
@@ -54,6 +62,7 @@
 
     data() {
       return {
+        saveLoading: false
       };
     },
 
@@ -61,22 +70,48 @@
       handleTreeChange() {
         console.debug('treeChange...');
         this.$root.bus.$emit('treeChange');
+      },
+
+      saveTree() {
+        this.saveLoading = true;
+        setTimeout(() => {
+          this.treeInst.saveTree();
+          this.$root.bus.$emit('treeChange');
+          this.saveLoading = false;
+        }, 300);
       }
     },
 
     computed: {
-      ...mapState('cube', ['node']),
+      ...mapState('cube', ['isNodeSaved', 'node']),
       tree() {
         return Utils.extend({}, this.node.tree);
       }
     },
 
     mounted() {
+      // 获取 tree id， 如果 localStorage（或者数据库中）存在则为编辑状态
+      const treeId = this.currentRouteData.query.id;
+      const storedTree = JSON.parse(window.localStorage.getItem(`${this.treeInst.getSaveId(treeId)}`));
+
+      if (storedTree) {
+        Store.commit('cube/updateNode', storedTree);
+      } else {
+        // 如果不存在已经保存的
+        const initTree = Utils.extend({}, Store.state.cube.node);
+        initTree.id = treeId;
+        Store.commit('cube/updateNode', initTree);
+        this.treeInst.saveTree();
+      }
+
       this.$store.watch(this.$store.getters['cube/treeChange'], (pre, after) => {
         if (!Utils.isDeepEqual(pre, after)) {
           this.handleTreeChange();
         }
+
+        Store.commit('cube/setNodeSaved', Utils.isDeepEqual(storedTree, Store.state.cube.node));
       });
+
       this.handleTreeChange();
     }
   };
