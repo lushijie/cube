@@ -5,19 +5,19 @@ import Vue from 'vue';
 export default class Tree {
   /**
    * 获取节点树的存储Id
-   * @return saveId
+   * @return id
    */
-  getSaveId() {
+  getTreeId() {
     return Store.state.cube.node.id;
   }
 
   /**
-   * 获取 localStorage 缓存的ID (prefix + this.getSaveId)
+   * 获取 localStorage 缓存的ID (prefix + this.getTreeId)
    * @param savedId
    * @return cacheId
    */
-  getCacheId(saveId) {
-    return `tree-${saveId}`;
+  getCacheId(treeid) {
+    return `tree-${treeid}`;
   }
 
   /**
@@ -26,6 +26,20 @@ export default class Tree {
    */
   getTree() {
     return Utils.extend({}, Store.state.cube.node.tree);
+  }
+
+  /**
+   * 缓存树到localStorage
+   * @return void
+   */
+  cacheTree() {
+    const cacheId = this.getCacheId(this.getTreeId());
+    window.localStorage.setItem(cacheId, JSON.stringify({
+      id: this.getTreeId(),
+      tree: this.getTree()
+    }));
+
+    Store.commit('cube/setNodeSaved', true);
   }
 
   /**
@@ -285,20 +299,6 @@ export default class Tree {
 
     travel(tree);
     Store.commit('cube/updateTree', tree);
-  }
-
-  /**
-   * 缓存树到localStorage
-   * @return void
-   */
-  cacheTree() {
-    const cacheId = this.getCacheId(this.getSaveId());
-    window.localStorage.setItem(cacheId, JSON.stringify({
-      id: this.getSaveId(),
-      tree: this.getTree()
-    }));
-
-    Store.commit('cube/setNodeSaved', true);
   }
 
   /**

@@ -104,7 +104,6 @@
         initTree.id = treeId;
         Store.commit('cube/updateNode', initTree);
         this.treeInst.cacheTree();
-        console.info(12313);
       }
 
       this.$store.watch(this.$store.getters['cube/treeChange'], (pre, after) => {
