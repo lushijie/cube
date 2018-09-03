@@ -1,4 +1,4 @@
-# cube
+# cube 魔方系统
 
 npm install
 
