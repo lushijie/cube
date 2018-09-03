@@ -4,7 +4,7 @@ import Vue from 'vue';
 
 export default class Tree {
   /**
-   * 获取节点树的存储Id
+   * 获取树的存储Id
    * @return id
    */
   getTreeId() {
@@ -12,7 +12,7 @@ export default class Tree {
   }
 
   /**
-   * 获取 localStorage 缓存的ID (prefix + this.getTreeId)
+   * 获取 localStorage 缓存的ID
    * @param savedId
    * @return cacheId
    */
@@ -21,10 +21,10 @@ export default class Tree {
   }
 
   /**
-   * 获取节点树, 深拷贝, 不包含存储Id
+   * 获取树的结构信息
    * @return object
    */
-  getTree() {
+  getStruct() {
     return Utils.extend({}, Store.state.cube.tree.struct);
   }
 
@@ -36,9 +36,10 @@ export default class Tree {
     const cacheId = this.getCacheId(this.getTreeId());
     window.localStorage.setItem(cacheId, JSON.stringify({
       id: this.getTreeId(),
-      struct: this.getTree()
+      struct: this.getStruct()
     }));
 
+    // 标记，已经缓存
     Store.commit('cube/updateTreeSaved', true);
   }
 
@@ -47,7 +48,7 @@ export default class Tree {
    * @return uuid
    */
   getRootUid() {
-    return this.getTree().uuid;
+    return this.getStruct().uuid;
   }
 
   /**
@@ -55,20 +56,20 @@ export default class Tree {
    * @return {[type]} [description]
    */
   getRandomUid() {
-    const tree = this.getTree();
+    const nodes = this.getStruct();
     const uuids = [];
 
-    function travel(tree) {
-      uuids.push(tree.uuid);
+    function travel(node) {
+      uuids.push(node.uuid);
 
-      if (tree.slots) {
-        tree.slots.forEach(ele => {
+      if (node.slots) {
+        node.slots.forEach(ele => {
           travel(ele);
         });
       }
     }
 
-    travel(tree);
+    travel(nodes);
     return uuids[Math.floor(Math.random() * uuids.length)];
   }
 
@@ -78,22 +79,22 @@ export default class Tree {
    * @return {[type]}      [description]
    */
   getNodeByUid(uuid) {
-    const tree = this.getTree();
+    const nodes = this.getStruct();
     let matched = null;
 
-    function travel(tree) {
-      if (tree.uuid === uuid) {
-        matched = tree;
+    function travel(node) {
+      if (node.uuid === uuid) {
+        matched = node;
       } else {
-        if (!matched && tree.slots) {
-          tree.slots.forEach(ele => {
+        if (!matched && node.slots) {
+          node.slots.forEach(ele => {
             travel(ele);
           });
         }
       }
     }
 
-    travel(tree);
+    travel(nodes);
     return matched;
   }
 
@@ -102,26 +103,26 @@ export default class Tree {
    * @param {[type]} uuid [description]
    */
   selectNodeByUid(uuid) {
-    const tree = this.getTree();
+    const nodes = this.getStruct();
     let target = null;
 
-    function travel(tree) {
-      if (tree.uuid === uuid) {
-        target = tree;
-        tree.selected = true;
+    function travel(node) {
+      if (node.uuid === uuid) {
+        target = node;
+        node.selected = true;
       } else {
-        tree.selected = false;
+        node.selected = false;
       }
 
-      if (tree.slots) {
-        tree.slots.forEach(ele => {
+      if (node.slots) {
+        node.slots.forEach(ele => {
           travel(ele);
         });
       }
     }
 
-    travel(tree);
-    Store.commit('cube/updateTreeStruct', tree);
+    travel(nodes);
+    Store.commit('cube/updateTreeStruct', nodes);
     return target;
   }
 
@@ -130,50 +131,50 @@ export default class Tree {
    * @return {[type]} [description]
    */
   getSeletedNode() {
-    const tree = this.getTree();
+    const nodes = this.getStruct();
     let matched = false;
 
-    function travel(tree) {
-      if (tree.selected) {
-        matched = tree;
+    function travel(node) {
+      if (node.selected) {
+        matched = node;
       } else {
-        if (!matched && tree.slots) {
-          tree.slots.forEach(ele => {
+        if (!matched && node.slots) {
+          node.slots.forEach(ele => {
             travel(ele);
           });
         }
       }
     }
 
-    travel(tree);
+    travel(nodes);
     return matched;
   }
 
   /**
    * 添加节点
    * @param {[type]} fatherUid [description]
-   * @param {[type]} node       [description]
+   * @param {[type]} newNode       [description]
    */
-  addNode(fatherUid, node) {
-    const tree = this.getTree();
+  addNode(fatherUid, newNode) {
+    const nodes = this.getStruct();
     let matched = false;
 
-    function travel(tree) {
-      if (!matched && tree.uuid === fatherUid) {
+    function travel(node) {
+      if (!matched && node.uuid === fatherUid) {
         matched = true;
-        tree.slots = tree.slots || [];
-        tree.slots.push(node);
+        node.slots = node.slots || [];
+        node.slots.push(newNode);
       }
-      if (!matched && tree.slots) {
-        tree.slots.forEach(ele => {
+      if (!matched && node.slots) {
+        node.slots.forEach(ele => {
           travel(ele);
         });
       }
     }
 
-    travel(tree);
-    Store.commit('cube/updateTreeStruct', tree);
-    this.selectNodeByUid(node.uuid);
+    travel(nodes);
+    Store.commit('cube/updateTreeStruct', nodes);
+    this.selectNodeByUid(newNode.uuid);
   }
 
   /**
@@ -181,17 +182,17 @@ export default class Tree {
    * @param {*} uuid
    * @param {*} node
    */
-  insertNodeBefore(uuid, node) {
-    const tree = this.getTree();
+  insertNodeBefore(uuid, newNode) {
+    const nodes = this.getStruct();
     let matched = null;
 
-    function travel(tree) {
-      if (tree.slots) {
-        tree.slots.forEach((ele, index) => {
+    function travel(node) {
+      if (node.slots) {
+        node.slots.forEach((ele, index) => {
           if (!matched) {
             if (ele.uuid === uuid) {
               matched = ele;
-              tree.slots.splice(index, 0, node);
+              node.slots.splice(index, 0, newNode);
             } else {
               travel(ele);
             }
@@ -200,9 +201,9 @@ export default class Tree {
       }
     }
 
-    travel(tree);
-    Store.commit('cube/updateTreeStruct', tree);
-    this.selectNodeByUid(node.uuid);
+    travel(nodes);
+    Store.commit('cube/updateTreeStruct', nodes);
+    this.selectNodeByUid(newNode.uuid);
   }
 
   /**
@@ -211,21 +212,21 @@ export default class Tree {
    * @return {[type]}      [description]
    */
   deleteNodeByUid(uuid) {
-    const tree = this.getTree();
+    const nodes = this.getStruct();
     let currentSelected = false;
     let matched = false;
 
-    function travel(tree) {
-      if (tree.uuid === uuid && tree.root) {
+    function travel(node) {
+      if (node.uuid === uuid && node.root) {
         throw new Error('根节点不允许删除');
       }
 
-      if (!matched && tree.slots) {
-        tree.slots.forEach((ele, index) => {
+      if (!matched && node.slots) {
+        node.slots.forEach((ele, index) => {
           if (ele.uuid === uuid) {
             matched = ele;
             currentSelected = ele.selected;
-            tree.slots.splice(index, 1);
+            node.slots.splice(index, 1);
           } else {
             travel(ele);
           }
@@ -234,10 +235,10 @@ export default class Tree {
     }
 
     // 遍历查找，命中后执行操作
-    travel(tree);
+    travel(nodes);
 
     // 重置 vuex 数据
-    Store.commit('cube/updateTreeStruct', tree);
+    Store.commit('cube/updateTreeStruct', nodes);
 
     // 如果删除之前该节点为选中状态，删除该节点之后，设置root节点为选中状态
     if (currentSelected) {
@@ -254,24 +255,24 @@ export default class Tree {
    * @return {[type]}   [description]
    */
   travelUpdateNodeByUid(uuid, success, fail = function() {}) {
-    const tree = this.getTree();
+    const nodes = this.getStruct();
 
-    function travel(tree) {
-      if (tree.uuid === uuid) {
-        success(tree);
+    function travel(node) {
+      if (node.uuid === uuid) {
+        success(node);
       } else {
-        fail(tree);
+        fail(node);
       }
 
-      if (tree.slots) {
-        tree.slots.forEach(ele => {
+      if (node.slots) {
+        node.slots.forEach(ele => {
           travel(ele);
         });
       }
     }
 
-    travel(tree);
-    Store.commit('cube/updateTreeStruct', tree);
+    travel(nodes);
+    Store.commit('cube/updateTreeStruct', nodes);
   }
 
   /**
@@ -281,24 +282,24 @@ export default class Tree {
    * @return {[type]}        [description]
    */
   matchUpdateNodeByUid(uuid, cb) {
-    const tree = this.getTree();
+    const nodes = this.getStruct();
     let matched = false;
 
-    function travel(tree) {
-      if (!matched && tree.uuid === uuid) {
+    function travel(node) {
+      if (!matched && node.uuid === uuid) {
         matched = true;
-        cb(tree);
+        cb(node);
       }
 
-      if (!matched && tree.slots) {
-        tree.slots.forEach(ele => {
+      if (!matched && node.slots) {
+        node.slots.forEach(ele => {
           travel(ele);
         });
       }
     }
 
-    travel(tree);
-    Store.commit('cube/updateTreeStruct', tree);
+    travel(nodes);
+    Store.commit('cube/updateTreeStruct', nodes);
   }
 
   /**
@@ -336,7 +337,7 @@ export default class Tree {
     const self = this;
     const RootComponent = Vue.component('root-component', {
       render: function(h) {
-        return createComponent(self.getTree(), h);
+        return createComponent(self.getStruct(), h);
       },
     });
 
