@@ -75,6 +75,14 @@ module.exports = {
       chunks: 'all'
     }
   },
+  performance: {
+    maxAssetSize: isPubEnv ? 1 * 1024 * 1024 : 5 * 1024 * 1024,
+    maxEntrypointSize: isPubEnv ? 3 * 1024 * 1024 : 10 * 1024 * 1024,
+    assetFilter(assetFilename) { // 提供资源文件名的断言函数
+      return assetFilename.endsWith('.css') || assetFilename.endsWith('.js');
+    }
+  },
+
   module: {
     rules: [
       {
