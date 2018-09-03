@@ -13,7 +13,7 @@ Vue.use(Col);
 Vue.use(Input);
 Vue.use(Row);
 
-// // 全量引入
+// // 舍弃全量引入
 // import ElementUI from 'element-ui';
 // import 'element-ui/lib/theme-chalk/index.css';
 // Vue.use(ElementUI, { size: 'small' });

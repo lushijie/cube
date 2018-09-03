@@ -371,7 +371,6 @@ export default class Tree {
     this.getUsedComponents().forEach(componentName => {
       if (!registedComponents.has(componentName)) {
         registedComponents.add(componentName);
-        console.info(componentName);
         // Vue.component(componentName, packages[componentName].component);
         Vue.component(componentName, Utils.interop(require(`../app/cube/packages/${componentName}.vue`)));
       }
