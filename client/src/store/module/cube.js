@@ -21,6 +21,7 @@ export default {
             }
           }
         },
+        slots: []
         // slots: [
         //   {
         //     tag: 'block-a',
