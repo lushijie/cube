@@ -3,13 +3,25 @@ import Utils from 'utils';
 import Vue from 'vue';
 
 export default class Tree {
-
-  getTreeId() {
+  /**
+   * 获取节点树的存储Id
+   * @return saveId
+   */
+  getSaveId() {
     return Store.state.cube.node.id;
   }
 
   /**
-   * 获取整个节点树, 深拷贝
+   * 获取 localStorage 缓存的ID (prefix + this.getSaveId)
+   * @param savedId
+   * @return cacheId
+   */
+  getCacheId(saveId) {
+    return `tree-${saveId}`;
+  }
+
+  /**
+   * 获取节点树, 深拷贝, 不包含存储Id
    * @return object
    */
   getTree() {
@@ -276,16 +288,13 @@ export default class Tree {
   }
 
   /**
-   *
-   * @param {*} treeId
+   * 缓存树到localStorage
+   * @return void
    */
-  getSaveId(treeId) {
-    return `tree-${treeId}`;
-  }
-
-  saveTree() {
-    window.localStorage.setItem(`${this.getSaveId(this.getTreeId())}`, JSON.stringify({
-      id: this.getTreeId(),
+  cacheTree() {
+    const cacheId = this.getCacheId(this.getSaveId());
+    window.localStorage.setItem(cacheId, JSON.stringify({
+      id: this.getSaveId(),
       tree: this.getTree()
     }));
 

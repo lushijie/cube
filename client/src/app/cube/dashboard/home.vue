@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="6" style="float:right; text-align: right;">
-        <el-button :type="isNodeSaved ? 'success' : 'warning'" @click="saveTree" :loading="saveLoading">
+        <el-button :type="isNodeSaved ? 'success' : 'danger'" @click="cacheTree" :loading="saveLoading">
           {{ isNodeSaved ? '已保存' : '点击保存' }}
         </el-button>
       </el-col>
@@ -72,10 +72,10 @@
         this.$root.bus.$emit('treeChange');
       },
 
-      saveTree() {
+      cacheTree() {
         this.saveLoading = true;
         setTimeout(() => {
-          this.treeInst.saveTree();
+          this.treeInst.cacheTree();
           this.$root.bus.$emit('treeChange');
           this.saveLoading = false;
         }, 300);
@@ -90,18 +90,21 @@
     },
 
     mounted() {
-      // 获取 tree id， 如果 localStorage（或者数据库中）存在则为编辑状态
+      // 在 URL 中获取 tree id
       const treeId = this.currentRouteData.query.id;
-      const storedTree = JSON.parse(window.localStorage.getItem(`${this.treeInst.getSaveId(treeId)}`));
+      const cacheId = this.treeInst.getCacheId(treeId);
+      const storedTree = JSON.parse(window.localStorage.getItem(cacheId));
 
       if (storedTree) {
+        // 如果 localStorage（或者数据库中）存在则为编辑状态，需要从存储中读取
         Store.commit('cube/updateNode', storedTree);
       } else {
-        // 如果不存在已经保存的
+        // 如果不存在已经保存的，需要新建并保存
         const initTree = Utils.extend({}, Store.state.cube.node);
         initTree.id = treeId;
         Store.commit('cube/updateNode', initTree);
         this.treeInst.saveTree();
+        console.info(12313);
       }
 
       this.$store.watch(this.$store.getters['cube/treeChange'], (pre, after) => {

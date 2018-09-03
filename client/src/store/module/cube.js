@@ -8,7 +8,7 @@ export default {
     node: {
       id: 123456, // 默认 ID 会被复写掉
       tree: {
-        tag: 'block-r',
+        tag: 'block-root',
         uuid: Utils.uuid,
         label: '页面容器',
         root: true,

@@ -1,9 +1,9 @@
 import Utils from 'utils';
 
 module.exports = {
-  'block-r': {
+  'block-root': {
     label: '根组件',
-    component: Utils.interop(require('./block-r.vue')),
+    component: Utils.interop(require('./block-root.vue')),
     config: {
       visible: false, // false 则不在组件列表树中展示
       slots: true // 匿名卡槽
