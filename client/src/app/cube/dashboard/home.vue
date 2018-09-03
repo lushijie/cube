@@ -51,7 +51,7 @@
 <script>
   import Utils from 'utils';
   import Store from 'store';
-  import { mapState } from 'vuex';
+  import { mapState, mapGetters } from 'vuex';
   import CubeList from './cube-list.vue';
   import CubeStruct from './cube-struct.vue';
   import CubePreview from './cube-preview.vue';
@@ -72,26 +72,24 @@
     },
 
     methods: {
-      handleTreeChange() {
-        console.debug('treeChange...');
-        this.$root.bus.$emit('treeChange');
+      handleTreeStructChange() {
+        console.debug('structChange...');
+        this.$root.bus.$emit('structChange');
       },
 
       cacheTree() {
         this.saveLoading = true;
         setTimeout(() => {
           this.treeInst.cacheTree();
-          this.$root.bus.$emit('treeChange');
+          this.$root.bus.$emit('structChange');
           this.saveLoading = false;
         }, 300);
       }
     },
 
     computed: {
-      ...mapState('cube', ['isTreeSaved', 'tree']),
-      struct() {
-        return Utils.extend({}, this.tree.struct);
-      }
+      ...mapGetters('cube', ['tree', 'struct']),
+      ...mapState('cube', ['isTreeSaved'])
     },
 
     mounted() {
@@ -111,15 +109,15 @@
         this.treeInst.cacheTree();
       }
 
-      this.$store.watch(this.$store.getters['cube/treeChange'], (pre, after) => {
+      this.$store.watch(this.$store.getters['cube/structChange'], (pre, after) => {
         if (!Utils.isDeepEqual(pre, after)) {
-          this.handleTreeChange();
+          this.handleTreeStructChange();
         }
 
         Store.commit('cube/updateTreeSaved', Utils.isDeepEqual(storedTree, this.tree));
       });
 
-      this.handleTreeChange();
+      this.handleTreeStructChange();
     }
   };
 </script>

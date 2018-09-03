@@ -25,7 +25,6 @@ const router = new VueRouter({
       children: [
         require('./dashboard/router'),
         // require('./create/router'),
-        // require('./test/router'),
       ]
     },
 

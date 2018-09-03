@@ -21,7 +21,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapGetters } from 'vuex';
   export default {
     props: {
     },
@@ -68,7 +68,7 @@
     },
 
     computed: {
-      ...mapState('cube', ['packages']),
+      ...mapGetters('cube', ['packages']),
     },
 
     mounted() {

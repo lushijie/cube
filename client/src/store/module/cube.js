@@ -4,9 +4,9 @@ export default {
   state: {
     packages: [],
     routeMeta: {},
-    isTreeSaved: true,
+    isTreeSaved: false,
     tree: {
-      id: 123456, // 默认 ID 会被复写掉
+      id: null, // 会被复写掉
       struct: {
         tag: 'block-root',
         uuid: Utils.uuid,
@@ -69,14 +69,22 @@ export default {
       return { ...state.tree };
     },
 
-    treeStruct(state) {
+    struct(state) {
       return { ...state.tree.struct };
     },
 
-    treeChange(state) {
+    structChange(state) {
       return () => {
         return { ...state.tree.struct };
       };
+    },
+
+    packages(state) {
+      return [ ...state.packages ];
+    },
+
+    routeMeta(state) {
+      return { ...state.routeMeta };
     }
   },
 

@@ -83,7 +83,7 @@
 
 <script>
   import Utils from 'utils';
-  import { mapState } from 'vuex';
+  import { mapGetters } from 'vuex';
   import djs from 'dom.js';
 
   export default {
@@ -318,7 +318,7 @@
     },
 
     computed: {
-      ...mapState('cube', ['packages']),
+      ...mapGetters('cube', ['packages']),
     },
 
     mounted() {

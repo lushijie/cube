@@ -22,7 +22,7 @@
     },
 
     mounted() {
-      this.$root.$data.bus.$on('treeChange', () => {
+      this.$root.$data.bus.$on('structChange', () => {
         this.treeInst.renderTree(); // treeInst mixin
       });
     }
