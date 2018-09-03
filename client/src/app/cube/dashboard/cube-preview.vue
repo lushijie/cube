@@ -30,10 +30,10 @@
 </script>
 
 <style>
-  /* 动态注入的结构，使用全局样式 */
+  /* 动态注入的结构，此处要使用使用全局样式 */
   .cube-selected {
     padding: 3px;
-    border: 1px solid #409eff;
+    border: 1px dashed #f00;
   }
 </style>
 <style scoped>

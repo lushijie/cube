@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="whole-container">
     <!-- 全局操作栏 -->
     <el-row>
       <el-col :span="6" style="float:right; text-align: right;">
@@ -14,32 +14,32 @@
 
     <el-row>
       <!-- 组件列表 -->
-      <el-col :span="6">
-        <h4>组件列表</h4>
+      <el-col :span="3">
+        <h4 class="col-title">组件列表</h4>
         <div class="grid-content cube-list-grid">
           <CubeList></CubeList>
         </div>
       </el-col>
 
       <!-- 组件操作 -->
-      <el-col :span="6">
-        <h4>组件操作</h4>
+      <el-col :span="5">
+        <h4 class="col-title">组件操作</h4>
         <div class="grid-content cube-tree-grid">
           <CubeStruct :menu="struct"></CubeStruct>
         </div>
       </el-col>
 
       <!-- 预览展示 -->
-      <el-col :span="6">
-        <h4>预览展示</h4>
+      <el-col :span="9">
+        <h4 class="col-title">预览展示</h4>
         <div class="grid-content cube-preview-grid">
           <CubePreview></CubePreview>
         </div>
       </el-col>
 
       <!-- 属性编辑 -->
-      <el-col :span="6">
-        <h4>属性编辑</h4>
+      <el-col :span="7">
+        <h4 class="col-title">属性编辑</h4>
         <div class="grid-content cube-prop-grid">
           <CubeProp></CubeProp>
         </div>
@@ -122,11 +122,19 @@
 </script>
 
 <style scoped>
+  .whole-container {
+    min-width: 900px;
+    padding-bottom: 30px;
+  }
   .el-col {
-    padding: 6px;
+    padding: 6px 15px;
+  }
+  .col-title {
+    font-weight: 700;
+    font-size: 16px;
   }
   .cube-tree-grid {
-    max-height: 95vh;
+    max-height: 90vh;
     overflow: auto
   }
 </style>

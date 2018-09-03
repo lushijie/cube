@@ -6,7 +6,7 @@ import Store from 'store';
 import 'filters';
 import 'plugins/cube';
 import 'mixins/cube';
-// import 'static/css/app.css';
+import 'static/css/reset.css';
 
 // ENV config
 Vue.config.devtools = INJECT.ENV !== 'production';

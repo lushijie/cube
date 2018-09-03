@@ -329,12 +329,8 @@
 
 <style scoped>
   .slot-container {
-    margin: 0 0 0 3px;
     list-style: none;
     padding: 0;
-  }
-  .slot-container:first-child {
-    margin: 0;
   }
   .slot-item {
     position: relative;
@@ -346,7 +342,6 @@
   }
   .menu-item {
     position: relative;
-    margin: 0;
     padding: 5px 10px;
     border-radius: 5px;
     border: 1px solid #409eff;

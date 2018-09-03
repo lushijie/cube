@@ -56,14 +56,15 @@ module.exports = {
   resolve: {
     extensions: ['.vue', '.es', '.js', '.css', '.scss', '.json'],
     alias: {
-      filters: path.join(SRC_PATH, `/filters`),
-      mixins: path.join(SRC_PATH, `/mixins`),
-      plugins: path.join(SRC_PATH, `/plugins`),
-      request: path.join(SRC_PATH, `/request`),
-      store: path.join(SRC_PATH, `/store`),
-      validators: path.join(SRC_PATH, `/validators`),
-      utils: path.join(SRC_PATH, `/utils`),
-      cube: path.join(SRC_PATH, `/app/cube`),
+      filters: path.join(SRC_PATH, '/filters'),
+      mixins: path.join(SRC_PATH, '/mixins'),
+      plugins: path.join(SRC_PATH, '/plugins'),
+      request: path.join(SRC_PATH, '/request'),
+      store: path.join(SRC_PATH, '/store'),
+      validators: path.join(SRC_PATH, '/validators'),
+      utils: path.join(SRC_PATH, '/utils'),
+      static: path.join(PRO_PATH, '/client/static'),
+      cube: path.join(SRC_PATH, '/app/cube'),
     }
   },
   optimization: {
