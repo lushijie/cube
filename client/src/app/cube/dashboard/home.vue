@@ -105,7 +105,7 @@
         Store.commit('cube/updateNode', storedTree);
       } else {
         // 如果不存在已经保存的，需要新建并保存
-        const initTree = Utils.extend({}, Store.state.cube.node);
+        const initTree = Utils.extend({}, this.node);
         initTree.id = treeId;
         Store.commit('cube/updateNode', initTree);
         this.treeInst.cacheTree();
@@ -116,7 +116,7 @@
           this.handleTreeChange();
         }
 
-        Store.commit('cube/setNodeSaved', Utils.isDeepEqual(storedTree, Store.state.cube.node));
+        Store.commit('cube/setNodeSaved', Utils.isDeepEqual(storedTree, this.node));
       });
 
       this.handleTreeChange();
