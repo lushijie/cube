@@ -18,7 +18,7 @@ module.exports = function({chunk}) {
     CHUNK: chunk,
     ENV: env,
     PRO_PATH
-  }
+  };
   const CONFIG = {
     common: {
       DEFINE: {
@@ -46,7 +46,7 @@ module.exports = function({chunk}) {
         }
       }
     }
-  }
+  };
 
   return helper.extend({}, CONFIG.common, CONFIG[env]);
-}
+};

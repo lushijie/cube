@@ -6,9 +6,7 @@
 */
 const webpack = require('webpack');
 const argv = require('yargs').argv;
-const chalk = require('chalk');
 const path = require('path');
-const helper = require('lushijie-utils');
 
 const VuePlugin = require('vue-loader/lib/plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -47,8 +45,8 @@ module.exports = {
   },
   devtool: isPubEnv ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
   output: {
-    path: path.join(PRO_PATH, `/client/static/dist/chunk_${CHUNK}`),
-    publicPath: `/static/dist/chunk_${CHUNK}`,
+    path: path.join(PRO_PATH, `/client/static/dist/${CHUNK}`),
+    publicPath: `/static/dist/${CHUNK}`,
     filename: isPubEnv ? `[name].[hash:6].js` : `[name].js`,
     chunkFilename: isPubEnv ? `[name].[chunkhash:6].chunk.js` : `[name].chunk.js`,
   },
@@ -148,4 +146,4 @@ module.exports = {
       template: path.join(PRO_PATH, `/client/src/app/${CHUNK}/index.html`)
     })
   ]
-}
+};
