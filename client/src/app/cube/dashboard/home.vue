@@ -25,7 +25,7 @@
       <el-col :span="6">
         <h4>组件操作</h4>
         <div class="grid-content cube-tree-grid">
-          <CubeStruct :menu="tree"></CubeStruct>
+          <CubeStruct :menu="struct"></CubeStruct>
         </div>
       </el-col>
 
@@ -88,9 +88,9 @@
     },
 
     computed: {
-      ...mapState('cube', ['isTreeSaved', 'node']),
-      tree() {
-        return Utils.extend({}, this.node.tree);
+      ...mapState('cube', ['isTreeSaved', 'tree']),
+      struct() {
+        return Utils.extend({}, this.tree.struct);
       }
     },
 

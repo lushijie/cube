@@ -25,7 +25,7 @@ export default class Tree {
    * @return object
    */
   getTree() {
-    return Utils.extend({}, Store.state.cube.node.tree);
+    return Utils.extend({}, Store.state.cube.tree.struct);
   }
 
   /**
@@ -36,7 +36,7 @@ export default class Tree {
     const cacheId = this.getCacheId(this.getTreeId());
     window.localStorage.setItem(cacheId, JSON.stringify({
       id: this.getTreeId(),
-      tree: this.getTree()
+      struct: this.getTree()
     }));
 
     Store.commit('cube/setNodeSaved', true);

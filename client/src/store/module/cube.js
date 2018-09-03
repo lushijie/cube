@@ -5,9 +5,9 @@ export default {
     packages: [],
     routeMeta: {},
     isTreeSaved: true,
-    node: {
+    tree: {
       id: 123456, // 默认 ID 会被复写掉
-      tree: {
+      struct: {
         tag: 'block-root',
         uuid: Utils.uuid,
         label: '页面容器',
@@ -71,7 +71,7 @@ export default {
 
     treeChange(state) {
       return () => {
-        return { ...state.node.tree };
+        return { ...state.tree.struct };
       };
     }
   },
@@ -88,7 +88,7 @@ export default {
     },
 
     updateTree(state, payload) {
-      state.node.tree = { ...payload };
+      state.tree.struct = { ...payload };
     },
 
     updateNode(state, payload) {
