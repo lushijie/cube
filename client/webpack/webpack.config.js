@@ -119,7 +119,7 @@ module.exports = {
           loader: 'url-loader',
           options: {
             limit: 8192,
-            name: './img/[name].[hash:6].[ext]'
+            name: '../../img/[name].[hash:6].[ext]'
           }
         }]
       },
@@ -129,7 +129,7 @@ module.exports = {
           loader: 'url-loader',
           options: {
             limit: 8192,
-            name: './font/[name].[hash:6].[ext]'
+            name: '../../font/[name].[hash:6].[ext]'
           }
         }]
       }
@@ -143,6 +143,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin(getDefineOptions(CONF.DEFINE)),
     new HtmlWebpackPlugin({
+      filename: `../../${CHUNK}.html`,
       template: path.join(PRO_PATH, `/client/src/app/${CHUNK}/index.html`)
     })
   ]
