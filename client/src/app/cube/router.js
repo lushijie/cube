@@ -1,9 +1,3 @@
-/*
-* @Author: lushijie
-* @Date:   2017-01-17 14:32:02
-* @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-15 14:59:34
-*/
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import BlankLayout from 'cube/scope/layouts/blank.vue';
@@ -23,8 +17,7 @@ const router = new VueRouter({
       redirect: 'dashboard',
       component: BlankLayout,
       children: [
-        require('./dashboard/router'),
-        // require('./create/router'),
+        require('./dashboard/router')
       ]
     },
 
