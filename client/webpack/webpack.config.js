@@ -119,7 +119,7 @@ module.exports = {
           loader: 'url-loader',
           options: {
             limit: 8192,
-            name: '../../img/[name].[hash:6].[ext]'
+            name: `../../img/${CHUNK}/[name].[hash:6].[ext]`
           }
         }]
       },
@@ -129,7 +129,7 @@ module.exports = {
           loader: 'url-loader',
           options: {
             limit: 8192,
-            name: '../../font/[name].[hash:6].[ext]'
+            name: `../../font/${CHUNK}/[name].[hash:6].[ext]`
           }
         }]
       }
