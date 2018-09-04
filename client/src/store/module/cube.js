@@ -90,8 +90,7 @@ export default {
     },
 
     updateTree(state, payload) {
-      state.tree = { ...payload
-      };
+      state.tree = { ...payload };
     },
 
     updateTreeSaved(state, payload) {
