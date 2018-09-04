@@ -347,11 +347,6 @@ export default class Tree {
       throw new Error('外部容器不存在');
     }
 
-    // for second+ time render
-    if (!document.getElementById(innerId)) {
-      document.getElementById(outerId).outerHTML = `<div id="${outerId}"><div id="${innerId}"></div></div>`;
-    };
-
     function createComponent(node, h) {
       const tag = node.tag;
       const properties = node.properties || {};
@@ -382,6 +377,11 @@ export default class Tree {
         return createComponent(self.getStruct(), h);
       },
     });
+
+    // for second+ time render
+    if (!document.getElementById(innerId)) {
+      document.getElementById(outerId).outerHTML = `<div id="${outerId}"><div id="${innerId}"></div></div>`;
+    };
 
     new RootComponent().$mount(`#${innerId}`);
   }
