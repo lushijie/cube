@@ -17,7 +17,8 @@ const router = new VueRouter({
       redirect: 'dashboard',
       component: BlankLayout,
       children: [
-        require('./dashboard/router')
+        require('./dashboard/router'),
+        require('./build/router')
       ]
     },
 

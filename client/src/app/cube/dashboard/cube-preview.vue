@@ -35,6 +35,11 @@
     padding: 3px;
     border: 1px dashed #f00;
   }
+
+  .build .cube-selected {
+    padding: 0;
+    border: none;
+  }
 </style>
 <style scoped>
 

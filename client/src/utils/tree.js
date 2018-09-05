@@ -2,7 +2,7 @@ import Store from 'store';
 import Utils from 'utils';
 import Vue from 'vue';
 // import packages from 'cube/packages';
-const registedComponents = new Set();
+// const registedComponents = new Set();
 
 export default class Tree {
   /**
@@ -342,7 +342,7 @@ export default class Tree {
    * @param  {String} innerId [description]
    * @return {[type]}         [description]
    */
-  renderTree(outerId = 'cube-preview', innerId = 'cube-preview-inner') {
+  renderTree(struct, outerId = 'cube-preview', innerId = 'cube-preview-inner') {
     if (!document.getElementById(outerId)) {
       throw new Error('外部容器不存在');
     }
@@ -362,19 +362,18 @@ export default class Tree {
       }));
     }
 
-    // 注册使用到的组件
-    this.getUsedComponents().forEach(componentName => {
-      if (!registedComponents.has(componentName)) {
-        registedComponents.add(componentName);
-        // Vue.component(componentName, packages[componentName].component);
-        Vue.component(componentName, Utils.interop(require(`../app/cube/packages/${componentName}.vue`)));
-      }
-    });
+    // // 注册使用到的组件
+    // this.getUsedComponents().forEach(componentName => {
+    //   if (!registedComponents.has(componentName)) {
+    //     registedComponents.add(componentName);
+    //     Vue.component(componentName, packages[componentName].component);
+    //   }
+    // });
 
-    const self = this;
+    struct = struct || this.getStruct();
     const RootComponent = Vue.component('root-component', {
       render: function(h) {
-        return createComponent(self.getStruct(), h);
+        return createComponent(struct, h);
       },
     });
 
