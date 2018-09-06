@@ -5,12 +5,16 @@ import Vue from 'vue';
 // const registedComponents = new Set();
 
 export default class Tree {
+  constructor(tree = {}) {
+    this.treeId = tree.id || Store.state.cube.tree.id;
+    this.struct = Utils.extend({}, tree.struct || Store.state.cube.tree.struct);
+  }
   /**
    * 获取树的存储Id
    * @return id
    */
   getTreeId() {
-    return Store.state.cube.tree.id;
+    return this.treeId;
   }
 
   /**
@@ -27,7 +31,7 @@ export default class Tree {
    * @return object
    */
   getStruct() {
-    return Utils.extend({}, Store.state.cube.tree.struct);
+    return this.struct;
   }
 
   /**
