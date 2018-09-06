@@ -18,7 +18,7 @@ const router = new VueRouter({
       component: BlankLayout,
       children: [
         require('./dashboard/router'),
-        require('./build/router')
+        require('./preview/router')
       ]
     },
 

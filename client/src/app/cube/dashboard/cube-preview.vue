@@ -36,7 +36,7 @@
     border: 1px dashed #f00;
   }
 
-  .build .cube-selected {
+  .preview-page .cube-selected {
     padding: 0;
     border: none;
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="build">
+  <div class="preview-page">
     <CubePreview></CubePreview>
   </div>
 </template>
