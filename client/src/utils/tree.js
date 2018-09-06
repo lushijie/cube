@@ -6,15 +6,17 @@ import Vue from 'vue';
 
 export default class Tree {
   constructor(tree = {}) {
-    this.treeId = tree.id || Store.state.cube.tree.id;
-    this.struct = Utils.extend({}, tree.struct || Store.state.cube.tree.struct);
+    if (tree.id) {
+      this.setCacheTree(tree.id, tree.struct);
+      Store.commit('cube/updateTree', tree);
+    }
   }
   /**
    * 获取树的存储Id
    * @return id
    */
   getTreeId() {
-    return this.treeId;
+    return Store.state.cube.tree.id;
   }
 
   /**
@@ -23,7 +25,7 @@ export default class Tree {
    * @return cacheId
    */
   getCacheId(treeid) {
-    return `tree-${treeid}`;
+    return `tree${treeid}`;
   }
 
   /**
@@ -31,7 +33,7 @@ export default class Tree {
    * @return object
    */
   getStruct() {
-    return this.struct;
+    return Utils.extend({}, Store.state.cube.tree.struct);
   }
 
   /**
@@ -60,11 +62,11 @@ export default class Tree {
    * 缓存树到localStorage
    * @return void
    */
-  setCacheTree(treeId) {
+  setCacheTree(treeId, struct) {
     const cacheId = this.getCacheId(treeId);
     window.localStorage.setItem(cacheId, JSON.stringify({
       id: treeId,
-      struct: this.getStruct()
+      struct: struct || this.getStruct()
     }));
 
     // 标记，已经缓存
@@ -346,7 +348,7 @@ export default class Tree {
    * @param  {String} innerId [description]
    * @return {[type]}         [description]
    */
-  renderTree(struct, outerId = 'cube-preview', innerId = 'cube-preview-inner') {
+  renderTree(outerId = 'cube-preview', innerId = 'cube-preview-inner') {
     if (!document.getElementById(outerId)) {
       throw new Error('外部容器不存在');
     }
@@ -374,7 +376,7 @@ export default class Tree {
     //   }
     // });
 
-    struct = struct || this.getStruct();
+    const struct = this.getStruct();
     const RootComponent = Vue.component('root-component', {
       render: function(h) {
         return createComponent(struct, h);

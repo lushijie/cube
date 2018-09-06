@@ -14,5 +14,10 @@ module.exports = {
       'exports': 'never',
       'functions': 'never'
     }],
+    'no-unused-vars': ["warn", {
+      'vars': 'all',
+      'args': 'none',
+      'ignoreRestSiblings': true
+    }]
   }
 }

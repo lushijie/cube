@@ -74,7 +74,7 @@
 
     methods: {
       // tree struct 变化处理事件
-      handleTreeStructChange() {
+      boradcastStructChange() {
         console.debug('structChange...');
         this.$root.bus.$emit('structChange');
       },
@@ -83,7 +83,7 @@
         this.saveLoading = true;
         setTimeout(() => {
           this.treeInst.setCacheTree(this.treeId);
-          this.$root.bus.$emit('structChange');
+          this.boradcastStructChange();
           this.saveLoading = false;
         }, 300);
       }
@@ -108,7 +108,7 @@
       // 监听struct change 事件
       this.$store.watch(this.$store.getters['cube/structChange'], (pre, after) => {
         if (!Utils.isDeepEqual(pre, after)) {
-          this.handleTreeStructChange();
+          this.boradcastStructChange();
         }
 
         // 设置树的保存状态
@@ -116,7 +116,7 @@
       });
 
       // 首次主动触发
-      this.handleTreeStructChange();
+      this.boradcastStructChange();
     }
   };
 </script>
