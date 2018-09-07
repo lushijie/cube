@@ -30,6 +30,7 @@
     },
 
     mounted() {
+      // console.info('a123456');
     }
   };
 </script>

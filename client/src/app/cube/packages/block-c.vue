@@ -22,6 +22,7 @@
     },
 
     mounted() {
+      // console.info('c123456');
     }
   };
 </script>

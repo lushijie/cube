@@ -28,6 +28,7 @@
     },
 
     mounted() {
+      console.info('r123456');
     }
   };
 </script>
