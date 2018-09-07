@@ -21,8 +21,8 @@
     },
 
     mounted() {
-      const treeId = this.currentRouteData.query.id; // 在 URL 中获取 tree id
-      const cacheTree = this.treeInst.getCacheTree(treeId); // localStorage读取
+      const treeId = this.currentRouteData.query.id;
+      const cacheTree = this.treeInst.getCacheTree(treeId);
       const treeInst = new Tree(cacheTree);
       treeInst.renderTree();
     }

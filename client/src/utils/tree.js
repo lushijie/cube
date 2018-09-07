@@ -2,7 +2,7 @@ import Store from 'store';
 import Utils from 'utils';
 import Vue from 'vue';
 // import packages from 'cube/packages';
-// const registedComponents = new Set();
+const registedComponents = new Set();
 
 export default class Tree {
   constructor(tree = {}) {
@@ -368,26 +368,31 @@ export default class Tree {
       }));
     }
 
-    // // 注册使用到的组件
-    // this.getUsedComponents().forEach(componentName => {
-    //   if (!registedComponents.has(componentName)) {
-    //     registedComponents.add(componentName);
-    //     Vue.component(componentName, packages[componentName].component);
-    //   }
-    // });
-
-    const struct = this.getStruct();
-    const RootComponent = Vue.component('root-component', {
-      render: function(h) {
-        return createComponent(struct, h);
-      },
+    const usedComponentsPromise = this.getUsedComponents().map(componentName => {
+      if (!registedComponents.has(componentName)) {
+        registedComponents.add(componentName);
+        return require.ensure([], async() => {
+          Vue.component(componentName, Vue.extend(require(`../app/cube/packages/${componentName}.vue`).default));
+          return Promise.resolve(componentName);
+        });
+      }
     });
 
-    // for second+ time render
-    if (!document.getElementById(innerId)) {
-      document.getElementById(outerId).outerHTML = `<div id="${outerId}"><div id="${innerId}"></div></div>`;
-    };
+    Promise.all(usedComponentsPromise).then(() => {
+      // treeInst.renderTree();
+      const struct = this.getStruct();
+      const RootComponent = Vue.component('root-component', {
+        render: function(h) {
+          return createComponent(struct, h);
+        },
+      });
 
-    new RootComponent().$mount(`#${innerId}`);
+      // for second+ time render
+      if (!document.getElementById(innerId)) {
+        document.getElementById(outerId).outerHTML = `<div id="${outerId}"><div id="${innerId}"></div></div>`;
+      };
+
+      new RootComponent().$mount(`#${innerId}`);
+    });
   }
 }

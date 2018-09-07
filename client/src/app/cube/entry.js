@@ -17,7 +17,7 @@ Vue.config.errorHandler = function(err, vm) {
   console.warn(err, vm);
 };
 
-// 格式化 components 信息另行存储
+// 格式化 components 信息
 const formatPackages = [];
 (function() {
   Object.keys(packages).forEach((key) => {
@@ -28,7 +28,7 @@ const formatPackages = [];
     });
 
     // 不再全量注册，移动到 renderTree 中实现
-    Vue.component(key, packages[key].component);
+    // // Vue.component(key, packages[key].component);
   });
   Store.commit('cube/addPackages', formatPackages);
 })();
