@@ -1,7 +1,6 @@
 import Store from 'store';
 import Utils from 'utils';
 import Vue from 'vue';
-// import packages from 'cube/packages';
 const registedComponents = new Set();
 
 export default class Tree {
@@ -372,7 +371,7 @@ export default class Tree {
       if (!registedComponents.has(componentName)) {
         registedComponents.add(componentName);
         return require.ensure([], async() => {
-          Vue.component(componentName, Vue.extend(require(`../app/cube/packages/${componentName}.vue`).default));
+          Vue.component(componentName, Vue.extend(require(`cube/packages/${componentName}.vue`).default));
           return Promise.resolve(componentName);
         });
       }
