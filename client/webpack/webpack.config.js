@@ -71,9 +71,9 @@ module.exports = {
     minimizer: [
       isPubEnv ? new UglifyJsPlugin() : function() {}
     ],
-    // splitChunks: {
-    //   chunks: 'all'
-    // }
+    splitChunks: {
+      chunks: 'all'
+    }
   },
   performance: {
     maxAssetSize: isPubEnv ? 1 * 1024 * 1024 : 5 * 1024 * 1024,
@@ -152,6 +152,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin(getDefineOptions(CONF.DEFINE)),
     new HtmlWebpackPlugin({
+      inject: true,
       filename: `../../${CHUNK}.html`,
       template: path.join(PRO_PATH, `/client/src/app/${CHUNK}/index.html`)
     })
