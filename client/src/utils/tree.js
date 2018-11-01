@@ -367,42 +367,26 @@ export default class Tree {
       }));
     }
 
-    const usedComponentsPromise = this.getUsedComponents().map(componentName => {
+    this.getUsedComponents().map(componentName => {
       if (!registedComponents.has(componentName)) {
         registedComponents.add(componentName);
-        return require.ensure([], async() => {
-          // Vue.component(componentName, Vue.extend(require(`cube/packages/${componentName}.vue`).default));
-          return {
-            name: componentName,
-            component: import(`../app/cube/packages/${componentName}.vue`)
-          };
-          // Vue.component(componentName, Vue.extend(require(`cube/packages/${componentName}.vue`).default));
-          // return Promise.resolve(componentName);
-        });
+        Vue.component(componentName, Vue.extend(require(`cube/packages/${componentName}.vue`).default));
       }
     });
 
-    Promise.all(usedComponentsPromise).then((list) => {
-      list.forEach(mod => {
-        console.info(mod.component);
-        mod.component.then(a => {
-          console.info(a.default);
-          Vue.extend(mod.name, Vue.extend(a.default));
-        });
-      });
-      const struct = this.getStruct();
-      const RootComponent = Vue.component('root-component', {
-        render: function(h) {
-          return createComponent(struct, h);
-        },
-      });
-
-      // for second+ time render
-      if (!document.getElementById(innerId)) {
-        document.getElementById(outerId).outerHTML = `<div id="${outerId}"><div id="${innerId}"></div></div>`;
-      };
-
-      new RootComponent().$mount(`#${innerId}`);
+    const struct = this.getStruct();
+    const RootComponent = Vue.component('root-component', {
+      render: function(h) {
+        return createComponent(struct, h);
+      },
     });
+
+    // for second+ time render
+    if (!document.getElementById(innerId)) {
+      document.getElementById(outerId).outerHTML = `<div id="${outerId}"><div id="${innerId}"></div></div>`;
+    };
+
+    new RootComponent().$mount(`#${innerId}`);
+  //   });
   }
 }

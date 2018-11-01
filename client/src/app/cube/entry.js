@@ -26,9 +26,6 @@ const formatPackages = [];
       label: packages[key].label,
       config: packages[key].config
     });
-
-    // 不再全量注册，移动到 renderTree 中实现
-    // // Vue.component(key, packages[key].component);
   });
   Store.commit('cube/addPackages', formatPackages);
 })();
