@@ -367,26 +367,29 @@ export default class Tree {
       }));
     }
 
-    this.getUsedComponents().map(componentName => {
+    const componentPromiseList = this.getUsedComponents().map(componentName => {
       if (!registedComponents.has(componentName)) {
         registedComponents.add(componentName);
-        Vue.component(componentName, Vue.extend(require(`cube/packages/${componentName}.vue`).default));
+        return import(`cube/packages/${componentName}.vue`).then(_ => {
+          Vue.component(componentName, Vue.extend(_.default));
+        });
       }
     });
 
-    const struct = this.getStruct();
-    const RootComponent = Vue.component('root-component', {
-      render: function(h) {
-        return createComponent(struct, h);
-      },
+    Promise.all(componentPromiseList).then(() => {
+      const struct = this.getStruct();
+      const RootComponent = Vue.component('root-component', {
+        render: function(h) {
+          return createComponent(struct, h);
+        },
+      });
+
+      // for second+ time render
+      if (!document.getElementById(innerId)) {
+        document.getElementById(outerId).outerHTML = `<div id="${outerId}"><div id="${innerId}"></div></div>`;
+      };
+
+      new RootComponent().$mount(`#${innerId}`);
     });
-
-    // for second+ time render
-    if (!document.getElementById(innerId)) {
-      document.getElementById(outerId).outerHTML = `<div id="${outerId}"><div id="${innerId}"></div></div>`;
-    };
-
-    new RootComponent().$mount(`#${innerId}`);
-  //   });
   }
 }

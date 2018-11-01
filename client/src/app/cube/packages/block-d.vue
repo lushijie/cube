@@ -22,7 +22,7 @@
     },
 
     mounted() {
-      // console.info('d123456');
+      console.info('d123456');
     }
   };
 </script>

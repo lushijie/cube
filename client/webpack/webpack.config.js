@@ -71,9 +71,9 @@ module.exports = {
     minimizer: [
       isPubEnv ? new UglifyJsPlugin() : function() {}
     ],
-    splitChunks: {
-      chunks: 'all'
-    }
+    // splitChunks: {
+    //   chunks: 'all'
+    // }
   },
   performance: {
     maxAssetSize: isPubEnv ? 1 * 1024 * 1024 : 5 * 1024 * 1024,
