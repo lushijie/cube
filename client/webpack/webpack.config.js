@@ -72,8 +72,8 @@ module.exports = {
       isPubEnv ? new UglifyJsPlugin() : function() {}
     ],
     splitChunks: {
+      name: 'vendor.',
       chunks: 'all',
-      minSize: 100 * 1024
     }
   },
   performance: {
