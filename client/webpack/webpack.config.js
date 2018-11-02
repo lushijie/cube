@@ -48,7 +48,7 @@ module.exports = {
     path: path.join(PRO_PATH, `/client/static/dist/${CHUNK}`),
     publicPath: `/static/dist/${CHUNK}/`,
     filename: isPubEnv ? `[name].[hash:6].js` : `[name].js`,
-    chunkFilename: isPubEnv ? `[name][chunkhash:6].chunk.js` : `[name].chunk.js`,
+    chunkFilename: isPubEnv ? `[name].[chunkhash:6].chunk.js` : `[name].chunk.js`,
   },
   devServer: {
     contentBase: path.join(PRO_PATH, 'client')
@@ -149,9 +149,12 @@ module.exports = {
   plugins: [
     new VuePlugin(),
     new MiniCssExtractPlugin({
-      filename: isPubEnv ? '[name][chunkhash:6].style.css' : '[name].style.css'
+      filename: isPubEnv ? '[name].[chunkhash:6].style.css' : '[name].style.css'
     }),
     new webpack.DefinePlugin(getDefineOptions(CONF.DEFINE)),
+    new webpack.optimize.MinChunkSizePlugin({
+      minChunkSize: 30 * 1024
+    }),
     new HtmlWebpackPlugin({
       inject: true,
       filename: `../../${CHUNK}.html`,
