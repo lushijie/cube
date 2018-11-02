@@ -2,6 +2,6 @@
 
 npm install
 
-npm run cube:watch
+npm run watch
 
 http://localhost:8080/static/cube.html#/dashboard?id=123
