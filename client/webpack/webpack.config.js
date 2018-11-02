@@ -46,11 +46,9 @@ module.exports = {
   devtool: isPubEnv ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
   output: {
     path: path.join(PRO_PATH, `/client/static/dist/${CHUNK}`),
-    publicPath: `/static/dist/${CHUNK}`,
-    // filename: isPubEnv ? `[name].[hash:6].js` : `[name].js`,
-    filename: `[name].js`,
-    // chunkFilename: isPubEnv ? `[name][chunkhash:6].chunk.js` : `[name].chunk.js`,
-    chunkFilename: `[name].chunk.js`,
+    publicPath: `/static/dist/${CHUNK}/`,
+    filename: isPubEnv ? `[name].[hash:6].js` : `[name].js`,
+    chunkFilename: isPubEnv ? `[name][chunkhash:6].chunk.js` : `[name].chunk.js`,
   },
   devServer: {
     contentBase: path.join(PRO_PATH, 'client')
@@ -73,9 +71,10 @@ module.exports = {
     minimizer: [
       isPubEnv ? new UglifyJsPlugin() : function() {}
     ],
-    // splitChunks: {
-    //   chunks: 'all'
-    // }
+    splitChunks: {
+      chunks: 'all',
+      minSize: 100 * 1024
+    }
   },
   performance: {
     maxAssetSize: isPubEnv ? 1 * 1024 * 1024 : 5 * 1024 * 1024,
@@ -150,7 +149,7 @@ module.exports = {
   plugins: [
     new VuePlugin(),
     new MiniCssExtractPlugin({
-      filename: 'style.css'
+      filename: isPubEnv ? '[name][chunkhash:6].style.css' : '[name].style.css'
     }),
     new webpack.DefinePlugin(getDefineOptions(CONF.DEFINE)),
     new HtmlWebpackPlugin({

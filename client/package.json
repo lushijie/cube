@@ -6,9 +6,9 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue src --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cube:watch": "node start.js --chunk=cube --env=development && webpack-dev-server --config=./webpack/webpack.config.js --chunk=cube",
-    "cube:dev": "node start.js --chunk=cube --env=development && webpack --config=./webpack/webpack.config.js --chunk=cube -p",
-    "cube:pub": "node start.js --chunk=cube --env=production && webpack --config=./webpack/webpack.config.js --chunk=cube"
+    "watch": "node start.js --chunk=cube --env=development && webpack-dev-server --config=./webpack/webpack.config.js --chunk=cube",
+    "dev": "node start.js --chunk=cube --env=development && webpack --config=./webpack/webpack.config.js --chunk=cube -p",
+    "pub": "node start.js --chunk=cube --env=production && webpack --config=./webpack/webpack.config.js --chunk=cube"
   },
   "author": "lushijie1218@126.com",
   "license": "ISC",
