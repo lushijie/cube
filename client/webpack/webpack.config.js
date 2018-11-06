@@ -1,9 +1,3 @@
-/*
-* @Author: lushijie
-* @Date:   2017-05-12 14:00:40
-* @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-14 11:34:06
-*/
 const webpack = require('webpack');
 const argv = require('yargs').argv;
 const path = require('path');
@@ -152,9 +146,6 @@ module.exports = {
       filename: isPubEnv ? '[name].[chunkhash:6].style.css' : '[name].style.css'
     }),
     new webpack.DefinePlugin(getDefineOptions(CONF.DEFINE)),
-    new webpack.optimize.MinChunkSizePlugin({
-      minChunkSize: 30 * 1024
-    }),
     new HtmlWebpackPlugin({
       inject: true,
       filename: `../../${CHUNK}.html`,

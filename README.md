@@ -1,4 +1,6 @@
-# cube 魔方系统
+# cube 魔方系统技术复盘
+
+cd ./client
 
 npm install
 
