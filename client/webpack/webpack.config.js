@@ -27,7 +27,9 @@ module.exports = {
     chunkFilename: isPubEnv ? `[name].[chunkhash:6].chunk.js` : `[name].chunk.js`,
   },
   devServer: {
-    contentBase: path.join(PRO_ROOT_PATH, 'client/')
+    contentBase: path.join(PRO_ROOT_PATH, 'client/'),
+    open: true,
+    openPage: 'static/dist/cube/html/cube.html#/dashboard?id=123'
   },
   resolve: {
     extensions: ['.vue', '.es', '.js', '.css', '.scss', '.json'],
@@ -43,22 +45,27 @@ module.exports = {
       cube: path.join(SRC_PATH, '/app/cube'),
     }
   },
+  stats: {
+    colors: true,
+    // children: false,
+    chunks: false,
+  },
   optimization: {
     minimizer: [
       isPubEnv ? new UglifyJsPlugin({
         cache: true,
         parallel: true,
         sourceMap: PRODUCTION_SOURCEMAP,
-        // uglifyOptions: {
-        //   compress: {
-        //     drop_console: true, // 去除 console
-        //     keep_infinity: true, // 去除部分影响性能代码，如：1/0
-        //   },
-        //   output: {
-        //     comments: false, // 去除注释
-        //     beautify: false, // 紧凑输出
-        //   }
-        // }
+        uglifyOptions: {
+          compress: {
+            drop_console: true, // 去除 console
+            keep_infinity: true, // 去除部分影响性能代码，如：1/0
+          },
+          output: {
+            comments: false, // 去除注释
+            beautify: false, // 紧凑输出
+          }
+        }
       }) : noop,
       isPubEnv ? new OptimizeCSSAssetsPlugin({
         assetNameRegExp: /\.css\.*(?!.*map)/g, // 注意不要写成 /\.css$/g
@@ -113,7 +120,6 @@ module.exports = {
         test: /\.css$/,
         use: [
           isPubEnv ? MiniCssExtractPlugin.loader : 'vue-style-loader',
-          // 'css-loader',
           {
             loader: 'css-loader',
             options: { sourceMap: true },
