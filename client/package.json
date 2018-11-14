@@ -8,8 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm run watch",
     "watch": "node start.js --chunk=$CHUNK --env=development --mode=watch && webpack-dev-server --config=./webpack/webpack.config.js --chunk=$CHUNK",
-    "debug": "node start.js --chunk=$CHUNK --env=development --mode=debug && webpack --config=./webpack/webpack.config.js --chunk=$CHUNK -p",
-    "pub": "node start.js --chunk=$CHUNK --env=production --mode=pub && webpack --config=./webpack/webpack.config.js --chunk=$CHUNK"
+    "debug": "node start.js --chunk=$CHUNK --env=development --mode=debug && webpack --config=./webpack/webpack.config.js --chunk=$CHUNK --progress",
+    "pub": "node start.js --chunk=$CHUNK --env=production --mode=pub && webpack --config=./webpack/webpack.config.js --chunk=$CHUNK --progress"
   },
   "config": {
     "defaultChunk": "cube"

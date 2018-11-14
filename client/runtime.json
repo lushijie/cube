@@ -1,7 +1,7 @@
 {
   "cube": {
-    "env": "production",
-    "mode": "pub",
-    "time": "2018-11-14 17:16:20"
+    "env": "development",
+    "mode": "debug",
+    "time": "2018-11-14 17:42:29"
   }
 }

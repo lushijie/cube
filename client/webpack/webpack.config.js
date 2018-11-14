@@ -49,26 +49,26 @@ module.exports = {
         cache: true,
         parallel: true,
         sourceMap: PRODUCTION_SOURCEMAP,
-        uglifyOptions: {
-          // compress: {
-          //   drop_console: true, // 去除 console
-          //   keep_infinity: true, // 去除部分影响性能代码，如：1/0
-          // },
-          // output: {
-          //   comments: false, // 去除注释
-          //   beautify: false, // 紧凑输出
-          // }
+        // uglifyOptions: {
+        //   compress: {
+        //     drop_console: true, // 去除 console
+        //     keep_infinity: true, // 去除部分影响性能代码，如：1/0
+        //   },
+        //   output: {
+        //     comments: false, // 去除注释
+        //     beautify: false, // 紧凑输出
+        //   }
+        // }
+      }) : noop,
+      isPubEnv ? new OptimizeCSSAssetsPlugin({
+        assetNameRegExp: /\.css\.*(?!.*map)/g, // 注意不要写成 /\.css$/g
+        cssProcessor: require('cssnano'),
+        cssProcessorOptions: {
+          map: {
+            inline: !PRODUCTION_SOURCEMAP
+          }
         }
       }) : noop,
-      isPubEnv ? new OptimizeCSSAssetsPlugin(
-        PRODUCTION_SOURCEMAP ? {
-          cssProcessorOptions: {
-            map: {
-              inline: false // open css source map
-            }
-          }
-        } : {}
-      ) : noop
     ],
     splitChunks: {
       name: 'vendor',
