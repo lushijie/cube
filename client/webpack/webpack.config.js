@@ -49,21 +49,29 @@ module.exports = {
         parallel: true,
         sourceMap: false,
         uglifyOptions: {
-          compress: {
-            drop_console: true, // 去除 console
-            keep_infinity: true, // 去除部分影响性能代码，如：1/0
-          },
-          output: {
-            comments: false, // 去除注释
-            beautify: false, // 紧凑输出
-          }
+          // compress: {
+          //   drop_console: true, // 去除 console
+          //   keep_infinity: true, // 去除部分影响性能代码，如：1/0
+          // },
+          // output: {
+          //   comments: false, // 去除注释
+          //   beautify: false, // 紧凑输出
+          // }
         }
       }) : noop,
       isPubEnv ? new OptimizeCSSAssetsPlugin({}) : noop
     ],
     splitChunks: {
-      name: 'vendor',
-      chunks: 'all',
+      // name: 'vendor',
+      // chunks: 'all',
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true
+        }
+      }
     }
   },
   performance: {
@@ -132,7 +140,7 @@ module.exports = {
   plugins: [
     new VuePlugin(),
     new MiniCssExtractPlugin({
-      filename: './css/[name].[chunkhash:6].style.css'
+      filename: './css/[chunkhash:6].style.css'
     }),
     new webpack.DefinePlugin(CONF.DEFINE),
     new HtmlWebpackPlugin({
