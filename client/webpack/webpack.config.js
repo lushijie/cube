@@ -48,7 +48,7 @@ module.exports = {
   stats: {
     colors: true,
     children: false,
-    chunks: false,
+    warnings: false,
   },
   optimization: {
     minimizer: [
@@ -58,8 +58,8 @@ module.exports = {
         sourceMap: PRODUCTION_SOURCEMAP,
         uglifyOptions: {
           compress: {
-            drop_console: true, // 去除 console
-            keep_infinity: true, // 去除部分影响性能代码，如：1/0
+            // drop_console: true, // 去除 console
+            // keep_infinity: true, // 去除部分影响性能代码，如：1/0
           },
           output: {
             comments: false, // 去除注释
@@ -80,6 +80,7 @@ module.exports = {
     splitChunks: {
       name: 'vendor',
       chunks: 'all',
+      minChunks: Infinity
     }
   },
   performance: {
@@ -149,6 +150,12 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.optimize.MinChunkSizePlugin({
+      minChunkSize: 30 * 1024
+    }),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 15,
+    }),
     new VuePlugin(),
     new MiniCssExtractPlugin({
       filename: './css/[chunkhash:6].style.css'
