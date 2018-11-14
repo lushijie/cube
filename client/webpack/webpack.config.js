@@ -11,6 +11,7 @@ const CONF = require('./webpack.env.js')(argv.chunk || process.env.npm_package_c
 const { CHUNK, PRO_ROOT_PATH, MODE, ENV } = CONF;
 const SRC_PATH = path.join(PRO_ROOT_PATH, '/client/src');
 const isPubEnv = ENV === 'production';
+const PRODUCTION_SOURCEMAP = false;
 const noop = function() {};
 
 module.exports = {
@@ -47,7 +48,7 @@ module.exports = {
       isPubEnv ? new UglifyJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: false,
+        sourceMap: PRODUCTION_SOURCEMAP,
         uglifyOptions: {
           // compress: {
           //   drop_console: true, // 去除 console
@@ -59,19 +60,19 @@ module.exports = {
           // }
         }
       }) : noop,
-      isPubEnv ? new OptimizeCSSAssetsPlugin({}) : noop
+      isPubEnv ? new OptimizeCSSAssetsPlugin(
+        PRODUCTION_SOURCEMAP ? {
+          cssProcessorOptions: {
+            map: {
+              inline: false // open css source map
+            }
+          }
+        } : {}
+      ) : noop
     ],
     splitChunks: {
-      // name: 'vendor',
-      // chunks: 'all',
-      cacheGroups: {
-        styles: {
-          name: 'styles',
-          test: /\.css$/,
-          chunks: 'all',
-          enforce: true
-        }
-      }
+      name: 'vendor',
+      chunks: 'all',
     }
   },
   performance: {
@@ -112,7 +113,11 @@ module.exports = {
         test: /\.css$/,
         use: [
           isPubEnv ? MiniCssExtractPlugin.loader : 'vue-style-loader',
-          'css-loader',
+          // 'css-loader',
+          {
+            loader: 'css-loader',
+            options: { sourceMap: true },
+          },
         ]
       },
       {
