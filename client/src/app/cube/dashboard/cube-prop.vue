@@ -7,7 +7,7 @@
 <script>
   import Utils from 'utils';
   import PropItemVue from './cube-prop-item.vue';
-  import Tree from 'utils/tree.js';
+  import Tree from 'cube/scope/utils/tree.js';
   const treeInst = new Tree();
 
   export default {

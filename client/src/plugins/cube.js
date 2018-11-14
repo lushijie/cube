@@ -3,7 +3,8 @@ import {
   Button,
   Col,
   Input,
-  Row
+  Row,
+  ColorPicker
 } from 'element-ui';
 
 Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
@@ -12,6 +13,7 @@ Vue.use(Button);
 Vue.use(Col);
 Vue.use(Input);
 Vue.use(Row);
+Vue.use(ColorPicker);
 
 // // 舍弃全量引入
 // import ElementUI from 'element-ui';
