@@ -4,4 +4,4 @@ npm-debug.log
 sftp-config.json
 .vscode
 yarn-error.log
-static/dist
+static/dist/
