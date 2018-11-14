@@ -29,7 +29,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(PRO_ROOT_PATH, 'client/'),
     open: true,
-    openPage: 'static/dist/cube/html/cube.html#/dashboard?id=123'
+    openPage: `static/dist/cube/html/${CHUNK}.html#/dashboard?id=123`
   },
   resolve: {
     extensions: ['.vue', '.es', '.js', '.css', '.scss', '.json'],
@@ -47,7 +47,7 @@ module.exports = {
   },
   stats: {
     colors: true,
-    // children: false,
+    children: false,
     chunks: false,
   },
   optimization: {
@@ -158,6 +158,7 @@ module.exports = {
       inject: true,
       filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
       template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
+      // chunks: ['vendor', 'app']
     })
   ]
 };
