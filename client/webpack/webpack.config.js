@@ -1,51 +1,32 @@
 const webpack = require('webpack');
 const argv = require('yargs').argv;
 const path = require('path');
-
 const VuePlugin = require('vue-loader/lib/plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const CHUNK = argv.chunk;
-const CONF = require('./webpack.env.js')({chunk: CHUNK});
-const PRO_PATH = CONF.PRO_PATH;
-const SRC_PATH = path.join(PRO_PATH, '/client/src');
-const isPubEnv = CONF.ENV === 'production';
-
-function getDefineOptions(options) {
-  // 字符串sringify处理
-  function stringifyString(obj) {
-    obj = obj || {};
-    const keys = Object.keys(obj);
-    for (let i = 0; i < keys.length; i++) {
-      const key = keys[i];
-      const tmp = obj[key];
-      if (typeof tmp === 'string') {
-        obj[key] = JSON.stringify(tmp);
-      } else if (Object.prototype.toString.call(tmp) === '[object Object]') {
-        stringifyString(tmp);
-      }
-    }
-    return obj;
-  }
-  return stringifyString(options);
-}
+const CONF = require('./webpack.env.js')(argv.chunk || process.env.npm_package_config_defaultChunk);
+const { CHUNK, PRO_ROOT_PATH, MODE, ENV } = CONF;
+const SRC_PATH = path.join(PRO_ROOT_PATH, '/client/src');
+const isPubEnv = ENV === 'production';
+const noop = function() {};
 
 module.exports = {
   mode: CONF.ENV,
   entry: {
-    app: path.join(PRO_PATH, `/client/src/app/${CHUNK}/entry.js`)
+    app: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/entry.js`)
   },
   devtool: isPubEnv ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
   output: {
-    path: path.join(PRO_PATH, `/client/static/dist/${CHUNK}`),
-    publicPath: `/static/dist/${CHUNK}/`,
+    path: path.join(PRO_ROOT_PATH, `/client/static/dist/${CHUNK}`), // 打包文件输出路径，绝对路径
+    publicPath: `/static/dist/${CHUNK}/`, // 打包后浏览器访问服务时的 URL 路径
     filename: isPubEnv ? `[name].[hash:6].js` : `[name].js`,
     chunkFilename: isPubEnv ? `[name].[chunkhash:6].chunk.js` : `[name].chunk.js`,
   },
   devServer: {
-    contentBase: path.join(PRO_PATH, 'client')
+    contentBase: path.join(PRO_ROOT_PATH, 'client/')
   },
   resolve: {
     extensions: ['.vue', '.es', '.js', '.css', '.scss', '.json'],
@@ -57,64 +38,73 @@ module.exports = {
       store: path.join(SRC_PATH, '/store'),
       validators: path.join(SRC_PATH, '/validators'),
       utils: path.join(SRC_PATH, '/utils'),
-      static: path.join(PRO_PATH, '/client/static'),
+      static: path.join(PRO_ROOT_PATH, '/client/static'),
       cube: path.join(SRC_PATH, '/app/cube'),
     }
   },
   optimization: {
     minimizer: [
-      isPubEnv ? new UglifyJsPlugin() : function() {}
+      isPubEnv ? new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: false,
+        uglifyOptions: {
+          compress: {
+            drop_console: true, // 去除 console
+            keep_infinity: true, // 去除部分影响性能代码，如：1/0
+          },
+          output: {
+            comments: false, // 去除注释
+            beautify: false, // 紧凑输出
+          }
+        }
+      }) : noop,
+      isPubEnv ? new OptimizeCSSAssetsPlugin({}) : noop
     ],
     splitChunks: {
-      name: 'vendor.',
+      name: 'vendor',
       chunks: 'all',
     }
   },
   performance: {
     maxAssetSize: isPubEnv ? 1 * 1024 * 1024 : 5 * 1024 * 1024,
     maxEntrypointSize: isPubEnv ? 3 * 1024 * 1024 : 10 * 1024 * 1024,
-    assetFilter(assetFilename) { // 提供资源文件名的断言函数
+    assetFilter(assetFilename) {
       return assetFilename.endsWith('.css') || assetFilename.endsWith('.js');
     }
   },
-
   module: {
     rules: [
       {
         enforce: 'pre',
         test: /\.(j|e)s$|\.vue$/,
         use: 'eslint-loader',
-        include: [path.join(PRO_PATH, `/client/src`)],
-        exclude: [path.join(PRO_PATH, `/client/node_modules`)],
+        include: [path.join(PRO_ROOT_PATH, `/client/src`)],
+        exclude: [path.join(PRO_ROOT_PATH, `/client/node_modules`)],
       },
       {
         test: /\.vue$/,
         use: 'vue-loader',
-        include: [path.join(PRO_PATH, `/client/src`)],
-        exclude: [path.join(PRO_PATH, `/client/node_modules`)],
+        include: [path.join(PRO_ROOT_PATH, `/client/src`)],
+        exclude: [path.join(PRO_ROOT_PATH, `/client/node_modules`)],
       },
       {
         test: /\.(j|e)s$/,
         use: 'babel-loader?cacheDirectory',
-        include: [path.join(PRO_PATH, `/client/src`)],
-        exclude: [path.join(PRO_PATH, `/client/node_modules`)],
+        include: [path.join(PRO_ROOT_PATH, `/client/src`)],
+        exclude: [path.join(PRO_ROOT_PATH, `/client/node_modules`)],
       },
       {
         test: /\.json$/,
         use: 'json-loader',
-        include: [path.join(PRO_PATH, `/client/src`)],
-        exclude: [path.join(PRO_PATH, `/client/node_modules`)],
+        include: [path.join(PRO_ROOT_PATH, `/client/src`)],
+        exclude: [path.join(PRO_ROOT_PATH, `/client/node_modules`)],
       },
       {
         test: /\.css$/,
         use: [
           isPubEnv ? MiniCssExtractPlugin.loader : 'vue-style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: false
-            }
-          }
+          'css-loader',
         ]
       },
       {
@@ -123,7 +113,7 @@ module.exports = {
           loader: 'url-loader',
           options: {
             limit: 8192,
-            name: `../../img/${CHUNK}/[name].[hash:6].[ext]`
+            name: `./img/[name].[hash:6].[ext]`
           }
         }]
       },
@@ -133,23 +123,22 @@ module.exports = {
           loader: 'url-loader',
           options: {
             limit: 8192,
-            name: `../../font/${CHUNK}/[name].[hash:6].[ext]`
+            name: `./font/[name].[hash:6].[ext]`
           }
         }]
       }
     ]
   },
-
   plugins: [
     new VuePlugin(),
     new MiniCssExtractPlugin({
-      filename: isPubEnv ? '[name].[chunkhash:6].style.css' : '[name].style.css'
+      filename: './css/[name].[chunkhash:6].style.css'
     }),
-    new webpack.DefinePlugin(getDefineOptions(CONF.DEFINE)),
+    new webpack.DefinePlugin(CONF.DEFINE),
     new HtmlWebpackPlugin({
       inject: true,
-      filename: `../../${CHUNK}.html`,
-      template: path.join(PRO_PATH, `/client/src/app/${CHUNK}/index.html`)
+      filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
+      template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
     })
   ]
 };

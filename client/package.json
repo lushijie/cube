@@ -6,9 +6,13 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue src --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "node start.js --chunk=cube --env=development && webpack-dev-server --config=./webpack/webpack.config.js --chunk=cube",
-    "dev": "node start.js --chunk=cube --env=development && webpack --config=./webpack/webpack.config.js --chunk=cube -p",
-    "pub": "node start.js --chunk=cube --env=production && webpack --config=./webpack/webpack.config.js --chunk=cube"
+    "dev": "npm run watch",
+    "watch": "node start.js --chunk=$CHUNK --env=development --mode=watch && webpack-dev-server --config=./webpack/webpack.config.js --chunk=$CHUNK",
+    "debug": "node start.js --chunk=$CHUNK --env=development --mode=debug && webpack --config=./webpack/webpack.config.js --chunk=$CHUNK -p",
+    "pub": "node start.js --chunk=$CHUNK --env=production --mode=pub && webpack --config=./webpack/webpack.config.js --chunk=$CHUNK"
+  },
+  "config": {
+    "defaultChunk": "cube"
   },
   "author": "lushijie1218@126.com",
   "license": "ISC",
@@ -54,6 +58,7 @@
     "element-ui": "^2.4.6",
     "fs-extra": "^7.0.0",
     "lushijie-utils": "^1.0.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
