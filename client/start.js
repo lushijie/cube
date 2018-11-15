@@ -24,5 +24,5 @@ runtime[currentChunk] = {
 };
 fs.writeFileSync(filePath, JSON.stringify(runtime, null, 2));
 
+// clean last time output
 fs.removeSync(path.join(`./static/dist/${currentChunk}`));
-fs.removeSync(path.join(`./static/${currentChunk}.html`));
