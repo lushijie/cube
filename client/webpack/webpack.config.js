@@ -80,7 +80,6 @@ module.exports = {
     splitChunks: {
       name: 'vendor',
       chunks: 'all',
-      minChunks: Infinity
     }
   },
   performance: {
@@ -153,9 +152,9 @@ module.exports = {
     // new webpack.optimize.MinChunkSizePlugin({
     //   minChunkSize: 30 * 1024
     // }),
-    new webpack.optimize.LimitChunkCountPlugin({
-      maxChunks: 15,
-    }),
+    // new webpack.optimize.LimitChunkCountPlugin({
+    //   maxChunks: 15,
+    // }),
     new VuePlugin(),
     new MiniCssExtractPlugin({
       filename: './css/[name].[hash:6].css',
@@ -166,7 +165,6 @@ module.exports = {
       inject: true,
       filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
       template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
-      // chunks: ['vendor', 'app']
     })
   ]
 };
