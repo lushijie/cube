@@ -23,8 +23,8 @@ module.exports = {
   output: {
     path: path.join(PRO_ROOT_PATH, `/client/static/dist/${CHUNK}`), // 打包文件输出路径，绝对路径
     publicPath: `/static/dist/${CHUNK}/`, // 打包后浏览器访问服务时的 URL 路径
-    filename: isPubEnv ? `[name].[hash:6].js` : `[name].js`,
-    chunkFilename: isPubEnv ? `[name].[chunkhash:6].chunk.js` : `[name].chunk.js`,
+    filename: isPubEnv ? `./js/[name].[hash:6].js` : `./js/[name].js`,
+    chunkFilename: isPubEnv ? `./js/chunk/[name].[chunkhash:6].chunk.js` : `./js/chunk/[name].chunk.js`,
   },
   devServer: {
     contentBase: path.join(PRO_ROOT_PATH, 'client/'),
@@ -150,15 +150,16 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.optimize.MinChunkSizePlugin({
-      minChunkSize: 30 * 1024
-    }),
+    // new webpack.optimize.MinChunkSizePlugin({
+    //   minChunkSize: 30 * 1024
+    // }),
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 15,
     }),
     new VuePlugin(),
     new MiniCssExtractPlugin({
-      filename: './css/[chunkhash:6].style.css'
+      filename: './css/[name].[hash:6].css',
+      chunkFilename: './css/chunk/[name].[chunkhash:6].css'
     }),
     new webpack.DefinePlugin(CONF.DEFINE),
     new HtmlWebpackPlugin({
