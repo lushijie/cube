@@ -93,6 +93,13 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@lushijie/utils@^1.1.1":
+  version "1.1.1"
+  resolved "http://r.npm.sankuai.com/@lushijie/utils/download/@lushijie/utils-1.1.1.tgz#70622549934fda95739d69abe0c971d0ad039903"
+  dependencies:
+    core-util-is "^1.0.2"
+    uuid "~3.1.0"
+
 "@vue/component-compiler-utils@^2.0.0":
   version "2.1.1"
   resolved "http://r.npm.sankuai.com/@vue/component-compiler-utils/download/@vue/component-compiler-utils-2.1.1.tgz#9b084cb67023076860687002a29930d30b36ef56"
@@ -1748,7 +1755,7 @@ core-js@^2.4.0, core-js@^2.5.0:
   version "2.5.7"
   resolved "http://r.npm.sankuai.com/core-js/download/core-js-2.5.7.tgz#f972608ff0cead68b841a16a932d0b183791814e"
 
-core-util-is@~1.0.0:
+core-util-is@^1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "http://r.npm.sankuai.com/core-util-is/download/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
@@ -6498,6 +6505,10 @@ utils-merge@1.0.1:
 uuid@^3.0.1, uuid@^3.1.0:
   version "3.3.2"
   resolved "http://r.npm.sankuai.com/uuid/download/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
+
+uuid@~3.1.0:
+  version "3.1.0"
+  resolved "http://r.npm.sankuai.com/uuid/download/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
 
 v8-compile-cache@^2.0.0:
   version "2.0.2"

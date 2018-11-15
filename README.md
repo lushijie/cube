@@ -1,9 +1,7 @@
-# cube 魔方系统技术复盘
+## cube 魔方系统技术复盘
 
 cd ./client
 
-npm install
+yarn
 
-npm run watch
-
-http://localhost:8080/static/cube.html#/dashboard?id=123
+npm run dev
