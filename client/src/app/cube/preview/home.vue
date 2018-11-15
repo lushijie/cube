@@ -8,7 +8,7 @@
 
 <script>
   import CubePreview from 'cube/dashboard/cube-preview.vue';
-  import Tree from 'cube/scope/utils/tree.js';
+  import Tree from 'cube/helpers/tree.js';
   export default {
     components: {
       CubePreview

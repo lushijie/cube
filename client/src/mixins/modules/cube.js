@@ -1,4 +1,4 @@
-import Tree from 'cube/scope/utils/tree.js';
+import Tree from 'cube/helpers/tree.js';
 export default {
   data() {
     return {

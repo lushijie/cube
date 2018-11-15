@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import packages from 'cube/packages';
-import BlankLayout from 'cube/scope/layouts/blank.vue';
+import BlankLayout from 'cube/components/layouts/blank.vue';
 import Router from 'cube/router.js';
 import Store from 'store';
 import 'filters';
