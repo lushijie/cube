@@ -5,7 +5,7 @@
 * @Last Modified time: 2018-08-13 19:42:50
 */
 const path = require('path');
-const helper = require('lushijie-utils');
+const helper = require('@lushijie/utils');
 const fs = require('fs-extra');
 
 const stringifyDefineOptions = function(options) {
