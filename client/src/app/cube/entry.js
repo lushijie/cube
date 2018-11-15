@@ -4,8 +4,8 @@ import BlankLayout from 'cube/scope/layouts/blank.vue';
 import Router from 'cube/router.js';
 import Store from 'store';
 import 'filters';
-import 'plugins/cube';
-import 'mixins/cube';
+import 'mixins';
+import 'plugins';
 import 'static/css/reset.css';
 
 // ENV config

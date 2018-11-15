@@ -1,9 +1,3 @@
-/*
-* @Author: lushijie
-* @Date:   2017-06-20 09:34:17
-* @Last Modified by:   lushijie
-* @Last Modified time: 2018-08-15 17:06:56
-*/
 import Crypto from 'crypto';
 import Querystring from 'querystring';
 import DeepEqual from 'deep-equal';

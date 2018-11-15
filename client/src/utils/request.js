@@ -1,9 +1,3 @@
-/*
-* @Author: lushijie
-* @Date:   2018-01-22 10:02:54
-* @Last Modified by:   lushijie
-* @Last Modified time: 2018-06-22 10:49:07
-*/
 import Vue from 'vue';
 import Utils from 'utils';
 import VueResource from 'vue-resource';
