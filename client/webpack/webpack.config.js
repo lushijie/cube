@@ -34,15 +34,15 @@ module.exports = {
   resolve: {
     extensions: ['.vue', '.es', '.js', '.css', '.scss', '.json'],
     alias: {
+      app: path.join(SRC_PATH, '/app'),
       filters: path.join(SRC_PATH, '/filters'),
       mixins: path.join(SRC_PATH, '/mixins'),
       plugins: path.join(SRC_PATH, '/plugins'),
-      request: path.join(SRC_PATH, '/request'),
       store: path.join(SRC_PATH, '/store'),
       validators: path.join(SRC_PATH, '/validators'),
       utils: path.join(SRC_PATH, '/utils'),
+      [CHUNK]: path.join(SRC_PATH, `/app/${CHUNK}`),
       static: path.join(PRO_ROOT_PATH, '/client/static'),
-      cube: path.join(SRC_PATH, '/app/cube'),
     }
   },
   stats: {
