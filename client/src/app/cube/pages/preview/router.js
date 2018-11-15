@@ -1,8 +1,7 @@
 import HomeView from './home.vue';
 
 module.exports = {
-  path: 'dashboard',
-  meta: {
-  },
+  path: 'preview',
+  meta: {},
   component: HomeView
 };

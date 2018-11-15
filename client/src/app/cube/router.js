@@ -17,11 +17,10 @@ const router = new VueRouter({
       redirect: 'dashboard',
       component: BlankLayout,
       children: [
-        require('./dashboard/router'),
-        require('./preview/router')
+        require('./pages/dashboard/router'),
+        require('./pages/preview/router')
       ]
     },
-
     {
       path: '*',
       component: NotFound

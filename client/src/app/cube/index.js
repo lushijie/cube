@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import packages from 'cube/packages';
+import packages from 'cube/lib/packages';
 import BlankLayout from 'cube/components/layouts/blank.vue';
 import Router from 'cube/router.js';
 import Store from 'store';
@@ -8,11 +8,10 @@ import 'mixins';
 import 'plugins';
 import 'static/css/reset.css';
 
-// ENV config
 Vue.config.devtools = INJECT.ENV !== 'production';
 Vue.config.silent = INJECT.ENV === 'production';
 
-// 错误处理, 2.2.0+
+// 2.2.0+
 Vue.config.errorHandler = function(err, vm) {
   console.warn(err, vm);
 };

@@ -370,7 +370,7 @@ export default class Tree {
     const componentPromiseList = this.getUsedComponents().map(componentName => {
       if (!registedComponents.has(componentName)) {
         registedComponents.add(componentName);
-        return import(`cube/packages/${componentName}.vue`).then(_ => {
+        return import(`cube/lib/packages/${componentName}.vue`).then(_ => {
           Vue.component(componentName, Vue.extend(_.default));
         });
       }
