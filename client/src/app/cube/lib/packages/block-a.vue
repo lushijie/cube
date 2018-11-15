@@ -39,4 +39,8 @@
   .click-btn {
     cursor: pointer;
   }
+
+  .block-a {
+    color: red;
+  }
 </style>

@@ -28,4 +28,7 @@
 </script>
 
 <style scoped>
+  .block-c {
+    color: red;
+  }
 </style>

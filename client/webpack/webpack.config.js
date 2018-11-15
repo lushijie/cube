@@ -7,11 +7,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
+const ONLINE_SOURCE_MAP = false;
 const CONF = require('./webpack.env.js')(argv.chunk || process.env.npm_package_config_defaultChunk);
 const { CHUNK, PRO_ROOT_PATH, MODE, ENV } = CONF;
 const SRC_PATH = path.join(PRO_ROOT_PATH, '/client/src');
 const isPubEnv = ENV === 'production';
-const PRODUCTION_SOURCEMAP = false;
 const noop = function() {};
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
   entry: {
     app: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.js`)
   },
-  devtool: isPubEnv ? 'cheap-module-source-map' : 'cheap-module-eval-source-map',
+  devtool: isPubEnv ? (ONLINE_SOURCE_MAP && 'cheap-module-source-map') : 'cheap-module-eval-source-map',
   output: {
     path: path.join(PRO_ROOT_PATH, `/client/static/dist/${CHUNK}`), // 打包文件输出路径，绝对路径
     publicPath: `/static/dist/${CHUNK}/`, // 打包后浏览器访问服务时的 URL 路径
@@ -55,12 +55,9 @@ module.exports = {
       isPubEnv ? new UglifyJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: PRODUCTION_SOURCEMAP,
+        sourceMap: ONLINE_SOURCE_MAP,
         uglifyOptions: {
-          compress: {
-            // drop_console: true, // 去除 console
-            // keep_infinity: true, // 去除部分影响性能代码，如：1/0
-          },
+          compress: { },
           output: {
             comments: false, // 去除注释
             beautify: false, // 紧凑输出
@@ -71,8 +68,8 @@ module.exports = {
         assetNameRegExp: /\.css\.*(?!.*map)/g, // 注意不要写成 /\.css$/g
         cssProcessor: require('cssnano'),
         cssProcessorOptions: {
-          map: {
-            inline: !PRODUCTION_SOURCEMAP
+          map: ONLINE_SOURCE_MAP && {
+            inline: false
           }
         }
       }) : noop,
@@ -120,10 +117,7 @@ module.exports = {
         test: /\.css$/,
         use: [
           isPubEnv ? MiniCssExtractPlugin.loader : 'vue-style-loader',
-          {
-            loader: 'css-loader',
-            options: { sourceMap: true },
-          },
+          'css-loader'
         ]
       },
       {

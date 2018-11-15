@@ -34,4 +34,7 @@
 </script>
 
 <style scoped>
+  .block-root {
+    color: red;
+  }
 </style>
