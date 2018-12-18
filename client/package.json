@@ -60,6 +60,7 @@
     "deep-equal": "^1.0.1",
     "dom.js": "^0.2.0",
     "element-ui": "^2.4.6",
+    "postcss-pxtorem": "^4.0.1",
     "precss": "^4.0.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
