@@ -65,18 +65,36 @@ module.exports = {
         }
       }) : noop,
       isPubEnv ? new OptimizeCSSAssetsPlugin({
-        assetNameRegExp: /\.css\.*(?!.*map)/g, // 注意不要写成 /\.css$/g
+        assetNameRegExp: /\.css$/g, // 注意不要写成 /\.css$/g
         cssProcessor: require('cssnano'),
-        cssProcessorOptions: {
+        cssProcessorPluginOptions: {
+          safe: true,
           map: ONLINE_SOURCE_MAP && {
             inline: false
-          }
+          },
+          preset: ['default', {
+            discardComments: {
+              removeAll: true,
+            },
+          }]
         }
       }) : noop,
     ],
     splitChunks: {
       name: 'vendor',
       chunks: 'all',
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          chunks: 'all',
+          // test: /\.css$/,
+          test(m) {
+            return m.constructor.name === 'CssModule' && !!m.content;
+          },
+          enforce: true,
+          minSize: 40000,
+        },
+      },
     }
   },
   performance: {
@@ -159,6 +177,6 @@ module.exports = {
       inject: true,
       filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
       template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
-    })
+    }),
   ]
 };
