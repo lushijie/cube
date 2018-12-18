@@ -136,7 +136,9 @@ module.exports = {
         test: /\.css$/,
         use: [
           isPubEnv ? MiniCssExtractPlugin.loader : 'vue-style-loader',
-          'css-loader'
+          // 'css-loader',
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          { loader: 'postcss-loader' },
         ]
       },
       {
@@ -163,7 +165,7 @@ module.exports = {
   },
   plugins: [
     // new webpack.optimize.MinChunkSizePlugin({
-    //   minChunkSize: 30 * 1024
+    //   minChunkSize: 1 * 1024
     // }),
     // new webpack.optimize.LimitChunkCountPlugin({
     //   maxChunks: 15,
