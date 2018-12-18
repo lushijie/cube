@@ -84,6 +84,18 @@ module.exports = {
     splitChunks: {
       name: 'vendor',
       chunks: 'all',
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          chunks: 'all',
+          // test: /\.css$/,
+          test(m) {
+            return m.constructor.name === 'CssModule' && !!m.content;
+          },
+          enforce: true,
+          minSize: 40000,
+        },
+      },
     }
   },
   performance: {
