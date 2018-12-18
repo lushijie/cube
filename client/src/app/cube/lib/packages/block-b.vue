@@ -28,7 +28,5 @@
 </script>
 
 <style scoped>
-  .block-b {
-    color: red;
-  }
+
 </style>
