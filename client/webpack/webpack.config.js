@@ -15,6 +15,9 @@ const SRC_PATH = path.join(PRO_ROOT_PATH, '/client/src');
 const isPubEnv = ENV === 'production';
 const noop = function() {};
 
+console.log(path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`));
+console.log(path.resolve(__dirname, `../src/app/cube/index.html`));
+
 module.exports = {
   mode: CONF.ENV,
   entry: {
@@ -156,20 +159,21 @@ module.exports = {
       chunkFilename: './css/chunk/[name].[chunkhash:6].css'
     }),
     new webpack.DefinePlugin(CONF.DEFINE),
+
     // new HtmlWebpackPlugin({
     //   inject: true,
     //   filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
     //   template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
     // }),
+
     new ThunderPlugin({
       project: 'com.meituan.era',
       injectHTML: {
-        // inject: true,
+        inject: true,
         chunks: ['vendor', 'app'],
         styles: ['vendor', 'app'],
-        // filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
-        filename: `app.html`, // webpack-dev-server 无法识别 ..
-        template: path.resolve(__dirname, 'path/to/your/template/index.html'),
+        filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
+        template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
       }
     })
   ]
