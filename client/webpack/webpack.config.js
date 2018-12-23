@@ -6,10 +6,10 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const ThunderPlugin = require('@mtfe/thunder/plugin');
+// const ThunderPlugin = require('@mtfe/thunder/plugin');
 
 const CONF = require('./webpack.env.js')(argv.chunk || process.env.npm_package_config_defaultChunk);
-const { CHUNK, PRO_ROOT_PATH, MODE, ENV, SOURCE_MAP } = CONF;
+const { CHUNK, PRO_ROOT_PATH, ENV, SOURCE_MAP } = CONF;
 const SRC_PATH = path.join(PRO_ROOT_PATH, '/client/src');
 const isPubEnv = ENV === 'production';
 const noop = function() {};
@@ -57,7 +57,7 @@ module.exports = {
       new UglifyJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: SOURCE_MAP,
+        sourceMap: true,
         uglifyOptions: {
           compress: { },
           output: {
@@ -71,7 +71,7 @@ module.exports = {
         cssProcessor: require('cssnano'),
         cssProcessorPluginOptions: {
           safe: true,
-          map: SOURCE_MAP && {
+          map: {
             inline: false
           },
           preset: ['default', {
@@ -99,13 +99,13 @@ module.exports = {
       },
     }
   },
-  performance: {
-    maxAssetSize: isPubEnv ? 1 * 1024 * 1024 : 5 * 1024 * 1024,
-    maxEntrypointSize: isPubEnv ? 3 * 1024 * 1024 : 10 * 1024 * 1024,
-    assetFilter(assetFilename) {
-      return assetFilename.endsWith('.css') || assetFilename.endsWith('.js');
-    }
-  },
+  // performance: {
+  //   maxAssetSize: isPubEnv ? 1 * 1024 * 1024 : 5 * 1024 * 1024,
+  //   maxEntrypointSize: isPubEnv ? 3 * 1024 * 1024 : 10 * 1024 * 1024,
+  //   assetFilter(assetFilename) {
+  //     return assetFilename.endsWith('.css') || assetFilename.endsWith('.js');
+  //   }
+  // },
   module: {
     rules: [
       {

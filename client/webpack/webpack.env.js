@@ -59,7 +59,6 @@ module.exports = function(chunk) {
     },
 
     production: {
-      devtool: '',
       DEFINE: {
         INJECT: { // 注入系统的变量与 common 中进行merge操作
           DOMAIN: 'http://abc.com',
