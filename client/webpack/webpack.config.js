@@ -4,7 +4,7 @@ const path = require('path');
 const VuePlugin = require('vue-loader/lib/plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ThunderPlugin = require('@mtfe/thunder/plugin');
 
@@ -30,7 +30,8 @@ module.exports = {
   devServer: {
     contentBase: path.join(PRO_ROOT_PATH, 'client/'),
     open: true,
-    openPage: `static/dist/cube/html/${CHUNK}.html#/dashboard?id=123`
+    openPage: `static/dist/cube/html/${CHUNK}.html#/dashboard?id=123`,
+    disableHostCheck: true,
   },
   resolve: {
     extensions: ['.vue', '.es', '.js', '.css', '.scss', '.json'],
@@ -184,7 +185,7 @@ module.exports = {
     new ThunderPlugin({
       project: 'com.meituan.era',
       injectHTML: {
-        inject: true,
+        // inject: true,
         chunks: ['vendor', 'app'],
         styles: ['vendor', 'app'],
         filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
