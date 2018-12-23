@@ -37,6 +37,7 @@ module.exports = function(chunk) {
     ENV: env, // 运行环境
     PRO_ROOT_PATH, // 项目更目录
     MODE: runtime[chunk].mode, // 运行命令模式
+    SOURCE_MAP: true,
   };
   const CONFIG = {
     common: {

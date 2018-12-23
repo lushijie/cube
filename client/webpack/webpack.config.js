@@ -8,9 +8,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ThunderPlugin = require('@mtfe/thunder/plugin');
 
-const ONLINE_SOURCE_MAP = true;
 const CONF = require('./webpack.env.js')(argv.chunk || process.env.npm_package_config_defaultChunk);
-const { CHUNK, PRO_ROOT_PATH, MODE, ENV } = CONF;
+const { CHUNK, PRO_ROOT_PATH, MODE, ENV, SOURCE_MAP } = CONF;
 const SRC_PATH = path.join(PRO_ROOT_PATH, '/client/src');
 const isPubEnv = ENV === 'production';
 const noop = function() {};
@@ -20,7 +19,7 @@ module.exports = {
   entry: {
     app: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.js`)
   },
-  // devtool: isPubEnv ? (ONLINE_SOURCE_MAP && 'cheap-module-source-map') : 'cheap-module-eval-source-map',
+  // devtool: isPubEnv ? (SOURCE_MAP && 'cheap-module-source-map') : 'cheap-module-eval-source-map',
   devtool: 'source-map',
   output: {
     path: path.join(PRO_ROOT_PATH, `/client/static/dist/${CHUNK}`), // 打包文件输出路径，绝对路径
@@ -58,7 +57,7 @@ module.exports = {
       new UglifyJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: ONLINE_SOURCE_MAP,
+        sourceMap: SOURCE_MAP,
         uglifyOptions: {
           compress: { },
           output: {
@@ -72,7 +71,7 @@ module.exports = {
         cssProcessor: require('cssnano'),
         cssProcessorPluginOptions: {
           safe: true,
-          map: ONLINE_SOURCE_MAP && {
+          map: SOURCE_MAP && {
             inline: false
           },
           preset: ['default', {
@@ -143,13 +142,13 @@ module.exports = {
             loader: 'css-loader',
             options: {
               importLoaders: 1,
-              sourceMap: ONLINE_SOURCE_MAP,
+              sourceMap: SOURCE_MAP,
             }
           },
           {
             loader: 'postcss-loader', // config see in postcss.config.js
             options: {
-              sourceMap: ONLINE_SOURCE_MAP,
+              sourceMap: SOURCE_MAP,
             },
           },
         ]
@@ -185,6 +184,7 @@ module.exports = {
     }),
 
     new webpack.DefinePlugin(CONF.DEFINE),
+
     new HtmlWebpackPlugin({
       inject: true,
       filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
