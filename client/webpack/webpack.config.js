@@ -4,11 +4,11 @@ const path = require('path');
 const VuePlugin = require('vue-loader/lib/plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ThunderPlugin = require('@mtfe/thunder/plugin');
 
-const ONLINE_SOURCE_MAP = false;
+const ONLINE_SOURCE_MAP = true;
 const CONF = require('./webpack.env.js')(argv.chunk || process.env.npm_package_config_defaultChunk);
 const { CHUNK, PRO_ROOT_PATH, MODE, ENV } = CONF;
 const SRC_PATH = path.join(PRO_ROOT_PATH, '/client/src');
@@ -20,7 +20,8 @@ module.exports = {
   entry: {
     app: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.js`)
   },
-  devtool: isPubEnv ? (ONLINE_SOURCE_MAP && 'cheap-module-source-map') : 'cheap-module-eval-source-map',
+  // devtool: isPubEnv ? (ONLINE_SOURCE_MAP && 'cheap-module-source-map') : 'cheap-module-eval-source-map',
+  devtool: 'source-map',
   output: {
     path: path.join(PRO_ROOT_PATH, `/client/static/dist/${CHUNK}`), // 打包文件输出路径，绝对路径
     publicPath: `/static/dist/${CHUNK}/`, // 打包后浏览器访问服务时的 URL 路径
@@ -54,7 +55,7 @@ module.exports = {
   },
   optimization: {
     minimizer: [
-      isPubEnv ? new UglifyJsPlugin({
+      new UglifyJsPlugin({
         cache: true,
         parallel: true,
         sourceMap: ONLINE_SOURCE_MAP,
@@ -65,8 +66,8 @@ module.exports = {
             beautify: false, // 紧凑输出
           }
         }
-      }) : noop,
-      isPubEnv ? new OptimizeCSSAssetsPlugin({
+      }),
+      new OptimizeCSSAssetsPlugin({
         assetNameRegExp: /\.css$/g, // 注意不要写成 /\.css$/g
         cssProcessor: require('cssnano'),
         cssProcessorPluginOptions: {
@@ -80,7 +81,7 @@ module.exports = {
             },
           }]
         }
-      }) : noop,
+      }),
     ],
     splitChunks: {
       name: 'vendor',
@@ -136,10 +137,21 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          isPubEnv ? MiniCssExtractPlugin.loader : 'vue-style-loader',
-          // 'css-loader',
-          { loader: 'css-loader', options: { importLoaders: 1 } },
-          { loader: 'postcss-loader' },
+          // isPubEnv ? MiniCssExtractPlugin.loader : 'vue-style-loader',
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              sourceMap: ONLINE_SOURCE_MAP,
+            }
+          },
+          {
+            loader: 'postcss-loader', // config see in postcss.config.js
+            options: {
+              sourceMap: ONLINE_SOURCE_MAP,
+            },
+          },
         ]
       },
       {
@@ -165,32 +177,28 @@ module.exports = {
     ]
   },
   plugins: [
-    // new webpack.optimize.MinChunkSizePlugin({
-    //   minChunkSize: 1 * 1024
-    // }),
-    // new webpack.optimize.LimitChunkCountPlugin({
-    //   maxChunks: 15,
-    // }),
     new VuePlugin(),
+
     new MiniCssExtractPlugin({
       filename: './css/[name].[hash:6].css',
       chunkFilename: './css/chunk/[name].[chunkhash:6].css'
     }),
+
     new webpack.DefinePlugin(CONF.DEFINE),
-    // new HtmlWebpackPlugin({
-    //   inject: true,
-    //   filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
-    //   template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
-    // }),
-    new ThunderPlugin({
-      project: 'com.meituan.era',
-      injectHTML: {
-        // inject: true,
-        chunks: ['vendor', 'app'],
-        styles: ['vendor', 'app'],
-        filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
-        template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
-      }
-    })
+    new HtmlWebpackPlugin({
+      inject: true,
+      filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
+      template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
+    }),
+
+    // new ThunderPlugin({
+    //   project: 'com.meituan.era',
+    //   injectHTML: {
+    //     chunks: ['vendor', 'app'],
+    //     styles: ['vendor', 'app'],
+    //     filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
+    //     template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
+    //   }
+    // })
   ]
 };

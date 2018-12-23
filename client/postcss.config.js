@@ -1,9 +1,15 @@
 module.exports = {
   plugins: {
     'autoprefixer': {},
-    // 'postcss-pxtorem': {
-    //   propList: ['width', 'font', 'font-size', 'line-height', 'letter-spacing'],
-    // },
+
+    // https://www.npmjs.com/package/postcss-pxtorem
+    'postcss-pxtorem': {
+      // rootValue: 75,
+      // unitPrecision: 5,
+      // propList: ['*'],
+      propList: ['font-size'],
+    },
+
     'precss': {}
   }
 };
