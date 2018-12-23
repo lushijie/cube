@@ -1,7 +1,7 @@
 {
   "cube": {
     "env": "development",
-    "mode": "debug",
-    "time": 1545134227640
+    "mode": "watch",
+    "time": 1545551281529
   }
 }
