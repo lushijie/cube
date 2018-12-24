@@ -20,7 +20,7 @@ module.exports = {
     app: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.js`)
   },
   // devtool: isPubEnv ? (SOURCE_MAP && 'cheap-module-source-map') : 'cheap-module-eval-source-map',
-  devtool: 'source-map',
+  devtool: SOURCE_MAP ? (isPubEnv ? 'cheap-module-source-map' : 'eval') : '',
   output: {
     path: path.join(PRO_ROOT_PATH, `/client/static/dist/${CHUNK}`), // 打包文件输出路径，绝对路径
     publicPath: `/static/dist/${CHUNK}/`, // 打包后浏览器访问服务时的 URL 路径
@@ -54,7 +54,7 @@ module.exports = {
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
+      isPubEnv ? new UglifyJsPlugin({
         cache: true,
         parallel: true,
         sourceMap: true,
@@ -65,13 +65,16 @@ module.exports = {
             beautify: false, // 紧凑输出
           }
         }
-      }),
+      }) : noop,
       new OptimizeCSSAssetsPlugin({
         assetNameRegExp: /\.css$/g, // 注意不要写成 /\.css$/g
         cssProcessor: require('cssnano'),
+        cssProcessorOptions: {
+          map: SOURCE_MAP,
+        },
         cssProcessorPluginOptions: {
           safe: true,
-          map: {
+          sourceMap: SOURCE_MAP && {
             inline: false
           },
           preset: ['default', {
@@ -99,13 +102,6 @@ module.exports = {
       },
     }
   },
-  // performance: {
-  //   maxAssetSize: isPubEnv ? 1 * 1024 * 1024 : 5 * 1024 * 1024,
-  //   maxEntrypointSize: isPubEnv ? 3 * 1024 * 1024 : 10 * 1024 * 1024,
-  //   assetFilter(assetFilename) {
-  //     return assetFilename.endsWith('.css') || assetFilename.endsWith('.js');
-  //   }
-  // },
   module: {
     rules: [
       {
