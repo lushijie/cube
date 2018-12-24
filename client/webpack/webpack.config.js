@@ -20,7 +20,7 @@ module.exports = {
     app: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.js`)
   },
   // devtool: isPubEnv ? (SOURCE_MAP && 'cheap-module-source-map') : 'cheap-module-eval-source-map',
-  devtool: SOURCE_MAP ? (isPubEnv ? 'cheap-module-source-map' : 'eval') : '',
+  devtool: SOURCE_MAP ? 'cheap-module-source-map' : '',
   output: {
     path: path.join(PRO_ROOT_PATH, `/client/static/dist/${CHUNK}`), // 打包文件输出路径，绝对路径
     publicPath: `/static/dist/${CHUNK}/`, // 打包后浏览器访问服务时的 URL 路径
@@ -57,7 +57,7 @@ module.exports = {
       isPubEnv ? new UglifyJsPlugin({
         cache: true,
         parallel: true,
-        sourceMap: true,
+        sourceMap: SOURCE_MAP,
         uglifyOptions: {
           compress: { },
           output: {
