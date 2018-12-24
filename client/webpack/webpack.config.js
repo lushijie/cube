@@ -190,8 +190,7 @@ module.exports = {
     new ThunderPlugin({
       project: 'com.meituan.era',
       injectHTML: {
-        chunks: ['vendor', 'app', 'styles'],
-        styles: ['vendor', 'app', 'styles'],
+        chunks: ['styles', 'vendor', 'app'],
         filename: `./html/${CHUNK}.html`,
         template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
       }
