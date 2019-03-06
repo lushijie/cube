@@ -6,7 +6,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const ThunderPlugin = require('@mtfe/thunder/plugin');
+// const ThunderPlugin = require('@mtfe/thunder/plugin');
 
 const CONF = require('./webpack.env.js')(argv.chunk || process.env.npm_package_config_defaultChunk);
 const { CHUNK, PRO_ROOT_PATH, ENV, SOURCE_MAP } = CONF;
@@ -181,19 +181,20 @@ module.exports = {
 
     new webpack.DefinePlugin(CONF.DEFINE),
 
-    // new HtmlWebpackPlugin({
-    //   inject: true,
-    //   filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..
-    //   template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
-    // }),
-
-    new ThunderPlugin({
-      project: 'com.meituan.era',
-      injectHTML: {
-        chunks: ['styles', 'vendor', 'app'],
-        filename: `./html/${CHUNK}.html`,
-        template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
-      }
+    new HtmlWebpackPlugin({
+      inject: true,
+      filename: `./html/${CHUNK}.html`, // webpack-dev-server 无法识别 ..，所以这里使用 .
+      template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
     }),
+
+    // new ThunderPlugin({
+    //   project: 'com.meituan.era',
+    //   fallbackCDN: 'http://s1.meituan.net/bs',
+    //   injectHTML: {
+    //     chunks: ['styles', 'vendor', 'app'],
+    //     filename: `./html/${CHUNK}.html`,
+    //     template: path.join(PRO_ROOT_PATH, `/client/src/app/${CHUNK}/index.html`),
+    //   }
+    // }),
   ]
 };
