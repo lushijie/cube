@@ -1,6 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const argv = require('yargs').argv;
+const _ = require('./src/utils/modules/common');
 
 const defaultChunk = process.env.npm_package_config_defaultChunk;
 const currentChunk = argv.chunk || defaultChunk;
@@ -13,7 +14,7 @@ const runtime = JSON.parse(fs.readFileSync(filePath, {
 runtime[currentChunk] = {
   env: argv.env,
   mode: argv.mode,
-  time: +new Date()
+  time: _.dateTimeFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
 };
 fs.writeFileSync(filePath, JSON.stringify(runtime, null, 2));
 
