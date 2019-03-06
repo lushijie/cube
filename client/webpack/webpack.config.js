@@ -6,7 +6,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-// const ThunderPlugin = require('@mtfe/thunder/plugin');
+// const ThunderPlugin = require('@mtfe/thunder/plugin'); // "@mtfe/thunder
 
 const CONF = require('./webpack.env.js')(argv.chunk || process.env.npm_package_config_defaultChunk);
 const { CHUNK, PRO_ROOT_PATH, ENV, SOURCE_MAP } = CONF;

@@ -7,7 +7,7 @@ const path = require('path');
 const argv = require('yargs').argv;
 const cp = require('child_process');
 const chalk = require('chalk');
-const _ = require('./src/utils/modules/common');
+const helper = require('@lushijie/utils');
 
 const defaultChunk = process.env.npm_package_config_defaultChunk;
 const currentChunk = argv.chunk || defaultChunk;
@@ -33,7 +33,7 @@ const runtime = JSON.parse(fs.readFileSync(filePath, {
 runtime[currentChunk] = {
   mode: argv.mode,
   env: constants.modeEnvMap[argv.mode],
-  time: _.dateTimeFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
+  time: helper.dateTimeFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
 };
 fs.writeFileSync(filePath, JSON.stringify(runtime, null, 2));
 
