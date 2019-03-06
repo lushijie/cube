@@ -249,9 +249,10 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@mtfe/thunder@^2.1.2":
-  version "2.1.2"
-  resolved "http://r.npm.sankuai.com/@mtfe/thunder/download/@mtfe/thunder-2.1.2.tgz#80e326651a7780606c82d5f1ca9b4381296bb7a3"
+"@mtfe/thunder@^2.2.0":
+  version "2.2.3"
+  resolved "http://r.npm.sankuai.com/@mtfe/thunder/download/@mtfe/thunder-2.2.3.tgz#762dde077a957a96a615ca707d506106958f8222"
+  integrity sha1-di3eB3qVepamFcpwfVBhBpWPgiI=
   dependencies:
     "@mfe/thunder-stark-plugin" "^3.0.0"
     glob "^7.1.3"
@@ -1666,6 +1667,15 @@ chalk@^1.1.1, chalk@^1.1.3:
 chalk@^2.0.0, chalk@^2.0.1, chalk@^2.1.0, chalk@^2.4.1:
   version "2.4.1"
   resolved "http://r.npm.sankuai.com/chalk/download/chalk-2.4.1.tgz#18c49ab16a037b6eb0152cc83e3471338215b66e"
+  dependencies:
+    ansi-styles "^3.2.1"
+    escape-string-regexp "^1.0.5"
+    supports-color "^5.3.0"
+
+chalk@^2.4.2:
+  version "2.4.2"
+  resolved "http://r.npm.sankuai.com/chalk/download/chalk-2.4.2.tgz#cd42541677a54333cf541a49108c1432b44c9424"
+  integrity sha1-zUJUFnelQzPPVBpJEIwUMrRMlCQ=
   dependencies:
     ansi-styles "^3.2.1"
     escape-string-regexp "^1.0.5"

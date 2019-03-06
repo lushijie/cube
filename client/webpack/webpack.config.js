@@ -32,6 +32,7 @@ module.exports = {
     open: true,
     openPage: `static/dist/cube/html/${CHUNK}.html#/dashboard?id=123`,
     disableHostCheck: true,
+    // port: 8080,
   },
   resolve: {
     extensions: ['.vue', '.es', '.js', '.css', '.scss', '.json'],

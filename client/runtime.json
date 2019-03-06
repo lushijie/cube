@@ -1,7 +1,7 @@
 {
   "cube": {
-    "env": "development",
     "mode": "watch",
-    "time": "2019-03-06 10:11:45"
+    "env": "development",
+    "time": "2019-03-06 11:16:43"
   }
 }

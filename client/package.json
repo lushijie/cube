@@ -7,9 +7,9 @@
     "lint": "eslint --ext .js,.vue src --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm run watch",
-    "watch": "node start.js --chunk=$CHUNK --env=development --mode=watch && webpack-dev-server --config=./webpack/webpack.config.js --chunk=$CHUNK",
-    "debug": "node start.js --chunk=$CHUNK --env=development --mode=debug && webpack --config=./webpack/webpack.config.js --chunk=$CHUNK --progress",
-    "pub": "node start.js --chunk=$CHUNK --env=production --mode=pub && webpack --config=./webpack/webpack.config.js --chunk=$CHUNK --progress"
+    "watch": "node start.js --chunk=$CHUNK --mode=watch",
+    "debug": "node start.js --chunk=$CHUNK --mode=debug ",
+    "pub": "node start.js --chunk=$CHUNK --mode=pub"
   },
   "config": {
     "defaultChunk": "cube"
@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "@mtfe/thunder": "^2.2.0",
+    "chalk": "^2.4.2",
     "deep-equal": "^1.0.1",
     "dom.js": "^0.2.0",
     "element-ui": "^2.4.6",
