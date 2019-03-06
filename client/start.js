@@ -42,11 +42,8 @@ fs.removeSync(path.join(constants.distOutputPath));
 
 // listen output
 const cmd = argv.mode === 'watch' ? 'webpack-dev-server' : 'webpack';
-const arg = [`--config=${constants.webpackConfigPath}`, `--chunk=${currentChunk}`];
+const arg = [`--config=${constants.webpackConfigPath}`, `--chunk=${currentChunk}`, '--progress'];
 const runner = cp.spawn(cmd, arg, {stdio: 'inherit'});
-runner.stdout && runner.stdout.on('data', (data) => {
-  console.log(data.toString());
-});
-runner.stderr && runner.stderr.on('data', (data) => {
-  console.log(chalk.red(data.toString()));
+runner.on('close', code => {
+  console.log('child exists with code: ' + code);
 });
