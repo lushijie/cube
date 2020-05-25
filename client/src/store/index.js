@@ -32,6 +32,6 @@ const store = {
   strict: INJECT.ENV === 'development'
 };
 
-const chunkName = INJECT.CHUNK;
-store.modules[chunkName] = Utils.extend({}, Utils.interop(require('./modules/common')), Utils.interop(require(`./modules/${chunkName}`)));
+const chunkName = 'cube';
+store.modules[chunkName] = Utils.interop(require(`./modules/${chunkName}`));
 export default new Vuex.Store(store);

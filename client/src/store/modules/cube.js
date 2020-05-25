@@ -66,14 +66,17 @@ export default {
       return [ ...state.packages ];
     },
 
+    aviablePackages(state) {
+      return [ ...state.packages ].filter(ele => ele.config.visible);
+    },
+
     routeMeta(state) {
       return { ...state.routeMeta };
     },
 
     structChange(state) {
       return () => {
-        return { ...state.tree.struct
-        };
+        return { ...state.tree.struct };
       };
     }
   },

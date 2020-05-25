@@ -4,10 +4,9 @@
     <ul>
       <li
         class="block-component-item"
-        v-if="item.config.visible"
-        v-for="item in packages"
-        :key="item.tag"
         draggable="true"
+        v-for="item in aviablePackages"
+        :key="item.tag"
         :data-block-tag="item.tag"
         :data-block-label="item.label">
         <el-button
@@ -23,17 +22,6 @@
 <script>
   import { mapGetters } from 'vuex';
   export default {
-    props: {
-    },
-
-    components: {
-    },
-
-    data() {
-      return {
-      };
-    },
-
     methods: {
       // 组件注册拖拽事件
       bindDragEvent() {
@@ -53,7 +41,6 @@
               label: event.target.getAttribute('data-block-label')
             };
             window.localStorage.setItem('drag-info', JSON.stringify(info));
-            // event.dataTransfer.setData('drag-info', JSON.stringify(info));
           };
 
           target.ondrag = function(event) {
@@ -68,7 +55,7 @@
     },
 
     computed: {
-      ...mapGetters('cube', ['packages']),
+      ...mapGetters('cube', ['aviablePackages']),
     },
 
     mounted() {

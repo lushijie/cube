@@ -1,13 +1,13 @@
 <template>
   <div id="cube-prop">
-    <PropItemVue :attrs="bindProps"/>
+    <PropItem :attrs="bindProps"/>
   </div>
 </template>
 
 <script>
   import Utils from 'utils';
-  import PropItemVue from './cube-prop-item.vue';
-  import Tree from 'cube/common/tree.js';
+  import PropItem from './prop-item.vue';
+  import Tree from 'app/common/tree.js';
   const treeInst = new Tree();
 
   export default {
@@ -18,7 +18,7 @@
     },
 
     components: {
-      PropItemVue
+      PropItem
     },
 
     methods: {

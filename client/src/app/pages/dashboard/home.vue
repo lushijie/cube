@@ -6,7 +6,7 @@
         <el-button
           :type="isTreeSaved ? 'success' : 'danger'"
           @click="saveCacheTree"
-          :loading="saveLoading">
+          :loading="isSaving">
           {{ isTreeSaved ? '已保存' : '点击保存' }}
         </el-button>
       </el-col>
@@ -16,16 +16,16 @@
       <!-- 组件列表 -->
       <el-col :span="3">
         <h4 class="col-title">组件列表</h4>
-        <div class="grid-content cube-list-grid">
-          <CubeList></CubeList>
+        <div class="grid-content cube-nav-grid">
+          <Navbar />
         </div>
       </el-col>
 
       <!-- 组件操作 -->
       <el-col :span="5">
         <h4 class="col-title">组件操作</h4>
-        <div class="grid-content cube-tree-grid">
-          <CubeStruct :menu="struct"></CubeStruct>
+        <div class="grid-content cube-action-grid">
+          <Actionbar :menu="struct" />
         </div>
       </el-col>
 
@@ -33,15 +33,15 @@
       <el-col :span="9">
         <h4 class="col-title">预览展示</h4>
         <div class="grid-content cube-preview-grid">
-          <CubePreview></CubePreview>
+          <Preview />
         </div>
       </el-col>
 
       <!-- 属性编辑 -->
       <el-col :span="7">
         <h4 class="col-title">属性编辑</h4>
-        <div class="grid-content cube-prop-grid">
-          <CubeProp></CubeProp>
+        <div class="grid-content cube-edit-grid">
+          <Editbar />
         </div>
       </el-col>
     </el-row>
@@ -51,24 +51,24 @@
 <script>
   import Utils from 'utils';
   import Store from 'store';
+  import Navbar from './navbar.vue';
+  import Actionbar from './actionbar.vue';
+  import Preview from './preview.vue';
+  import Editbar from './edit/prop.vue';
   import { mapState, mapGetters } from 'vuex';
-  import CubeList from './cube-list.vue';
-  import CubeStruct from './cube-struct.vue';
-  import CubePreview from './cube-preview.vue';
-  import CubeProp from './cube-prop.vue';
 
   export default {
     components: {
-      CubeList,
-      CubeStruct,
-      CubePreview,
-      CubeProp
+      Navbar,
+      Actionbar,
+      Preview,
+      Editbar
     },
 
     data() {
       return {
         treeId: null,
-        saveLoading: false
+        isSaving: false
       };
     },
 
@@ -80,11 +80,11 @@
       },
 
       saveCacheTree() {
-        this.saveLoading = true;
+        this.isSaving = true;
         setTimeout(() => {
           this.treeInst.setCacheTree(this.treeId);
           this.boradcastStructChange();
-          this.saveLoading = false;
+          this.isSaving = false;
         }, 300);
       }
     },
@@ -133,7 +133,7 @@
     font-weight: 700;
     font-size: 16px;
   }
-  .cube-tree-grid {
+  .cube-action-grid {
     max-height: 90vh;
     overflow: auto
   }

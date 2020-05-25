@@ -1,5 +1,24 @@
 import Vue from 'vue';
-import Utils from 'utils';
+import Tree from 'app/common/tree.js';
 
-const chunkName = INJECT.CHUNK;
-Vue.mixin(Utils.extend({}, Utils.interop(require('./modules/common')), Utils.interop(require(`./modules/${chunkName}`))));
+Vue.mixin({
+  data() {
+    return {
+      treeInst: new Tree(),
+    };
+  },
+  computed: {
+    currentRouteData() {
+      const current = this.$router.history.current;
+      const data = { ...current };
+      data.matched = data.matched.map(item => {
+        return {
+          name: item.name,
+          path: item.path,
+          regex: item.regex
+        };
+      });
+      return data;
+    }
+  }
+});

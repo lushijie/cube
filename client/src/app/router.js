@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import BlankLayout from 'cube/components/layouts/blank.vue';
-import NotFound from 'cube/components/layouts/404.vue';
+import BlankLayout from 'app/components/layouts/blank.vue';
+import NotFound from 'app/components/layouts/404.vue';
 import Utils from 'utils';
 import Store from 'store';
 Vue.use(VueRouter);

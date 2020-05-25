@@ -7,12 +7,9 @@
     "lint": "eslint --ext .js,.vue src --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm run watch",
-    "watch": "node start.js --chunk=$CHUNK --mode=watch",
-    "debug": "node start.js --chunk=$CHUNK --mode=debug ",
-    "pub": "node start.js --chunk=$CHUNK --mode=pub"
-  },
-  "config": {
-    "defaultChunk": "cube"
+    "watch": "node start.js --mode=watch",
+    "debug": "node start.js --mode=debug ",
+    "pub": "node start.js --mode=pub"
   },
   "author": "lushijie1218@126.com",
   "license": "ISC",

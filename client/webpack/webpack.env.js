@@ -26,17 +26,16 @@ const stringifyDefineOptions = function(options) {
   return stringifyString(options);
 };
 
-module.exports = function(chunk) {
+module.exports = function() {
   const PRO_ROOT_PATH = path.join(__dirname, '..', '..');
   const runTimePath = path.join(PRO_ROOT_PATH, 'client/runtime.json');
   const runtime = JSON.parse(fs.readFileSync(runTimePath, { encoding: 'utf8' }) || '{}');
 
-  const env = runtime[chunk].env;
+  const { env, mode } = runtime;
   const temp = {
-    CHUNK: chunk, // 运行模块
     ENV: env, // 运行环境
     PRO_ROOT_PATH, // 项目更目录
-    MODE: runtime[chunk].mode, // 运行命令模式
+    MODE: mode, // 运行命令模式
     SOURCE_MAP: true,
   };
   const CONFIG = {

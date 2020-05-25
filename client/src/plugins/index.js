@@ -1,5 +1,20 @@
-import Utils from 'utils';
+// // 舍弃全量引入
+// import ElementUI from 'element-ui';
+// import 'element-ui/lib/theme-chalk/index.css';
+// Vue.use(ElementUI, { size: 'small' });
+import Vue from 'vue';
+import {
+  Button,
+  Col,
+  Input,
+  Row,
+  ColorPicker
+} from 'element-ui';
 
-const chunkName = INJECT.CHUNK;
-Utils.interop(require('./modules/common'));
-Utils.interop(require(`./modules/${chunkName}`));
+Vue.prototype.$ELEMENT = { size: 'small', zIndex: 3000 };
+
+Vue.use(Button);
+Vue.use(Col);
+Vue.use(Input);
+Vue.use(Row);
+Vue.use(ColorPicker);

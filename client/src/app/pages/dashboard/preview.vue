@@ -1,28 +1,12 @@
 <template>
-  <div id="cube-preview" class="grid-content cube-tree-preview">
-  </div>
+  <div id="cube-preview" class="grid-content cube-tree-preview"></div>
 </template>
 
 <script>
   export default {
-    data() {
-      return {
-      };
-    },
-
-    methods: {
-
-    },
-
-    computed: {
-    },
-
-    watch: {
-
-    },
-
     mounted() {
       this.$root.$data.bus.$on('structChange', () => {
+        console.log(123123);
         this.treeInst.renderTree(); // treeInst mixin
       });
     }

@@ -7,17 +7,11 @@
 </template>
 
 <script>
-  import CubePreview from 'cube/pages/dashboard/cube-preview.vue';
-  import Tree from 'cube/common/tree.js';
+  import Preview from 'app/pages/dashboard/preview.vue';
+  import Tree from 'app/common/tree.js';
   export default {
     components: {
-      CubePreview
-    },
-
-    data() {
-      return {
-
-      };
+      Preview
     },
 
     mounted() {

@@ -1,7 +1,7 @@
 import Vue from 'vue';
-import packages from 'cube/lib/packages';
-import BlankLayout from 'cube/components/layouts/blank.vue';
-import Router from 'cube/router.js';
+import packages from 'app/lib/packages';
+import BlankLayout from 'app/components/layouts/blank.vue';
+import Router from 'app/router.js';
 import Store from 'store';
 import 'filters';
 import 'mixins';

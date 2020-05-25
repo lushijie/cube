@@ -9,7 +9,7 @@ module.exports = {
   'block-a': {
     label: '组件a',
     config: {
-      visible: true,
+      visible: false,
       slots: [ // 具名卡槽
         {
           sname: 'header',

@@ -1,8 +1,11 @@
 import Vue from 'vue';
-import Utils from 'utils';
 
-const chunkName = INJECT.CHUNK;
-const filters = Utils.extend({}, Utils.interop(require('./modules/common')), Utils.interop(require(`./modules/${chunkName}`)));
+const filters = {
+  _addSuffix2(value, suffix) {
+    return value + suffix;
+  },
+};
+
 Object.keys(filters).forEach((key) => {
   Vue.filter(key, filters[key]);
 });
