@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import BlankLayout from 'app/components/layouts/blank.vue';
-import NotFound from 'app/components/layouts/404.vue';
+import BlankLayout from 'app/pages/components/blank.vue';
+import NotFound from 'app/pages/components/404.vue';
 import Utils from 'utils';
 import Store from 'store';
+
 Vue.use(VueRouter);
 
 const router = new VueRouter({
@@ -30,7 +31,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   const mergedMeta = Utils.getRouterMeta(to.matched);
-  Store.commit('cube/updateRouteMeta', { ...mergedMeta });
+  Store.commit('updateRouteMeta', { ...mergedMeta });
   next();
 });
 

@@ -5,21 +5,98 @@ import Utils from 'utils';
 Vue.use(Vuex);
 
 const state = {
-  // TODO
+  packages: [],
+  routeMeta: {},
+  isTreeSaved: false,
+  tree: {
+    id: null, // 会被复写掉
+    struct: {
+      tag: 'block-root',
+      uuid: Utils.uuid,
+      label: '页面容器',
+      root: true,
+      selected: true,
+      properties: {
+        props: {
+          r: '根节点的属性',
+          rr: {
+            rrr: '根节点嵌套属性'
+          }
+        }
+      },
+      slots: []
+      //     slots: [
+      //       {
+      //         tag: 'block-c',
+      //         uuid: Utils.uuid,
+      //         label: '组件c',
+      //         selected: false,
+      //         properties: {
+      //           props: {
+      //             c: '组件c的属性'
+      //           },
+      //           slot: 'header'
+      //         },
+      //       }
+      //     ]
+    }
+  }
+};
+
+const getters = {
+  tree(state) {
+    return { ...state.tree };
+  },
+
+  struct(state) {
+    return { ...state.tree.struct };
+  },
+
+  packages(state) {
+    return [ ...state.packages ];
+  },
+
+  aviablePackages(state) {
+    return [ ...state.packages ].filter(ele => ele.config.visible);
+  },
+
+  routeMeta(state) {
+    return { ...state.routeMeta };
+  },
+
+  structChange(state) {
+    return () => {
+      return { ...state.tree.struct };
+    };
+  }
 };
 
 // 必须是同步函数
 const mutations = {
-  // TOOD
+  updateRouteMeta(state, payload) {
+    state.routeMeta = {
+      ...payload
+    };
+  },
+
+  addPackages(state, payload) {
+    state.packages = [ ...payload ];
+  },
+
+  updateTree(state, payload) {
+    state.tree = { ...payload };
+  },
+
+  updateTreeSaved(state, payload) {
+    state.isTreeSaved = payload;
+  },
+
+  updateTreeStruct(state, payload) {
+    state.tree.struct = { ...payload };
+  }
 };
 
-// 可以组合可以异步
 const actions = {
-  // TODO
-};
-
-const getters = {
-  // TODO
 };
 
 const store = {
@@ -32,6 +109,4 @@ const store = {
   strict: INJECT.ENV === 'development'
 };
 
-const chunkName = 'cube';
-store.modules[chunkName] = Utils.interop(require(`./modules/${chunkName}`));
 export default new Vuex.Store(store);

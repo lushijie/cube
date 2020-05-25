@@ -7,7 +7,7 @@ export default class Tree {
   constructor(tree = {}) {
     if (tree.id) {
       this.setCacheTree(tree.id, tree.struct);
-      Store.commit('cube/updateTree', tree);
+      Store.commit('updateTree', tree);
     }
   }
   /**
@@ -15,7 +15,7 @@ export default class Tree {
    * @return id
    */
   getTreeId() {
-    return Store.state.cube.tree.id;
+    return Store.state.tree.id;
   }
 
   /**
@@ -32,7 +32,7 @@ export default class Tree {
    * @return object
    */
   getStruct() {
-    return Utils.extend({}, Store.state.cube.tree.struct);
+    return Utils.extend({}, Store.state.tree.struct);
   }
 
   /**
@@ -69,7 +69,7 @@ export default class Tree {
     }));
 
     // 标记，已经缓存
-    Store.commit('cube/updateTreeSaved', true);
+    Store.commit('updateTreeSaved', true);
   }
 
   /**
@@ -159,7 +159,7 @@ export default class Tree {
     }
 
     travel(nodes);
-    Store.commit('cube/updateTreeStruct', nodes);
+    Store.commit('updateTreeStruct', nodes);
     return target;
   }
 
@@ -210,7 +210,7 @@ export default class Tree {
     }
 
     travel(nodes);
-    Store.commit('cube/updateTreeStruct', nodes);
+    Store.commit('updateTreeStruct', nodes);
     this.selectNodeByUid(newNode.uuid);
   }
 
@@ -239,7 +239,7 @@ export default class Tree {
     }
 
     travel(nodes);
-    Store.commit('cube/updateTreeStruct', nodes);
+    Store.commit('updateTreeStruct', nodes);
     this.selectNodeByUid(newNode.uuid);
   }
 
@@ -275,7 +275,7 @@ export default class Tree {
     travel(nodes);
 
     // 重置 vuex 数据
-    Store.commit('cube/updateTreeStruct', nodes);
+    Store.commit('updateTreeStruct', nodes);
 
     // 如果删除之前该节点为选中状态，删除该节点之后，设置root节点为选中状态
     // 如果删除的节点包含选中节点，删除该节点之后，设置root节点为选中状态
@@ -310,7 +310,7 @@ export default class Tree {
     }
 
     travel(nodes);
-    Store.commit('cube/updateTreeStruct', nodes);
+    Store.commit('updateTreeStruct', nodes);
   }
 
   /**
@@ -337,7 +337,7 @@ export default class Tree {
     }
 
     travel(nodes);
-    Store.commit('cube/updateTreeStruct', nodes);
+    Store.commit('updateTreeStruct', nodes);
   }
 
   /**
@@ -370,7 +370,7 @@ export default class Tree {
     const componentPromiseList = this.getUsedComponents().map(componentName => {
       if (!registedComponents.has(componentName)) {
         registedComponents.add(componentName);
-        return import(`app/lib/packages/${componentName}.vue`).then(_ => {
+        return import(`app/packages/${componentName}.vue`).then(_ => {
           Vue.component(componentName, Vue.extend(_.default));
         });
       }

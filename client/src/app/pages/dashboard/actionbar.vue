@@ -318,7 +318,7 @@
     },
 
     computed: {
-      ...mapGetters('cube', ['packages']),
+      ...mapGetters(['packages']),
     },
 
     mounted() {

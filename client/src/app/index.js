@@ -1,6 +1,6 @@
 import Vue from 'vue';
-import packages from 'app/lib/packages';
-import BlankLayout from 'app/components/layouts/blank.vue';
+import packages from 'app/packages';
+import BlankLayout from 'app/pages/components/blank.vue';
 import Router from 'app/router.js';
 import Store from 'store';
 import 'filters';
@@ -26,7 +26,7 @@ const formatPackages = [];
       config: packages[key].config
     });
   });
-  Store.commit('cube/addPackages', formatPackages);
+  Store.commit('addPackages', formatPackages);
 })();
 
 // 挂载到根节点

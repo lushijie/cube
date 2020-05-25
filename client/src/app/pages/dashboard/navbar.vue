@@ -55,7 +55,7 @@
     },
 
     computed: {
-      ...mapGetters('cube', ['aviablePackages']),
+      ...mapGetters(['aviablePackages']),
     },
 
     mounted() {

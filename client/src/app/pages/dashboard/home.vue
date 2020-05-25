@@ -90,8 +90,8 @@
     },
 
     computed: {
-      ...mapGetters('cube', ['tree', 'struct']),
-      ...mapState('cube', ['isTreeSaved'])
+      ...mapGetters(['tree', 'struct']),
+      ...mapState(['isTreeSaved'])
     },
 
     mounted() {
@@ -103,16 +103,16 @@
         tmpTree.id = this.treeId;
         this.treeInst.setCacheTree(this.treeId);
       }
-      Store.commit('cube/updateTree', tmpTree);
+      Store.commit('updateTree', tmpTree);
 
       // 监听struct change 事件
-      this.$store.watch(this.$store.getters['cube/structChange'], (pre, after) => {
+      this.$store.watch(this.$store.getters['structChange'], (pre, after) => {
         if (!Utils.isDeepEqual(pre, after)) {
           this.boradcastStructChange();
         }
 
         // 设置树的保存状态
-        Store.commit('cube/updateTreeSaved', Utils.isDeepEqual(tmpTree, this.tree));
+        Store.commit('updateTreeSaved', Utils.isDeepEqual(tmpTree, this.tree));
       });
 
       // 首次主动触发
