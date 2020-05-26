@@ -32,6 +32,7 @@ export default class Tree {
    * @return object
    */
   getStruct() {
+    console.warn(Utils.extend({}, Store.state.tree.struct));
     return Utils.extend({}, Store.state.tree.struct);
   }
 
