@@ -6,6 +6,7 @@
         draggable="true"
         v-for="item in aviablePackages"
         :key="item.tag"
+        :data-block-description="JSON.stringify(item || '{}')"
         :data-block-tag="item.tag"
         :data-block-label="item.label"
         :data-block-props="JSON.stringify(item.props || '{}')">
@@ -35,13 +36,8 @@
         // 拖拽元素
         document.querySelectorAll('.block-component-item').forEach(function(target, index) {
           target.ondragstart = function(event) {
-            const info = {
-              uuid: null, // 拖拽新建的元素无 uuid
-              tag: event.target.getAttribute('data-block-tag'),
-              label: event.target.getAttribute('data-block-label'),
-              props: event.target.getAttribute('data-block-props'),
-            };
-            window.localStorage.setItem('cube-drag-element', JSON.stringify(info));
+            const description = event.target.getAttribute('data-block-description');
+            window.localStorage.setItem('cube-drag-element', description);
           };
 
           target.ondrag = function(event) {

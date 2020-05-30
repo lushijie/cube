@@ -253,7 +253,6 @@
               return;
             }
 
-            // const  = JSON.parse(event.dataTransfer.getData('cube-drag-element'));
             const dragInfo = JSON.parse(window.localStorage.getItem('cube-drag-element'));
             const isPutBefore = dropTarget.getAttribute('data-put-before');
             const relatedUid = dropTarget.getAttribute('data-uuid');
@@ -277,14 +276,13 @@
                 }
               }
             } else {
-              const { tag, label, props } = dragInfo;
+              const { tag, label, props = {} } = dragInfo;
 
               // TODO: 属性根据类型解析
-              const eleProps = {}
-              const eleDescription = JSON.parse(props)
-              Object.keys(eleDescription).forEach(key => {
-                const { label, default: defaultValue } = eleDescription[key];
-                eleProps[key] = defaultValue;
+              const vueProps = {}
+              Object.keys(props).forEach(key => {
+                const { label, default: defaultValue } = props[key];
+                vueProps[key] = defaultValue;
               });
 
               const uuid = Utils.uuid;
@@ -294,7 +292,7 @@
                 label,
                 selected: true,
                 properties: {
-                  props: eleProps,
+                  props: vueProps,
                   attrs: {
                     id: uuid
                   },
