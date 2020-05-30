@@ -1,9 +1,11 @@
 import Vue from 'vue';
-import VueRouter from 'vue-router';
-import BlankLayout from 'app/pages/components/blank.vue';
-import NotFound from 'app/pages/components/404.vue';
 import Utils from 'utils';
 import Store from 'store';
+import VueRouter from 'vue-router';
+import Blank from 'app/pages/components/blank.vue';
+import NotFound from 'app/pages/components/404.vue';
+import Dashboard from 'app/pages/dashboard/home.vue';
+import Preview from 'app/pages/preview/home.vue';
 
 Vue.use(VueRouter);
 
@@ -16,10 +18,18 @@ const router = new VueRouter({
     {
       path: '',
       redirect: 'dashboard',
-      component: BlankLayout,
+      component: Blank,
       children: [
-        require('./pages/dashboard/router'),
-        require('./pages/preview/router')
+        {
+          path: 'dashboard',
+          meta: {},
+          component: Dashboard
+        },
+        {
+          path: 'preview',
+          meta: {},
+          component: Preview
+        }
       ]
     },
     {
