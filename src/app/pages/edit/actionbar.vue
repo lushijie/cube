@@ -119,11 +119,11 @@
           return ele.tag === tag;
         })[0] || {};
 
-        if (!pkgInfo.config.slots) {
-          pkgInfo.config.slots = false;
+        if (!pkgInfo.slots) {
+          pkgInfo.slots = false;
         }
 
-        return pkgInfo.config.slots;
+        return pkgInfo.slots;
       },
 
       // 移除所有的 drag-over 状态

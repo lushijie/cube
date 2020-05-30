@@ -20,7 +20,7 @@ const getters = {
   },
 
   aviablePackages(state) {
-    return [ ...state.packages ].filter(ele => ele.config.visible);
+    return [ ...state.packages ].filter(ele => ele.visible);
   },
 
   routeMeta(state) {

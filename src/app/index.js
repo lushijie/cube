@@ -20,10 +20,12 @@ Vue.config.errorHandler = function(err, vm) {
 const formatPackages = [];
 (function() {
   Object.keys(packages).forEach((key) => {
+    const { label, visible, slots } = packages[key];
     formatPackages.push({
       tag: key,
-      label: packages[key].label,
-      config: packages[key].config
+      label,
+      visible,
+      slots,
     });
   });
   Store.commit('addPackages', formatPackages);
