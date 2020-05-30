@@ -64,15 +64,15 @@
       <li class="slot-item" v-for="(item, i) in getPackageSlots(menu.tag)" :key="i">
         <template
           v-for="childMenu in menu.slots"
-          v-if="childMenu.properties.slot === item.sname">
+          v-if="childMenu.properties.slot === item.slotName">
           <MenuVue :menu="childMenu" :key="childMenu.uuid"></MenuVue>
         </template>
 
         <div
           :data-uuid="menu.uuid"
-          :title="item.slabel"
-          :data-slot-name="item.sname"
-          :data-slot-title="item.slabel"
+          :title="item.slotLabel"
+          :data-slot-name="item.slotName"
+          :data-slot-title="item.slotLabel"
           class="cube-seat slot">
           <!-- 具名 slot 占位-->
         </div>

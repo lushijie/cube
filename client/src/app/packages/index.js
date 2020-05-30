@@ -2,53 +2,38 @@ module.exports = {
   'block-root': {
     label: '根组件',
     config: {
-      visible: false, // false 则不在组件列表树中展示
+      visible: false, // false， 则不在组件列表树中展示
       slots: true // 匿名卡槽
     },
   },
-  'block-a': {
-    label: '组件a',
+  'block-container': {
+    label: '容器组件',
     config: {
-      visible: false,
-      slots: [ // 具名卡槽
+      visible: true,
+      slots: [
         {
-          sname: 'header',
-          slabel: '头部卡槽'
+          slotName: 'header', // 具名卡槽
+          slotLabel: '头部卡槽'
         },
-        // {
-        //   sname: 'footer',
-        //   slabel: '底部卡槽'
-        // }
+        {
+          slotName: 'footer',
+          slotLabel: '底部卡槽'
+        }
       ]
     }
   },
-  'block-b': {
-    label: '组件b',
-    config: {
-      type: 'color',
-      visible: true,
-      slots: false // 不允许出现子组件
-    }
-  },
-  'block-c': {
-    label: '组件c',
+  'block-image': {
+    label: '图片组件',
     config: {
       visible: true,
       slots: false // 不允许出现子组件
     }
   },
-  'block-d': {
-    label: '组件d',
+  'block-text': {
+    label: '文本组件',
     config: {
       visible: true,
       slots: false // 不允许出现子组件
     }
   },
-  'block-e': {
-    label: '组件e',
-    config: {
-      visible: true,
-      slots: false // 不允许出现子组件
-    }
-  }
 };

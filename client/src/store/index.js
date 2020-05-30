@@ -18,18 +18,18 @@ const state = {
       selected: true,
       properties: {
         props: {
-          r: '根节点的属性',
-          rr: {
-            rrr: '根节点嵌套属性'
+          backgroundColor: '背景颜色',
+          font: {
+            fontSize: '字体大小'
           }
         }
       },
       slots: []
       //     slots: [
       //       {
-      //         tag: 'block-c',
+      //         tag: 'block-image',
       //         uuid: Utils.uuid,
-      //         label: '组件c',
+      //         label: '图片组件',
       //         selected: false,
       //         properties: {
       //           props: {

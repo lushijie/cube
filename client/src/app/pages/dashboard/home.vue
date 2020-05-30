@@ -9,6 +9,12 @@
           :loading="isSaving">
           {{ isTreeSaved ? '已保存' : '点击保存' }}
         </el-button>
+
+        <el-button
+          type="danger"
+          @click="removeCacheTree">
+          清除缓存
+        </el-button>
       </el-col>
     </el-row>
 
@@ -86,6 +92,16 @@
           this.boradcastStructChange();
           this.isSaving = false;
         }, 300);
+      },
+
+      removeCacheTree() {
+        this.treeInst.removeCacheTree(this.treeId);
+        this.$notify({
+          title: '成功',
+          message: '缓存删除成功',
+          type: 'success',
+          duration: 1000
+        });
       }
     },
 

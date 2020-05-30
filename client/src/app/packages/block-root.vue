@@ -1,34 +1,27 @@
 <template>
-  <div>
-    <span>r: {{ r }}</span>
-    <br>
-    <span>rrr: {{ rr.rrr }}</span>
+  <div :style="{ backgroundColor, fontSize: ( font || {}).fontSize || '14px'}">
     <slot></slot>
+    copyright @ lushijie
   </div>
 </template>
 
 <script>
   export default {
     props: {
-      r: String,
-      rr: {
-        rrr: String
+      backgroundColor: {
+        type: String,
+        default: '#eee'
+      },
+      // 支持分组属性设定
+      font: {
+        fontSize: Number
       }
     },
-    components: {
-    },
-    data() {
-      return {
-      };
-    },
-    methods: {
-    },
 
-    computed: {
-    },
+
 
     mounted() {
-      console.info('r123456');
+      console.log('根组件加载成功');
     }
   };
 </script>

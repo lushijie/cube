@@ -58,6 +58,7 @@
   },
   "dependencies": {
     "chalk": "^2.4.2",
+    "dayjs": "^1.8.28",
     "deep-equal": "^1.0.1",
     "dom.js": "^0.2.0",
     "element-ui": "^2.4.6",

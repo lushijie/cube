@@ -21,10 +21,6 @@
       PropItem
     },
 
-    methods: {
-
-    },
-
     computed: {
       selectedNode() {
         return this.treeInst.getSeletedNode();
@@ -60,6 +56,7 @@
     },
 
     mounted() {
+      console.log(this.selectedProps)
     }
   };
 </script>

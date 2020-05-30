@@ -36,6 +36,7 @@
     },
 
     mounted() {
+      console.log('attr=', this.attrs)
     }
   };
 </script>

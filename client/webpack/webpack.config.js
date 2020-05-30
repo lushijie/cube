@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const dayjs = require('dayjs');
 const VuePlugin = require('vue-loader/lib/plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -28,7 +29,7 @@ module.exports = {
   devServer: {
     contentBase: path.join(PRO_ROOT_PATH, 'client/'),
     open: true,
-    openPage: `static/dist/html/app.html#/dashboard?id=123`,
+    openPage: `static/dist/html/app.html#/dashboard?id=${dayjs().format('YYYYMMDD')}`,
     disableHostCheck: true,
     // port: 8080,
   },
@@ -102,13 +103,13 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        enforce: 'pre',
-        test: /\.(j|e)s$|\.vue$/,
-        use: 'eslint-loader',
-        include: [path.join(PRO_ROOT_PATH, `/client/src`)],
-        exclude: [path.join(PRO_ROOT_PATH, `/client/node_modules`)],
-      },
+      // {
+      //   enforce: 'pre',
+      //   test: /\.(j|e)s$|\.vue$/,
+      //   use: 'eslint-loader',
+      //   include: [path.join(PRO_ROOT_PATH, `/client/src`)],
+      //   exclude: [path.join(PRO_ROOT_PATH, `/client/node_modules`)],
+      // },
       {
         test: /\.vue$/,
         use: 'vue-loader',

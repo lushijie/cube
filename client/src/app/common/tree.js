@@ -74,6 +74,17 @@ export default class Tree {
   }
 
   /**
+   * 删除缓存
+   * @param {string} treeId
+   */
+  removeCacheTree(treeId) {
+    const cacheId = this.getCacheId(treeId);
+    window.localStorage.removeItem(cacheId);
+
+    Store.commit('updateTreeSaved', false);
+  }
+
+  /**
    * 从 localStrage 获取缓存树
    */
   getCacheTree(treeId) {
