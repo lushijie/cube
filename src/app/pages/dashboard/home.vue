@@ -69,13 +69,6 @@
       };
     },
 
-    methods: {
-      // treeStruct 变化处理事件
-      boradcastStructChange() {
-        this.$root.bus.$emit('structChange');
-      }
-    },
-
     computed: {
       ...mapGetters(['tree', 'treeStruct']),
       ...mapState(['isTreeSaved'])
@@ -95,9 +88,9 @@
       const tmpTree = {};
 
       // 监听struct change 事件
-      this.$store.watch(this.$store.getters['structChange'], (pre, after) => {
+      this.$store.watch(this.$store.getters['detectStructChange'], (pre, after) => {
         if (!Utils.isDeepEqual(pre)) {
-          this.boradcastStructChange();
+          this.$root.bus.$emit('structChange');
         }
 
         // 设置树的保存状态
@@ -105,7 +98,7 @@
       });
 
       // 首次主动触发
-      this.boradcastStructChange();
+      this.$root.bus.$emit('structChange');
     }
   };
 </script>

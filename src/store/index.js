@@ -45,7 +45,8 @@ const getters = {
     return { ...state.routeMeta };
   },
 
-  structChange(state) {
+  // this.$store.watch 监听
+  detectStructChange(state) {
     return () => {
       return { ...state.tree.treeStruct };
     };
