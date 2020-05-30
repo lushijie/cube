@@ -6,7 +6,6 @@
 */
 const path = require('path');
 const helper = require('@lushijie/utils');
-const fs = require('fs-extra');
 
 const stringifyDefineOptions = function(options) {
   function stringifyString(obj) {
@@ -27,17 +26,15 @@ const stringifyDefineOptions = function(options) {
 };
 
 module.exports = function() {
-  const PRO_ROOT_PATH = path.join(__dirname, '..', '..');
-  const runTimePath = path.join(PRO_ROOT_PATH, 'client/runtime.json');
-  const runtime = JSON.parse(fs.readFileSync(runTimePath, { encoding: 'utf8' }) || '{}');
-
-  const { env, mode } = runtime;
+  const env = process.env.NODE_ENV;
   const temp = {
     ENV: env, // 运行环境
-    PRO_ROOT_PATH, // 项目更目录
-    MODE: mode, // 运行命令模式
+    PRO_ROOT_PATH: path.join(__dirname, '..'), // 项目更目录
     SOURCE_MAP: true,
   };
+
+  console.log(temp.PRO_ROOT_PATH)
+
   const CONFIG = {
     common: {
       DEFINE: {

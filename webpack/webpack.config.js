@@ -1,33 +1,34 @@
 const webpack = require('webpack');
 const path = require('path');
 const dayjs = require('dayjs');
+const argv = require('yargs').argv;
 const VuePlugin = require('vue-loader/lib/plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
-const CONF = require('./webpack.env.js')();
+const CONF = require('./webpack.env.js')(argv);
 const { PRO_ROOT_PATH, ENV, SOURCE_MAP } = CONF;
-const SRC_PATH = path.join(PRO_ROOT_PATH, '/client/src');
+const SRC_PATH = path.join(PRO_ROOT_PATH, '/src');
 const isPubEnv = ENV === 'production';
 const noop = function() {};
 
 module.exports = {
   mode: CONF.ENV,
   entry: {
-    app: path.join(PRO_ROOT_PATH, `/client/src/app//index.js`)
+    app: path.join(PRO_ROOT_PATH, `/src/app//index.js`)
   },
   // devtool: isPubEnv ? (SOURCE_MAP && 'cheap-module-source-map') : 'cheap-module-eval-source-map',
   devtool: SOURCE_MAP ? 'cheap-module-source-map' : '',
   output: {
-    path: path.join(PRO_ROOT_PATH, `/client/static/dist`), // 打包文件输出路径，绝对路径
+    path: path.join(PRO_ROOT_PATH, `/static/dist`), // 打包文件输出路径，绝对路径
     publicPath: `/static/dist/`, // 打包后浏览器访问服务时的 URL 路径
     filename: isPubEnv ? `./js/[name].[hash:6].js` : `./js/[name].js`,
     chunkFilename: isPubEnv ? `./js/chunk/[name].[chunkhash:6].chunk.js` : `./js/chunk/[name].chunk.js`,
   },
   devServer: {
-    contentBase: path.join(PRO_ROOT_PATH, 'client/'),
+    contentBase: PRO_ROOT_PATH,
     open: true,
     openPage: `static/dist/html/app.html#/dashboard?id=${dayjs().format('YYYYMMDD')}`,
     disableHostCheck: true,
@@ -43,7 +44,7 @@ module.exports = {
       store: path.join(SRC_PATH, '/store'),
       validators: path.join(SRC_PATH, '/validators'),
       utils: path.join(SRC_PATH, '/utils'),
-      static: path.join(PRO_ROOT_PATH, '/client/static'),
+      static: path.join(PRO_ROOT_PATH, '/static'),
     }
   },
   stats: {
@@ -107,26 +108,26 @@ module.exports = {
       //   enforce: 'pre',
       //   test: /\.(j|e)s$|\.vue$/,
       //   use: 'eslint-loader',
-      //   include: [path.join(PRO_ROOT_PATH, `/client/src`)],
-      //   exclude: [path.join(PRO_ROOT_PATH, `/client/node_modules`)],
+      //   include: [path.join(PRO_ROOT_PATH, `/src`)],
+      //   exclude: [path.join(PRO_ROOT_PATH, `/node_modules`)],
       // },
       {
         test: /\.vue$/,
         use: 'vue-loader',
-        include: [path.join(PRO_ROOT_PATH, `/client/src`)],
-        exclude: [path.join(PRO_ROOT_PATH, `/client/node_modules`)],
+        include: [path.join(PRO_ROOT_PATH, `/src`)],
+        exclude: [path.join(PRO_ROOT_PATH, `/node_modules`)],
       },
       {
         test: /\.(j|e)s$/,
         use: 'babel-loader?cacheDirectory',
-        include: [path.join(PRO_ROOT_PATH, `/client/src`)],
-        exclude: [path.join(PRO_ROOT_PATH, `/client/node_modules`)],
+        include: [path.join(PRO_ROOT_PATH, `/src`)],
+        exclude: [path.join(PRO_ROOT_PATH, `/node_modules`)],
       },
       {
         test: /\.json$/,
         use: 'json-loader',
-        include: [path.join(PRO_ROOT_PATH, `/client/src`)],
-        exclude: [path.join(PRO_ROOT_PATH, `/client/node_modules`)],
+        include: [path.join(PRO_ROOT_PATH, `/src`)],
+        exclude: [path.join(PRO_ROOT_PATH, `/node_modules`)],
       },
       {
         test: /\.css$/,
@@ -183,7 +184,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       filename: `./html/app.html`, // webpack-dev-server 无法识别 ..，所以这里使用 .
-      template: path.join(PRO_ROOT_PATH, `/client/src/app/index.html`),
+      template: path.join(PRO_ROOT_PATH, `/src/app/index.html`),
     }),
   ]
 };

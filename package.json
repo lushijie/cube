@@ -7,7 +7,7 @@
     "lint": "eslint --ext .js,.vue src --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm run watch",
-    "watch": "node start.js --mode=watch",
+    "watch": "export NODE_ENV=development && webpack-dev-server --config=./webpack/webpack.config.js --progress",
     "debug": "node start.js --mode=debug ",
     "pub": "node start.js --mode=pub"
   },
