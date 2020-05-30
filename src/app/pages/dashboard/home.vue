@@ -20,7 +20,7 @@
       <el-col :span="5">
         <h4 class="col-title">组件操作</h4>
         <div class="grid-content cube-action-grid">
-          <Actionbar :menu="struct" />
+          <Actionbar :node="struct" />
         </div>
       </el-col>
 
@@ -36,7 +36,7 @@
       <el-col :span="7">
         <h4 class="col-title">属性编辑</h4>
         <div class="grid-content cube-edit-grid">
-          <Editbar />
+          <Propbar />
         </div>
       </el-col>
     </el-row>
@@ -48,8 +48,8 @@
   import Store from 'store';
   import Navbar from './navbar.vue';
   import Header from './header.vue';
-  import Actionbar from './editbar.vue';
-  import Editbar from './prop.vue';
+  import Actionbar from './actionbar.vue';
+  import Propbar from './prop.vue';
   import Preview from '../preview/preview.vue'
   import { mapState, mapGetters } from 'vuex';
 
@@ -59,7 +59,7 @@
       Navbar,
       Actionbar,
       Preview,
-      Editbar
+      Propbar,
     },
 
     data() {

@@ -1,49 +1,49 @@
 <template>
   <div
-    class="cube-editorbar"
-    :data-uuid="menu.uuid"
+    class="cube-block-item"
+    :data-uuid="node.uuid"
     draggable="true">
-    <div class="menu-item-group">
+    <div class="node-item-group">
       <!-- 放置组件的位置(before), data-uuid 为已有的相邻组件的uuid -->
       <div
         class="cube-slot before"
-        :data-uuid="menu.uuid"
+        :data-uuid="node.uuid"
         :data-put-before="true"
-        v-if="!menu.root">
+        v-if="!node.root">
       </div>
 
       <div
         :class="{
-          'menu-item': true,
-          'normal': !menu.root,
-          'root': menu.root,
-          'selected': menu.selected
+          'node-item': true,
+          'normal': !node.root,
+          'root': node.root,
+          'selected': node.selected
         }"
-        :data-tag="menu.tag"
-        @click="setSelectedNode(menu)">
+        :data-tag="node.tag"
+        @click="setSelectedNode(node)">
 
-        {{ menu.label }}
+        {{ node.label }}
 
         <!-- root 节点不允许删除 -->
         <i
-          v-if="!menu.root"
-          class="el-icon-close menu-item__del"
-          @click.stop="deleteNode(menu)">
+          v-if="!node.root"
+          class="el-icon-close node-item__del"
+          @click.stop="deleteNode(node)">
         </i>
       </div>
     </div>
 
     <!-- 匿名卡槽 -->
-    <ul class="slot-container" v-if="getPackageSlots(menu.tag) === true">
+    <ul class="slot-container" v-if="getPackageSlots(node.tag) === true">
       <li class="slot-item">
         <template
-          v-for="ele in getSlots(menu.slots)" >
-          <Editor :menu="ele" :key="ele.uuid" /> <!-- 自调用 -->
+          v-for="ele in getSlots(node.slots)" >
+          <Editor :node="ele" :key="ele.uuid" /> <!-- 自调用 -->
         </template>
 
         <!-- 匿名 slot 占位-->
         <div
-          :data-uuid="menu.uuid"
+          :data-uuid="node.uuid"
           :title="'匿名卡槽'"
           data-slot-name="default"
           data-slot-title="匿名卡槽"
@@ -53,16 +53,16 @@
 
     <!-- 具名卡槽 -->
     <ul class="slot-container"
-      v-if="getPackageSlots(menu.tag) && getPackageSlots(menu.tag).length > 0">
-      <li class="slot-item" v-for="(item, i) in getPackageSlots(menu.tag)" :key="i">
+      v-if="getPackageSlots(node.tag) && getPackageSlots(node.tag).length > 0">
+      <li class="slot-item" v-for="(item, i) in getPackageSlots(node.tag)" :key="i">
         <template
-          v-for="ele in getSlots(menu.slots, item.slotName)">
-          <Editor :menu="ele" :key="ele.uuid" /> <!-- 自调用 -->
+          v-for="ele in getSlots(node.slots, item.slotName)">
+          <Editor :node="ele" :key="ele.uuid" /> <!-- 自调用 -->
         </template>
 
         <!-- 具名 slot 占位-->
         <div
-          :data-uuid="menu.uuid"
+          :data-uuid="node.uuid"
           :title="item.slotLabel"
           :data-slot-name="item.slotName"
           :data-slot-title="item.slotLabel"
@@ -81,7 +81,7 @@
     name: 'Editor',
 
     props: {
-      menu: {
+      node: {
         type: Object,
         default: function() {
           return {};
@@ -156,14 +156,14 @@
 
       bindDragEvent() {
         // 移除组件的拖拽事件, 防止重复绑定
-        document.querySelectorAll('.cube-editorbar').forEach(function(target, index) {
+        document.querySelectorAll('.cube-block-item').forEach(function(target, index) {
           target.ondragstart = null;
           target.ondrag = null;
           target.ondragend = null;
         });
 
         // 拖拽元素
-        document.querySelectorAll('.cube-editorbar').forEach(function(target, index) {
+        document.querySelectorAll('.cube-block-item').forEach(function(target, index) {
           target.ondragstart = function(event) {
             const info = {
               uuid: event.target.getAttribute('data-uuid')
@@ -171,15 +171,10 @@
             window.localStorage.setItem('cube-drag-element', JSON.stringify(info));
           };
 
-          target.ondrag = function(event) {
-            // TODO
-            console.log('ondrag');
-          };
+          target.ondrag = function(event) {};
 
           target.ondragend = function(event) {
-            console.log('ondragend')
-            // TODO
-            window.localStorage.setItem('cube-drag-element', JSON.stringify(info));
+            window.localStorage.removeItem('cube-drag-element');
           };
         });
       },
@@ -209,7 +204,7 @@
             const dragUid = JSON.parse(window.localStorage.getItem('cube-drag-element')).uuid;
             if (dragUid) {
               // 如果是移动元素，不能移动到自己的子级元素
-              if (!document.querySelectorAll(`.cube-editorbar[data-uuid="${dragUid}"]`)[0].contains(to)) {
+              if (!document.querySelectorAll(`.cube-block-item[data-uuid="${dragUid}"]`)[0].contains(to)) {
                 djs.addClass(target, 'drag-over');
               }
             } else {
@@ -341,7 +336,7 @@
     padding: 3px;
     margin-top: 1px;
   }
-  .menu-item {
+  .node-item {
     position: relative;
     padding: 5px 10px;
     border-radius: 5px;
@@ -349,15 +344,15 @@
     color: #409eff;
     cursor: pointer;
   }
-  .menu-item.selected {
+  .node-item.selected {
     background-color: #409eff;
     color: #fff;
   }
-  .menu-item__del {
+  .node-item__del {
     float: right;
     padding: 3px;
   }
-  .menu-item__del:hover {
+  .node-item__del:hover {
     color: #f56c6c;
   }
   .cube-slot {
