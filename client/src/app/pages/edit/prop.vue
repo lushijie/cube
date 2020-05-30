@@ -1,6 +1,6 @@
 <template>
   <div id="cube-prop">
-    <PropItem :attrs="bindProps"/>
+    <PropItem :attrs="selectedProps"/>
   </div>
 </template>
 

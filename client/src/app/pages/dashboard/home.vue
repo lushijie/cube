@@ -1,7 +1,7 @@
 <template>
   <div class="whole-container">
     <!-- 全局操作栏 -->
-    <el-row>
+    <!-- <el-row>
       <el-col :span="6" style="float:right; text-align: right;">
         <el-button
           :type="isTreeSaved ? 'success' : 'danger'"
@@ -15,6 +15,13 @@
           @click="removeCacheTree">
           清除缓存
         </el-button>
+      </el-col>
+    </el-row> -->
+
+    <!-- 全局操作栏 -->
+    <el-row>
+      <el-col :span="6" style="float:right; text-align: right;">
+        <Header />
       </el-col>
     </el-row>
 
@@ -58,13 +65,15 @@
   import Utils from 'utils';
   import Store from 'store';
   import Navbar from './navbar.vue';
-  import Actionbar from './actionbar.vue';
-  import Preview from './preview.vue';
-  import Editbar from './edit/prop.vue';
+  import Header from './header.vue';
+  import Actionbar from 'app/pages/edit/actionbar.vue';
+  import Editbar from 'app/pages/edit/prop.vue';
+  import Preview from 'app/pages/preview/preview.vue'
   import { mapState, mapGetters } from 'vuex';
 
   export default {
     components: {
+      Header,
       Navbar,
       Actionbar,
       Preview,

@@ -7,8 +7,9 @@
 </template>
 
 <script>
-  import Preview from 'app/pages/dashboard/preview.vue';
   import Tree from 'app/common/tree.js';
+  import Preview from './preview.vue';
+
   export default {
     components: {
       Preview
