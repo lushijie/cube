@@ -51,7 +51,7 @@
     },
 
     computed: {
-      ...mapGetters(['tree', 'struct']),
+      ...mapGetters(['tree', 'treeStruct']),
       ...mapState(['isTreeSaved'])
     },
   };

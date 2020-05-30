@@ -5,8 +5,8 @@ const registedComponents = new Set();
 
 export default class Tree {
   constructor(tree = {}) {
-    if (tree.id) {
-      this.setCacheTree(tree.id, tree.struct);
+    if (tree.treeId) {
+      this.setCacheTree(tree.treeId, tree.treeStruct);
       Store.commit('updateTree', tree);
     }
   }
@@ -15,7 +15,7 @@ export default class Tree {
    * @return id
    */
   getTreeId() {
-    return Store.state.tree.id;
+    return Store.state.tree.treeId;
   }
 
   /**
@@ -31,8 +31,8 @@ export default class Tree {
    * 获取树的结构信息
    * @return object
    */
-  getStruct() {
-    return Utils.extend({}, Store.state.tree.struct);
+  getTreeStruct() {
+    return Utils.extend({}, Store.state.tree.treeStruct);
   }
 
   /**
@@ -40,7 +40,7 @@ export default class Tree {
    * @return array
    */
   getUsedComponents() {
-    const nodes = this.getStruct();
+    const nodes = this.getTreeStruct();
     const usedComponents = new Set();
     function travel(node) {
       if (node.tag) {
@@ -61,11 +61,11 @@ export default class Tree {
    * 缓存树到localStorage
    * @return void
    */
-  setCacheTree(treeId, struct) {
+  setCacheTree(treeId, treeStruct) {
     const cacheId = this.getCacheId(treeId);
     window.localStorage.setItem(cacheId, JSON.stringify({
-      id: treeId,
-      struct: struct || this.getStruct()
+      treeId: treeId,
+      treeStruct: treeStruct || this.getTreeStruct()
     }));
 
     // 标记，已经缓存
@@ -96,7 +96,7 @@ export default class Tree {
    * @return uuid
    */
   getRootUid() {
-    return this.getStruct().uuid;
+    return this.getTreeStruct().uuid;
   }
 
   /**
@@ -104,7 +104,7 @@ export default class Tree {
    * @return {[type]} [description]
    */
   getRandomUid() {
-    const nodes = this.getStruct();
+    const nodes = this.getTreeStruct();
     const uuids = [];
 
     function travel(node) {
@@ -127,7 +127,7 @@ export default class Tree {
    * @return {[type]}      [description]
    */
   getNodeByUid(uuid) {
-    const nodes = this.getStruct();
+    const nodes = this.getTreeStruct();
     let matched = null;
 
     function travel(node) {
@@ -151,7 +151,7 @@ export default class Tree {
    * @param {[type]} uuid [description]
    */
   selectNodeByUid(uuid) {
-    const nodes = this.getStruct();
+    const nodes = this.getTreeStruct();
     let target = null;
 
     function travel(node) {
@@ -179,7 +179,7 @@ export default class Tree {
    * @return {[type]} [description]
    */
   getSeletedNode() {
-    const nodes = this.getStruct();
+    const nodes = this.getTreeStruct();
     let matched = false;
 
     function travel(node) {
@@ -204,7 +204,7 @@ export default class Tree {
    * @param {[type]} newNode       [description]
    */
   addNode(fatherUid, newNode) {
-    const nodes = this.getStruct();
+    const nodes = this.getTreeStruct();
     let matched = false;
 
     function travel(node) {
@@ -231,7 +231,7 @@ export default class Tree {
    * @param {*} node
    */
   insertNodeBefore(uuid, newNode) {
-    const nodes = this.getStruct();
+    const nodes = this.getTreeStruct();
     let matched = null;
 
     function travel(node) {
@@ -260,7 +260,7 @@ export default class Tree {
    * @return {[type]}      [description]
    */
   deleteNodeByUid(uuid) {
-    const nodes = this.getStruct();
+    const nodes = this.getTreeStruct();
     let currentSelected = false;
     let matched = false;
 
@@ -304,7 +304,7 @@ export default class Tree {
    * @return {[type]}   [description]
    */
   travelUpdateNodeByUid(uuid, success, fail = function() {}) {
-    const nodes = this.getStruct();
+    const nodes = this.getTreeStruct();
 
     function travel(node) {
       if (node.uuid === uuid) {
@@ -331,7 +331,7 @@ export default class Tree {
    * @return {[type]}        [description]
    */
   matchUpdateNodeByUid(uuid, cb) {
-    const nodes = this.getStruct();
+    const nodes = this.getTreeStruct();
     let matched = false;
 
     function travel(node) {
@@ -388,10 +388,10 @@ export default class Tree {
     });
 
     Promise.all(componentPromiseList).then(() => {
-      const struct = this.getStruct();
+      const treeStruct = this.getTreeStruct();
       const RootComponent = Vue.component('root-component', {
         render: function(h) {
-          return createComponent(struct, h);
+          return createComponent(treeStruct, h);
         },
       });
 

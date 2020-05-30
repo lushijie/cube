@@ -16,7 +16,7 @@
     },
 
     mounted() {
-      const treeId = this.currentRouteData.query.id;
+      const treeId = this.currentRouteData.query.treeId;
       const cacheTree = this.treeInst.getCacheTree(treeId);
       const treeInst = new Tree(cacheTree);
       treeInst.renderTree();

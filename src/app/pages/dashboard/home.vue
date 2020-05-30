@@ -20,7 +20,7 @@
       <el-col :span="5">
         <h4 class="col-title">组件操作</h4>
         <div class="grid-content cube-action-grid">
-          <Actionbar :node="struct" />
+          <Actionbar :node="treeStruct" />
         </div>
       </el-col>
 
@@ -70,24 +70,24 @@
     },
 
     methods: {
-      // tree struct 变化处理事件
+      // treeStruct 变化处理事件
       boradcastStructChange() {
         this.$root.bus.$emit('structChange');
       }
     },
 
     computed: {
-      ...mapGetters(['tree', 'struct']),
+      ...mapGetters(['tree', 'treeStruct']),
       ...mapState(['isTreeSaved'])
     },
 
     mounted() {
-      this.treeId = this.currentRouteData.query.id; // 在 URL 中获取 tree id
+      this.treeId = this.currentRouteData.query.treeId; // 在 URL 中获取 tree id
       // let tmpTree = this.treeInst.getCacheTree(this.treeId); // localStorage读取
 
-      // if (!tmpTree.id) { // 新建
+      // if (!tmpTree.treeId) { // 新建
       //   tmpTree = Utils.extend({}, this.tree);
-      //   tmpTree.id = this.treeId;
+      //   tmpTree.treeId = this.treeId;
       //   this.treeInst.setCacheTree(this.treeId);
       // }
       // Store.commit('updateTree', tmpTree);

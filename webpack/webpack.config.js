@@ -30,7 +30,7 @@ module.exports = {
   devServer: {
     contentBase: PRO_ROOT_PATH,
     open: true,
-    openPage: `static/dist/html/app.html#/dashboard?id=${dayjs().format('YYYYMMDD')}`,
+    openPage: `static/dist/html/app.html#/dashboard?treeId=${dayjs().format('YYYYMMDD')}`,
     disableHostCheck: true,
     // port: 8080,
   },

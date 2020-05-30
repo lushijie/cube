@@ -9,8 +9,8 @@ const state = {
   routeMeta: {},
   isTreeSaved: false,
   tree: {
-    id: null,
-    struct: {
+    treeId: null,
+    treeStruct: {
       tag: 'block-root',
       uuid: Utils.uuid,
       label: '页面组件',
@@ -29,8 +29,8 @@ const getters = {
     return { ...state.tree };
   },
 
-  struct(state) {
-    return { ...state.tree.struct };
+  treeStruct(state) {
+    return { ...state.tree.treeStruct };
   },
 
   packages(state) {
@@ -47,7 +47,7 @@ const getters = {
 
   structChange(state) {
     return () => {
-      return { ...state.tree.struct };
+      return { ...state.tree.treeStruct };
     };
   }
 };
@@ -72,7 +72,7 @@ const mutations = {
   },
 
   updateTreeStruct(state, payload) {
-    state.tree.struct = { ...payload };
+    state.tree.treeStruct = { ...payload };
   }
 };
 
