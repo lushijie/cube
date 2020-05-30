@@ -13,7 +13,7 @@ const state = {
     struct: {
       tag: 'block-root',
       uuid: Utils.uuid,
-      label: '根组件',
+      label: '页面组件',
       root: true,
       selected: true,
       properties: {
