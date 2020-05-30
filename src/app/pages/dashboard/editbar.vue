@@ -37,20 +37,17 @@
     <ul class="slot-container" v-if="getPackageSlots(menu.tag) === true">
       <li class="slot-item">
         <template
-          v-for="childMenu in menu.slots"
-          v-if="(childMenu.properties.slot === 'default') || (!childMenu.properties.slot)">
-          <!-- 自调用 -->
-          <MenuVue :menu="childMenu" :key="childMenu.uuid"></MenuVue>
+          v-for="ele in getSlots(menu.slots)" >
+          <Editor :menu="ele" :key="ele.uuid" /> <!-- 自调用 -->
         </template>
 
+        <!-- 匿名 slot 占位-->
         <div
           :data-uuid="menu.uuid"
           :title="'匿名卡槽'"
           data-slot-name="default"
           data-slot-title="匿名卡槽"
-          class="cube-slot slot">
-          <!-- 匿名 slot 占位-->
-        </div>
+          class="cube-slot slot" />
       </li>
     </ul>
 
@@ -59,19 +56,17 @@
       v-if="getPackageSlots(menu.tag) && getPackageSlots(menu.tag).length > 0">
       <li class="slot-item" v-for="(item, i) in getPackageSlots(menu.tag)" :key="i">
         <template
-          v-for="childMenu in menu.slots"
-          v-if="childMenu.properties.slot === item.slotName">
-          <MenuVue :menu="childMenu" :key="childMenu.uuid"></MenuVue>
+          v-for="ele in getSlots(menu.slots, item.slotName)">
+          <Editor :menu="ele" :key="ele.uuid" /> <!-- 自调用 -->
         </template>
 
+        <!-- 具名 slot 占位-->
         <div
           :data-uuid="menu.uuid"
           :title="item.slotLabel"
           :data-slot-name="item.slotName"
           :data-slot-title="item.slotLabel"
-          class="cube-slot slot">
-          <!-- 具名 slot 占位-->
-        </div>
+          class="cube-slot slot" />
       </li>
     </ul>
   </div>
@@ -83,7 +78,7 @@
   import djs from 'dom.js';
 
   export default {
-    name: 'MenuVue',
+    name: 'Editor',
 
     props: {
       menu: {
@@ -94,15 +89,17 @@
       }
     },
 
-    components: {
-    },
-
-    data() {
-      return {
-      };
-    },
-
     methods: {
+      getSlots(slots = [], slotName = 'default') {
+        return slots.filter(ele => {
+          if (slotName === 'default') { // 匿名卡槽
+            return ele.properties.slot === 'default' || !ele.properties.slot;
+          } else { // 具名卡槽
+            return ele.properties.slot === slotName;
+          }
+        })
+      },
+
       setSelectedNode(item) {
         this.treeInst.selectNodeByUid(item.uuid);
       },
@@ -176,10 +173,13 @@
 
           target.ondrag = function(event) {
             // TODO
+            console.log('ondrag');
           };
 
           target.ondragend = function(event) {
+            console.log('ondragend')
             // TODO
+            window.localStorage.setItem('cube-drag-element', JSON.stringify(info));
           };
         });
       },

@@ -1,11 +1,11 @@
 <template>
   <div class="whole-container">
-    <!-- 全局操作栏 -->
-    <!-- <el-row>
+    <!-- 顶部操作栏 -->
+    <el-row>
       <el-col :span="6" style="float:right; text-align: right;">
-        <Header />
+        <Header :treeId="treeId" />
       </el-col>
-    </el-row> -->
+    </el-row>
 
     <el-row>
       <!-- 组件列表 -->
@@ -82,7 +82,7 @@
     },
 
     mounted() {
-      // this.treeId = this.currentRouteData.query.id; // 在 URL 中获取 tree id
+      this.treeId = this.currentRouteData.query.id; // 在 URL 中获取 tree id
       // let tmpTree = this.treeInst.getCacheTree(this.treeId); // localStorage读取
 
       // if (!tmpTree.id) { // 新建

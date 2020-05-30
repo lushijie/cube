@@ -21,9 +21,12 @@
   import { mapState, mapGetters } from 'vuex';
 
   export default {
+    props: {
+      treeId: String,
+    },
+
     data() {
       return {
-        treeId: null,
         isSaving: false
       };
     },

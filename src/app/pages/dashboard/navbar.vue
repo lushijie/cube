@@ -4,12 +4,9 @@
       <li
         class="block-component-item"
         draggable="true"
-        v-for="item in aviablePackages"
         :key="item.tag"
-        :data-block-description="JSON.stringify(item || '{}')"
-        :data-block-tag="item.tag"
-        :data-block-label="item.label"
-        :data-block-props="JSON.stringify(item.props || '{}')">
+        v-for="item in aviablePackages"
+        :data-block-description="JSON.stringify(item || '{}')">
         <el-button
           type="primary"
           icon="el-icon-plus">
@@ -45,7 +42,7 @@
           };
 
           target.ondragend = function(event) {
-            // TODO
+            window.localStorage.removeItem('cube-drag-element');
           };
         });
       }
@@ -57,8 +54,6 @@
 
     mounted() {
       this.bindDragEvent();
-
-      console.log(this.aviablePackages);
     }
   };
 </script>
