@@ -17,7 +17,7 @@ const noop = function() {};
 module.exports = {
   mode: CONF.ENV,
   entry: {
-    app: path.join(PRO_ROOT_PATH, `/src/app//index.js`)
+    app: path.join(PRO_ROOT_PATH, `/src/app/index.js`)
   },
   // devtool: isPubEnv ? (SOURCE_MAP && 'cheap-module-source-map') : 'cheap-module-eval-source-map',
   devtool: SOURCE_MAP ? 'cheap-module-source-map' : '',

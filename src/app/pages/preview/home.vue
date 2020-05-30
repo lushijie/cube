@@ -1,6 +1,6 @@
 <template>
   <div class="preview-page">
-    <div id="cube-preview">
+    <div id="cube-preview"> <!-- 加此 id 是为了与直接使用 preview 组件保持一致 -->
       <Preview />
     </div>
   </div>

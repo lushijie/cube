@@ -1,6 +1,6 @@
 <template>
   <div
-    class="cube-actionbar"
+    class="cube-editorbar"
     :data-uuid="menu.uuid"
     draggable="true">
     <div class="menu-item-group">
@@ -159,14 +159,14 @@
 
       bindDragEvent() {
         // 移除组件的拖拽事件, 防止重复绑定
-        document.querySelectorAll('.cube-actionbar').forEach(function(target, index) {
+        document.querySelectorAll('.cube-editorbar').forEach(function(target, index) {
           target.ondragstart = null;
           target.ondrag = null;
           target.ondragend = null;
         });
 
         // 拖拽元素
-        document.querySelectorAll('.cube-actionbar').forEach(function(target, index) {
+        document.querySelectorAll('.cube-editorbar').forEach(function(target, index) {
           target.ondragstart = function(event) {
             const info = {
               uuid: event.target.getAttribute('data-uuid')
@@ -209,7 +209,7 @@
             const dragUid = JSON.parse(window.localStorage.getItem('cube-drag-element')).uuid;
             if (dragUid) {
               // 如果是移动元素，不能移动到自己的子级元素
-              if (!document.querySelectorAll(`.cube-actionbar[data-uuid="${dragUid}"]`)[0].contains(to)) {
+              if (!document.querySelectorAll(`.cube-editorbar[data-uuid="${dragUid}"]`)[0].contains(to)) {
                 djs.addClass(target, 'drag-over');
               }
             } else {

@@ -2,14 +2,12 @@
   "name": "cube",
   "version": "1.0.0",
   "description": "",
-  "main": ".eslintrc.js",
+  "main": "",
   "scripts": {
     "lint": "eslint --ext .js,.vue src --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npm run watch",
-    "watch": "export NODE_ENV=development && webpack-dev-server --config=./webpack/webpack.config.js --progress",
-    "debug": "node start.js --mode=debug ",
-    "pub": "node start.js --mode=pub"
+    "dev": "export NODE_ENV=development && webpack-dev-server --config=./webpack/webpack.config.js --progress",
+    "pub": "export NODE_ENV=production && webpack --config=./webpack/webpack.config.js --progress"
   },
   "author": "lushijie1218@126.com",
   "license": "ISC",

@@ -48,9 +48,9 @@
   import Store from 'store';
   import Navbar from './navbar.vue';
   import Header from './header.vue';
-  import Actionbar from 'app/pages/edit/actionbar.vue';
-  import Editbar from 'app/pages/edit/prop.vue';
-  import Preview from 'app/pages/preview/preview.vue'
+  import Actionbar from './editbar.vue';
+  import Editbar from './prop.vue';
+  import Preview from '../preview/preview.vue'
   import { mapState, mapGetters } from 'vuex';
 
   export default {
