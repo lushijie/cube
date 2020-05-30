@@ -54,10 +54,6 @@
         }
       }
     },
-
-    mounted() {
-      console.log(this.selectedProps)
-    }
   };
 </script>
 

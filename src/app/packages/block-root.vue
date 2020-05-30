@@ -18,8 +18,6 @@
       }
     },
 
-
-
     mounted() {
       console.log('root 组件加载完毕');
     }

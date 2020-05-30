@@ -1,16 +1,13 @@
 <template>
   <div>
-    <span>{{ txt }}</span>
+    <span>{{ text }}</span>
   </div>
 </template>
 
 <script>
   export default {
     props: {
-      txt: {
-        type: String,
-        default: 'Hello World'
-      },
+      text: String,
     },
 
     mounted() {

@@ -1,4 +1,3 @@
-// 组件列表栏
 <template>
   <div id="cube-list">
     <ul>
@@ -8,7 +7,8 @@
         v-for="item in aviablePackages"
         :key="item.tag"
         :data-block-tag="item.tag"
-        :data-block-label="item.label">
+        :data-block-label="item.label"
+        :data-block-props="JSON.stringify(item.props || '{}')">
         <el-button
           type="primary"
           icon="el-icon-plus">
@@ -36,11 +36,12 @@
         document.querySelectorAll('.block-component-item').forEach(function(target, index) {
           target.ondragstart = function(event) {
             const info = {
-              uuid: null, // 拖拽新建的元素无 Uid
+              uuid: null, // 拖拽新建的元素无 uuid
               tag: event.target.getAttribute('data-block-tag'),
-              label: event.target.getAttribute('data-block-label')
+              label: event.target.getAttribute('data-block-label'),
+              props: event.target.getAttribute('data-block-props'),
             };
-            window.localStorage.setItem('drag-info', JSON.stringify(info));
+            window.localStorage.setItem('cube-drag-element', JSON.stringify(info));
           };
 
           target.ondrag = function(event) {
@@ -60,6 +61,8 @@
 
     mounted() {
       this.bindDragEvent();
+
+      console.log(this.aviablePackages);
     }
   };
 </script>

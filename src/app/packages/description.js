@@ -22,10 +22,26 @@ module.exports = {
     label: '图片组件',
     visible: true,
     slots: false, // 不允许出现子组件
+    props: {
+      imgURL: {
+        label: '图片地址',
+        type: 'input',
+        default: 'https://p0.meituan.net/travelcube/a6d651dfde0437d2e13449b82ffbaf129203.png',
+        description: '',
+      }
+    }
   },
   'block-text': {
     label: '文本组件',
     visible: true,
     slots: false, // 不允许出现子组件
+    props: {
+      text: {
+        label: '文本',
+        type: 'input',
+        default: 'hello world',
+        description: '',
+      }
+    }
   },
 };

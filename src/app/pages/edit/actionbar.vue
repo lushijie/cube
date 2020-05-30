@@ -173,7 +173,7 @@
             const info = {
               uuid: event.target.getAttribute('data-uuid')
             };
-            window.localStorage.setItem('drag-info', JSON.stringify(info));
+            window.localStorage.setItem('cube-drag-element', JSON.stringify(info));
           };
 
           target.ondrag = function(event) {
@@ -208,7 +208,7 @@
             self.removeAllDragOver();
 
             const to = event.toElement || event.relatedTarget;
-            const dragUid = JSON.parse(window.localStorage.getItem('drag-info')).uuid;
+            const dragUid = JSON.parse(window.localStorage.getItem('cube-drag-element')).uuid;
             if (dragUid) {
               // 如果是移动元素，不能移动到自己的子级元素
               if (!document.querySelectorAll(`.cube-struct[data-uuid="${dragUid}"]`)[0].contains(to)) {
@@ -253,8 +253,8 @@
               return;
             }
 
-            // const dragInfo = JSON.parse(event.dataTransfer.getData('drag-info'));
-            const dragInfo = JSON.parse(window.localStorage.getItem('drag-info'));
+            // const  = JSON.parse(event.dataTransfer.getData('cube-drag-element'));
+            const dragInfo = JSON.parse(window.localStorage.getItem('cube-drag-element'));
             const isPutBefore = dropTarget.getAttribute('data-put-before');
             const relatedUid = dropTarget.getAttribute('data-uuid');
             let relatedSlotName = dropTarget.getAttribute('data-slot-name');
@@ -277,17 +277,24 @@
                 }
               }
             } else {
+              const { tag, label, props } = dragInfo;
+
+              // TODO: 属性根据类型解析
+              const eleProps = {}
+              const eleDescription = JSON.parse(props)
+              Object.keys(eleDescription).forEach(key => {
+                const { label, default: defaultValue } = eleDescription[key];
+                eleProps[key] = defaultValue;
+              });
+
               const uuid = Utils.uuid;
               newNode = {
-                tag: dragInfo['tag'],
-                uuid: uuid,
-                label: dragInfo['label'],
+                tag,
+                uuid,
+                label,
                 selected: true,
                 properties: {
-                  props: {
-                    // 构造属性，package 组件中使用的属性
-                    // [dragInfo['tag'].split('-')[1]]: `新建节点${dragInfo['label']}`
-                  },
+                  props: eleProps,
                   attrs: {
                     id: uuid
                   },

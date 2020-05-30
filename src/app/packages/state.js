@@ -22,20 +22,6 @@ export default {
         }
       },
       slots: [],
-      //     slots: [
-      //       {
-      //         tag: 'block-image',
-      //         uuid: Utils.uuid,
-      //         label: '图片组件',
-      //         selected: false,
-      //         properties: {
-      //           props: {
-      //             c: '组件c的属性'
-      //           },
-      //           slot: 'header'
-      //         },
-      //       }
-      //     ]
     }
   }
 };

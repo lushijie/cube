@@ -7,13 +7,7 @@
 <script>
   export default {
     props: {
-      url: String,
-    },
-
-    computed: {
-      imgURL: function() {
-        return this.url || 'https://p0.meituan.net/travelcube/a6d651dfde0437d2e13449b82ffbaf129203.png'
-      }
+      imgURL: String,
     },
 
     mounted() {
