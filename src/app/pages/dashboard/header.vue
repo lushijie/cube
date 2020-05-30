@@ -16,8 +16,6 @@
 </template>
 
 <script>
-  import Utils from 'utils';
-  import Store from 'store';
   import { mapState, mapGetters } from 'vuex';
 
   export default {

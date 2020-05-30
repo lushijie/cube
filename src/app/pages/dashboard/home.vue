@@ -50,7 +50,7 @@
   import Header from './header.vue';
   import Actionbar from './actionbar.vue';
   import Propbar from './prop.vue';
-  import Preview from '../preview/preview.vue'
+  import Preview from '../preview/preview.vue';
   import { mapState, mapGetters } from 'vuex';
 
   export default {
@@ -96,7 +96,7 @@
 
       // 监听struct change 事件
       this.$store.watch(this.$store.getters['structChange'], (pre, after) => {
-        if (!Utils.isDeepEqual(pre, )) {
+        if (!Utils.isDeepEqual(pre)) {
           this.boradcastStructChange();
         }
 

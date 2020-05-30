@@ -106,13 +106,13 @@ module.exports = {
   },
   module: {
     rules: [
-      // {
-      //   enforce: 'pre',
-      //   test: /\.(j|e)s$|\.vue$/,
-      //   use: 'eslint-loader',
-      //   include: [path.join(PRO_ROOT_PATH, `/src`)],
-      //   exclude: [path.join(PRO_ROOT_PATH, `/node_modules`)],
-      // },
+      {
+        enforce: 'pre',
+        test: /\.(j|e)s$|\.vue$/,
+        use: 'eslint-loader',
+        include: [path.join(PRO_ROOT_PATH, `/src`)],
+        exclude: [path.join(PRO_ROOT_PATH, `/node_modules`)],
+      },
       {
         test: /\.vue$/,
         use: 'vue-loader',
@@ -186,7 +186,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       filename: `./html/app.html`, // webpack-dev-server 无法识别 ..，所以这里使用 .
-      template: path.join(PRO_ROOT_PATH, `/src/app/index.html`),
+      template: path.join(PRO_ROOT_PATH, `/src/index.html`),
     }),
   ]
 };

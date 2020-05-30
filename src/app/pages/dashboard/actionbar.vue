@@ -97,7 +97,7 @@
           } else { // 具名卡槽
             return ele.properties.slot === slotName;
           }
-        })
+        });
       },
 
       setSelectedNode(item) {
@@ -272,9 +272,9 @@
               const { tag, label, props = {} } = dragInfo;
 
               // TODO: 属性根据类型解析
-              const vueProps = {}
+              const vueProps = {};
               Object.keys(props).forEach(key => {
-                const { label, default: defaultValue } = props[key];
+                const { default: defaultValue } = props[key];
                 vueProps[key] = defaultValue;
               });
 

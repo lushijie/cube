@@ -4,8 +4,7 @@
   "description": "",
   "main": "",
   "scripts": {
-    "lint": "eslint --ext .js,.vue src --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "fix": "eslint --ext .js,.vue src --fix",
     "dev": "export NODE_ENV=development && webpack-dev-server --config=./webpack/webpack.config.js --progress",
     "pub": "export NODE_ENV=production && webpack --config=./webpack/webpack.config.js --progress"
   },

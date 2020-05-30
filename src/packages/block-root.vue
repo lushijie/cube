@@ -16,10 +16,6 @@
       font: {
         fontSize: Number
       }
-    },
-
-    mounted() {
-      console.log('root 组件加载完毕');
     }
   };
 </script>
