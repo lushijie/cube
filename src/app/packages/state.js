@@ -13,13 +13,7 @@ export default {
       root: true,
       selected: true,
       properties: {
-        props: {
-          // 默认属性
-          backgroundColor: '#fff',
-          font: {
-            fontSize: '16px'
-          }
-        }
+        props: {}
       },
       slots: [],
     }

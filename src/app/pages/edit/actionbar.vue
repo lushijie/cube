@@ -1,14 +1,12 @@
 <template>
   <div
-    class="cube-struct"
+    class="cube-actionbar"
     :data-uuid="menu.uuid"
     draggable="true">
-    <!-- 组件节点展示 -->
     <div class="menu-item-group">
-
       <!-- 放置组件的位置(before), data-uuid 为已有的相邻组件的uuid -->
       <div
-        class="cube-seat before"
+        class="cube-slot before"
         :data-uuid="menu.uuid"
         :data-put-before="true"
         v-if="!menu.root">
@@ -50,7 +48,7 @@
           :title="'匿名卡槽'"
           data-slot-name="default"
           data-slot-title="匿名卡槽"
-          class="cube-seat slot">
+          class="cube-slot slot">
           <!-- 匿名 slot 占位-->
         </div>
       </li>
@@ -71,7 +69,7 @@
           :title="item.slotLabel"
           :data-slot-name="item.slotName"
           :data-slot-title="item.slotLabel"
-          class="cube-seat slot">
+          class="cube-slot slot">
           <!-- 具名 slot 占位-->
         </div>
       </li>
@@ -128,7 +126,7 @@
 
       // 移除所有的 drag-over 状态
       removeAllDragOver() {
-        djs.findAll('.cube-seat').forEach(ele => {
+        djs.findAll('.cube-slot').forEach(ele => {
           djs.removeClass(ele, 'drag-over');
         });
       },
@@ -161,14 +159,14 @@
 
       bindDragEvent() {
         // 移除组件的拖拽事件, 防止重复绑定
-        document.querySelectorAll('.cube-struct').forEach(function(target, index) {
+        document.querySelectorAll('.cube-actionbar').forEach(function(target, index) {
           target.ondragstart = null;
           target.ondrag = null;
           target.ondragend = null;
         });
 
         // 拖拽元素
-        document.querySelectorAll('.cube-struct').forEach(function(target, index) {
+        document.querySelectorAll('.cube-actionbar').forEach(function(target, index) {
           target.ondragstart = function(event) {
             const info = {
               uuid: event.target.getAttribute('data-uuid')
@@ -188,7 +186,7 @@
 
       bindDropEvent() {
         // 移除slot的释放事件, 防止重复绑定
-        document.querySelectorAll('.cube-seat').forEach(function(target, index) {
+        document.querySelectorAll('.cube-slot').forEach(function(target, index) {
           target.ondragenter = null;
           target.ondragover = null;
           target.ondragleave = null;
@@ -197,7 +195,7 @@
 
         // 放置组件
         const self = this;
-        document.querySelectorAll('.cube-seat').forEach(function(target, index) {
+        document.querySelectorAll('.cube-slot').forEach(function(target, index) {
           target.ondragenter = function(event) {
             event.preventDefault();
           };
@@ -211,7 +209,7 @@
             const dragUid = JSON.parse(window.localStorage.getItem('cube-drag-element')).uuid;
             if (dragUid) {
               // 如果是移动元素，不能移动到自己的子级元素
-              if (!document.querySelectorAll(`.cube-struct[data-uuid="${dragUid}"]`)[0].contains(to)) {
+              if (!document.querySelectorAll(`.cube-actionbar[data-uuid="${dragUid}"]`)[0].contains(to)) {
                 djs.addClass(target, 'drag-over');
               }
             } else {
@@ -227,14 +225,14 @@
             const to = event.toElement || event.relatedTarget;
 
             // 移除界外
-            if (!self.closest(from, '.cube-seat')) {
+            if (!self.closest(from, '.cube-slot')) {
               self.removeAllDragOver();
               return;
             }
 
             // 移到内部元素
             if (this.contains(to)) {
-              if (to.getAttribute('class').indexOf('cube-seat') > -1) {
+              if (to.getAttribute('class').indexOf('cube-slot') > -1) {
                 self.removeAllDragOver();
                 djs.addClass(target, 'drag-over');
               }
@@ -362,12 +360,12 @@
   .menu-item__del:hover {
     color: #f56c6c;
   }
-  .cube-seat {
+  .cube-slot {
     transition: height 0.3s;
     height: 25px;
     background-color: #ffc;
   }
-  .cube-seat.drag-over {
+  .cube-slot.drag-over {
     background-color: #ff2;
     transition: height 0.3s;
     height: 45px;

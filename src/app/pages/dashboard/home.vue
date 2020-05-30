@@ -1,11 +1,11 @@
 <template>
   <div class="whole-container">
     <!-- 全局操作栏 -->
-    <el-row>
+    <!-- <el-row>
       <el-col :span="6" style="float:right; text-align: right;">
         <Header />
       </el-col>
-    </el-row>
+    </el-row> -->
 
     <el-row>
       <!-- 组件列表 -->
@@ -96,7 +96,7 @@
 
       // 监听struct change 事件
       this.$store.watch(this.$store.getters['structChange'], (pre, after) => {
-        if (!Utils.isDeepEqual(pre, after)) {
+        if (!Utils.isDeepEqual(pre, )) {
           this.boradcastStructChange();
         }
 

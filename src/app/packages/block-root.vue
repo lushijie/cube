@@ -1,7 +1,7 @@
 <template>
   <div :style="{ backgroundColor, fontSize: ( font || {}).fontSize || '14px'}">
     <slot></slot>
-    <div style="text-align: right; font-size: 12px; color: #ccc">copyright @ lushijie</div>
+    <div style="text-align: right; color: #ccc">copyright @ lushijie</div>
   </div>
 </template>
 

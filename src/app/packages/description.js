@@ -17,6 +17,14 @@ module.exports = {
         slotLabel: '底部卡槽'
       }
     ],
+    props: {
+      backgroundColor: {
+        label: '背景颜色',
+        type: 'color',
+        default: '#ccc',
+        description: '',
+      }
+    }
   },
   'block-image': {
     label: '图片组件',

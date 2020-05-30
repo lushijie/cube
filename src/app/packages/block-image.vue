@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img :src="imgURL" alt="图片">
+    <img :src="imgURL" :alt="imgAlt">
   </div>
 </template>
 
@@ -8,6 +8,7 @@
   export default {
     props: {
       imgURL: String,
+      imgAlt: String
     },
 
     mounted() {

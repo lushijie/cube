@@ -1,19 +1,17 @@
 <template>
-  <div id="cube-prop">
-    <PropItem :attrs="selectedProps"/>
+  <div class="cube-prop">
+    <PropItem :attrs="bindProps"/>
   </div>
 </template>
 
 <script>
   import Utils from 'utils';
   import PropItem from './prop-item.vue';
-  import Tree from 'app/common/tree.js';
-  const treeInst = new Tree();
 
   export default {
     data() {
       return {
-        bindProps: treeInst.getSeletedNode().properties.props
+        bindProps: {}
       };
     },
 
@@ -22,17 +20,9 @@
     },
 
     computed: {
-      selectedNode() {
+      selectedNode() { // is been watched
         return this.treeInst.getSeletedNode();
       },
-
-      selectedProps() {
-        return Utils.extend({}, this.selectedNode.properties.props);
-      },
-
-      selectedUid() {
-        return this.selectedNode.uuid;
-      }
     },
 
     watch: {
@@ -40,7 +30,7 @@
         deep: true,
         handler(newVal, oldVal) {
           if (newVal.uuid !== oldVal.uuid) {
-            this.bindProps = this.selectedProps;
+            this.bindProps = this.selectedNode.properties.props;
           }
         }
       },
@@ -48,7 +38,7 @@
       bindProps: {
         deep: true,
         handler(newVal, oldVal) {
-          this.treeInst.matchUpdateNodeByUid(this.selectedUid, (node) => {
+          this.treeInst.matchUpdateNodeByUid(this.selectedNode.uuid, (node) => {
             node.properties.props = Utils.extend({}, newVal);
           });
         }
