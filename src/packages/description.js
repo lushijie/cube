@@ -1,7 +1,7 @@
 module.exports = {
   'block-root': {
     label: '根组件',
-    visible: false, // false， 则不在组件列表树中展示
+    visible: false, // false  则不在组件列表树中展示
     slots: true, // 匿名卡槽
   },
   'block-container': {

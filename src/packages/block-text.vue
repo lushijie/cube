@@ -17,7 +17,5 @@
 </script>
 
 <style scoped>
-  .block-e {
-    color: red;
-  }
+
 </style>

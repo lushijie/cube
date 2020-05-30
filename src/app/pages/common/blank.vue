@@ -1,6 +1,6 @@
 <template>
   <div class="blank">
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 
@@ -11,3 +11,6 @@
     }
   };
 </script>
+
+<style scoped>
+</style>

@@ -1,10 +1,28 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import State from 'packages/state';
+import Utils from 'utils';
 
 Vue.use(Vuex);
 
-const state = State;
+const state = {
+  packages: [],
+  routeMeta: {},
+  isTreeSaved: false,
+  tree: {
+    id: null,
+    struct: {
+      tag: 'block-root',
+      uuid: Utils.uuid,
+      label: '根组件',
+      root: true,
+      selected: true,
+      properties: {
+        props: {}
+      },
+      slots: [],
+    }
+  }
+};
 
 const getters = {
   tree(state) {

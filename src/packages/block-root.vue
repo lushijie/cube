@@ -1,7 +1,7 @@
 <template>
-  <div :style="{ backgroundColor, fontSize: ( font || {}).fontSize || '14px'}">
-    <slot></slot>
-    <div style="text-align: right; color: #ccc">copyright @ lushijie</div>
+  <div :style="{ backgroundColor }">
+    <slot />
+    <div class="copyright">copyright @ lushijie</div>
   </div>
 </template>
 
@@ -10,18 +10,20 @@
     props: {
       backgroundColor: {
         type: String,
-        default: '#eee'
+        default: '#fff'
       },
-      // 支持分组属性设定
-      font: {
-        fontSize: Number
-      }
+    },
+
+    mounted() {
+      console.info('root 组件加载完毕');
     }
   };
 </script>
 
 <style scoped>
-  .block-root {
-    color: red;
+  .copyright {
+    text-align: right;
+    margin-top: 20px;
+    color: #999;
   }
 </style>

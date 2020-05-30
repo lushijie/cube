@@ -39,7 +39,7 @@ module.exports = function() {
     common: {
       DEFINE: {
         INJECT: { // 注入系统的变量
-          APPNAME: '示例管理系统',
+          APPNAME: '**管理系统',
           ...temp
         }
       },
