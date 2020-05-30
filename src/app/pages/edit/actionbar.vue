@@ -1,5 +1,3 @@
-// 组件操作栏
-// slot-item 为放置组件的位置
 <template>
   <div
     class="cube-struct"
@@ -288,7 +286,7 @@
                 properties: {
                   props: {
                     // 构造属性，package 组件中使用的属性
-                    [dragInfo['tag'].split('-')[1]]: `新建节点${dragInfo['label']}`
+                    // [dragInfo['tag'].split('-')[1]]: `新建节点${dragInfo['label']}`
                   },
                   attrs: {
                     id: uuid

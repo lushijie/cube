@@ -24,6 +24,7 @@
     border: none;
   }
 </style>
+
 <style scoped>
 
 </style>

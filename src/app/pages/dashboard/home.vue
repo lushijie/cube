@@ -1,24 +1,6 @@
 <template>
   <div class="whole-container">
     <!-- 全局操作栏 -->
-    <!-- <el-row>
-      <el-col :span="6" style="float:right; text-align: right;">
-        <el-button
-          :type="isTreeSaved ? 'success' : 'danger'"
-          @click="saveCacheTree"
-          :loading="isSaving">
-          {{ isTreeSaved ? '已保存' : '点击保存' }}
-        </el-button>
-
-        <el-button
-          type="danger"
-          @click="removeCacheTree">
-          清除缓存
-        </el-button>
-      </el-col>
-    </el-row> -->
-
-    <!-- 全局操作栏 -->
     <el-row>
       <el-col :span="6" style="float:right; text-align: right;">
         <Header />
@@ -91,25 +73,6 @@
       // tree struct 变化处理事件
       boradcastStructChange() {
         this.$root.bus.$emit('structChange');
-      },
-
-      saveCacheTree() {
-        this.isSaving = true;
-        setTimeout(() => {
-          this.treeInst.setCacheTree(this.treeId);
-          this.boradcastStructChange();
-          this.isSaving = false;
-        }, 300);
-      },
-
-      removeCacheTree() {
-        this.treeInst.removeCacheTree(this.treeId);
-        this.$notify({
-          title: '成功',
-          message: '缓存删除成功',
-          type: 'success',
-          duration: 1000
-        });
       }
     },
 
@@ -119,15 +82,17 @@
     },
 
     mounted() {
-      this.treeId = this.currentRouteData.query.id; // 在 URL 中获取 tree id
-      let tmpTree = this.treeInst.getCacheTree(this.treeId); // localStorage读取
+      // this.treeId = this.currentRouteData.query.id; // 在 URL 中获取 tree id
+      // let tmpTree = this.treeInst.getCacheTree(this.treeId); // localStorage读取
 
-      if (!tmpTree.id) { // 新建
-        tmpTree = Utils.extend({}, this.tree);
-        tmpTree.id = this.treeId;
-        this.treeInst.setCacheTree(this.treeId);
-      }
-      Store.commit('updateTree', tmpTree);
+      // if (!tmpTree.id) { // 新建
+      //   tmpTree = Utils.extend({}, this.tree);
+      //   tmpTree.id = this.treeId;
+      //   this.treeInst.setCacheTree(this.treeId);
+      // }
+      // Store.commit('updateTree', tmpTree);
+
+      const tmpTree = {};
 
       // 监听struct change 事件
       this.$store.watch(this.$store.getters['structChange'], (pre, after) => {

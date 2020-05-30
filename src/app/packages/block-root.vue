@@ -21,7 +21,7 @@
 
 
     mounted() {
-      console.log('根组件加载成功');
+      console.log('root 组件加载完毕');
     }
   };
 </script>

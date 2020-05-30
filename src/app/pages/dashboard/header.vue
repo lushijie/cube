@@ -33,7 +33,7 @@
         this.isSaving = true;
         setTimeout(() => {
           this.treeInst.setCacheTree(this.treeId);
-          this.boradcastStructChange();
+          this.$root.bus.$emit('structChange');
           this.isSaving = false;
         }, 300);
       },
