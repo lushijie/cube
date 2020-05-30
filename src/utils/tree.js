@@ -381,7 +381,7 @@ export default class Tree {
     const componentPromiseList = this.getUsedComponents().map(componentName => {
       if (!registedComponents.has(componentName)) {
         registedComponents.add(componentName);
-        return import(`app/packages/${componentName}.vue`).then(_ => {
+        return import(`packages/${componentName}.vue`).then(_ => {
           Vue.component(componentName, Vue.extend(_.default));
         });
       }

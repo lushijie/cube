@@ -2,10 +2,10 @@ import Vue from 'vue';
 import Utils from 'utils';
 import Store from 'store';
 import VueRouter from 'vue-router';
-import Blank from 'app/pages/components/blank.vue';
-import NotFound from 'app/pages/components/404.vue';
-import Dashboard from 'app/pages/dashboard/home.vue';
-import Preview from 'app/pages/preview/home.vue';
+import Blank from 'pages/common/blank.vue';
+import NotFound from 'pages/common/404.vue';
+import Dashboard from 'pages/dashboard/home.vue';
+import Preview from 'pages/preview/home.vue';
 
 Vue.use(VueRouter);
 

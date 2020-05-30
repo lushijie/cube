@@ -17,7 +17,7 @@ const noop = function() {};
 module.exports = {
   mode: CONF.ENV,
   entry: {
-    app: path.join(PRO_ROOT_PATH, `/src/app/index.js`)
+    app: path.join(PRO_ROOT_PATH, `/src/app.js`)
   },
   // devtool: isPubEnv ? (SOURCE_MAP && 'cheap-module-source-map') : 'cheap-module-eval-source-map',
   devtool: SOURCE_MAP ? 'cheap-module-source-map' : '',
@@ -38,12 +38,14 @@ module.exports = {
     extensions: ['.vue', '.es', '.js', '.css', '.scss', '.json'],
     alias: {
       app: path.join(SRC_PATH, '/app'),
+      pages: path.join(SRC_PATH, '/app/pages'),
       filters: path.join(SRC_PATH, '/filters'),
       mixins: path.join(SRC_PATH, '/mixins'),
       plugins: path.join(SRC_PATH, '/plugins'),
       store: path.join(SRC_PATH, '/store'),
       validators: path.join(SRC_PATH, '/validators'),
       utils: path.join(SRC_PATH, '/utils'),
+      packages: path.join(SRC_PATH, '/packages'),
       static: path.join(PRO_ROOT_PATH, '/static'),
     }
   },

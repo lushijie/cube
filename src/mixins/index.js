@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Tree from 'app/common/tree.js';
+import Tree from 'utils/tree.js';
 
 Vue.mixin({
   data() {

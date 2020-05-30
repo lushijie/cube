@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import Tree from 'app/common/tree.js';
+  import Tree from 'utils/tree.js';
   import Preview from './preview.vue';
 
   export default {
