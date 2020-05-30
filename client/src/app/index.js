@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import packages from 'app/packages';
+import packages from 'app/packages/description';
 import BlankLayout from 'app/pages/components/blank.vue';
 import Router from 'app/router.js';
 import Store from 'store';
