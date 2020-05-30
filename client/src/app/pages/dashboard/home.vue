@@ -81,7 +81,6 @@
     methods: {
       // tree struct 变化处理事件
       boradcastStructChange() {
-        console.debug('structChange...');
         this.$root.bus.$emit('structChange');
       },
 

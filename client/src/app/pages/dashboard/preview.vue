@@ -1,5 +1,6 @@
 <template>
   <div id="cube-preview" class="grid-content cube-tree-preview"></div>
+  <!-- <iframe src="http://localhost:8080/static/dist/html/app.html#/preview" frameborder="0"></iframe> -->
 </template>
 
 <script>

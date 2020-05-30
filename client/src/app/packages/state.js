@@ -5,7 +5,7 @@ export default {
   routeMeta: {},
   isTreeSaved: false,
   tree: {
-    id: null, // 会被复写掉
+    id: null,
     struct: {
       tag: 'block-root',
       uuid: Utils.uuid,
@@ -14,13 +14,14 @@ export default {
       selected: true,
       properties: {
         props: {
-          backgroundColor: '背景颜色',
+          // 默认属性
+          backgroundColor: '#fff',
           font: {
-            fontSize: '字体大小'
+            fontSize: '16px'
           }
         }
       },
-      slots: []
+      slots: [],
       //     slots: [
       //       {
       //         tag: 'block-image',

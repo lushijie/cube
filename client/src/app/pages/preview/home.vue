@@ -1,7 +1,7 @@
 <template>
   <div class="preview-page">
     <div id="cube-preview">
-      <CubePreview></CubePreview>
+      <Preview />
     </div>
   </div>
 </template>

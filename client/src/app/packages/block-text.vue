@@ -7,7 +7,10 @@
 <script>
   export default {
     props: {
-      txt: String,
+      txt: {
+        type: String,
+        default: 'Hello World'
+      },
     },
 
     mounted() {

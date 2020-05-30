@@ -34,7 +34,6 @@ const getters = {
   }
 };
 
-// 必须是同步函数
 const mutations = {
   updateRouteMeta(state, payload) {
     state.routeMeta = {
@@ -59,8 +58,7 @@ const mutations = {
   }
 };
 
-const actions = {
-};
+const actions = {};
 
 const store = {
   state,
