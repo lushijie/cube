@@ -23,15 +23,13 @@
     methods: {
       // 组件注册拖拽事件
       bindDragEvent() {
-        // 移除组件的拖拽事件, 防止重复绑定
+        // 拖拽元素
         document.querySelectorAll('.block-component-item').forEach(function(target, index) {
+          // 移除组件的拖拽事件, 防止重复绑定
           target.ondragstart = null;
           target.ondrag = null;
           target.ondragend = null;
-        });
 
-        // 拖拽元素
-        document.querySelectorAll('.block-component-item').forEach(function(target, index) {
           target.ondragstart = function(event) {
             const description = event.target.getAttribute('data-block-description');
             window.localStorage.setItem('cube-drag-element', description);

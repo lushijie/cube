@@ -3,70 +3,69 @@
     class="cube-block-item"
     :data-uuid="node.uuid"
     draggable="true">
+
+    <!-- 组件body -->
     <div class="node-item-group">
-      <!-- 放置组件的位置(before), data-uuid 为已有的相邻组件的uuid -->
       <div
-        class="cube-slot before"
+        class="slot-placeholder"
+        v-if="!node.root"
         :data-uuid="node.uuid"
-        :data-put-before="true"
-        v-if="!node.root">
+        :data-node-before="true">
+        <!-- 非根组件节点前置占位，用于组件的位置排序 -->
       </div>
 
       <div
-        :class="{
-          'node-item': true,
-          'normal': !node.root,
-          'root': node.root,
-          'selected': node.selected
-        }"
+        :class="[
+          { 'node-item': true },
+          node.root ? 'root' : 'normal',
+          { selected: node.selected }
+        ]"
         :data-tag="node.tag"
-        @click="setSelectedNode(node)">
-
+        @click="handleSelectNode(node)">
         {{ node.label }}
-
-        <!-- root 节点不允许删除 -->
         <i
           v-if="!node.root"
           class="el-icon-close node-item__del"
-          @click.stop="deleteNode(node)">
+          @click.stop="handleDeleteNode(node)">
+          <!-- root 节点不允许删除 -->
         </i>
       </div>
     </div>
 
-    <!-- 匿名卡槽 -->
+    <!-- 组件匿名卡槽 -->
     <ul class="slot-container" v-if="getPackageSlots(node.tag) === true">
       <li class="slot-item">
         <template
-          v-for="ele in getSlots(node.slots)" >
-          <Editor :node="ele" :key="ele.uuid" /> <!-- 自调用 -->
+          v-for="ele in getSpeciallSlots(node.slots)" >
+          <Actionbar :node="ele" :key="ele.uuid" /> <!-- 自调用 -->
         </template>
 
         <!-- 匿名 slot 占位-->
         <div
+          class="slot-placeholder"
           :data-uuid="node.uuid"
           :title="'匿名卡槽'"
           data-slot-name="default"
-          data-slot-title="匿名卡槽"
-          class="cube-slot slot" />
+          data-slot-title="匿名卡槽"/>
       </li>
     </ul>
 
-    <!-- 具名卡槽 -->
+    <!-- 组件具名卡槽 -->
     <ul class="slot-container"
       v-if="getPackageSlots(node.tag) && getPackageSlots(node.tag).length > 0">
       <li class="slot-item" v-for="(item, i) in getPackageSlots(node.tag)" :key="i">
         <template
-          v-for="ele in getSlots(node.slots, item.slotName)">
-          <Editor :node="ele" :key="ele.uuid" /> <!-- 自调用 -->
+          v-for="ele in getSpeciallSlots(node.slots, item.slotName)">
+          <Actionbar :node="ele" :key="ele.uuid" /> <!-- 自调用 -->
         </template>
 
         <!-- 具名 slot 占位-->
         <div
+          class="slot-placeholder"
           :data-uuid="node.uuid"
           :title="item.slotLabel"
           :data-slot-name="item.slotName"
-          :data-slot-title="item.slotLabel"
-          class="cube-slot slot" />
+          :data-slot-title="item.slotLabel"/>
       </li>
     </ul>
   </div>
@@ -78,7 +77,7 @@
   import djs from 'dom.js';
 
   export default {
-    name: 'Editor',
+    name: 'Actionbar',
 
     props: {
       node: {
@@ -90,7 +89,27 @@
     },
 
     methods: {
-      getSlots(slots = [], slotName = 'default') {
+      // 选中组件节点
+      handleSelectNode(item) {
+        this.treeInst.selectNodeByUid(item.uuid);
+      },
+
+      // 删除组件节点
+      handleDeleteNode(item) {
+        this.treeInst.deleteNodeByUid(item.uuid);
+      },
+
+      // 获取配置文件的 slots 信息
+      getPackageSlots(tag) {
+        const pkgInfo = this.packages.filter(ele => ele.tag === tag)[0] || {};
+        if (!pkgInfo.slots) {
+          pkgInfo.slots = false;
+        }
+        return pkgInfo.slots;
+      },
+
+      // 获取匿名|具名卡槽
+      getSpeciallSlots(slots = [], slotName = 'default') {
         return slots.filter(ele => {
           if (slotName === 'default') { // 匿名卡槽
             return ele.properties.slot === 'default' || !ele.properties.slot;
@@ -100,31 +119,25 @@
         });
       },
 
-      setSelectedNode(item) {
-        this.treeInst.selectNodeByUid(item.uuid);
-      },
+      // 在操作栏拖拽组件时记录组件信息(此处为uuid)到localStorage
+      bindDragEvent() {
+        // 拖拽元素
+        document.querySelectorAll('.cube-block-item').forEach(function(target, index) {
+          // 移除组件的拖拽事件, 防止重复绑定
+          target.ondragstart = null;
+          target.ondrag = null;
+          target.ondragend = null;
 
-      deleteNode(item) {
-        this.treeInst.deleteNodeByUid(item.uuid);
-      },
+          target.ondragstart = function(event) {
+            const info = { uuid: event.target.getAttribute('data-uuid') };
+            window.localStorage.setItem('cube-drag-element', JSON.stringify(info));
+          };
 
-      // 获取配置文件的 slots 信息
-      getPackageSlots(tag) {
-        const pkgInfo = this.packages.filter(ele => {
-          return ele.tag === tag;
-        })[0] || {};
+          target.ondrag = function(event) {};
 
-        if (!pkgInfo.slots) {
-          pkgInfo.slots = false;
-        }
-
-        return pkgInfo.slots;
-      },
-
-      // 移除所有的 drag-over 状态
-      removeAllDragOver() {
-        djs.findAll('.cube-slot').forEach(ele => {
-          djs.removeClass(ele, 'drag-over');
+          target.ondragend = function(event) {
+            window.localStorage.removeItem('cube-drag-element');
+          };
         });
       },
 
@@ -154,43 +167,23 @@
         return null;
       },
 
-      bindDragEvent() {
-        // 移除组件的拖拽事件, 防止重复绑定
-        document.querySelectorAll('.cube-block-item').forEach(function(target, index) {
-          target.ondragstart = null;
-          target.ondrag = null;
-          target.ondragend = null;
-        });
-
-        // 拖拽元素
-        document.querySelectorAll('.cube-block-item').forEach(function(target, index) {
-          target.ondragstart = function(event) {
-            const info = {
-              uuid: event.target.getAttribute('data-uuid')
-            };
-            window.localStorage.setItem('cube-drag-element', JSON.stringify(info));
-          };
-
-          target.ondrag = function(event) {};
-
-          target.ondragend = function(event) {
-            window.localStorage.removeItem('cube-drag-element');
-          };
+      // 移除所有的 drag-over 状态
+      removeAllDragOver() {
+        djs.findAll('.slot-placeholder').forEach(ele => {
+          djs.removeClass(ele, 'drag-over');
         });
       },
 
+      // 将组件释放到 slot 容器
       bindDropEvent() {
-        // 移除slot的释放事件, 防止重复绑定
-        document.querySelectorAll('.cube-slot').forEach(function(target, index) {
+        const self = this;
+        document.querySelectorAll('.slot-placeholder').forEach(function(target, index) {
+          // 移除slot的释放事件, 防止重复绑定
           target.ondragenter = null;
           target.ondragover = null;
           target.ondragleave = null;
           target.ondrop = null;
-        });
 
-        // 放置组件
-        const self = this;
-        document.querySelectorAll('.cube-slot').forEach(function(target, index) {
           target.ondragenter = function(event) {
             event.preventDefault();
           };
@@ -202,6 +195,7 @@
 
             const to = event.toElement || event.relatedTarget;
             const dragUid = JSON.parse(window.localStorage.getItem('cube-drag-element')).uuid;
+            // 存在 dragUid 是移动组件，不存在 dragUid 则是新建组件
             if (dragUid) {
               // 如果是移动元素，不能移动到自己的子级元素
               if (!document.querySelectorAll(`.cube-block-item[data-uuid="${dragUid}"]`)[0].contains(to)) {
@@ -220,14 +214,14 @@
             const to = event.toElement || event.relatedTarget;
 
             // 移除界外
-            if (!self.closest(from, '.cube-slot')) {
+            if (!self.closest(from, '.slot-placeholder')) {
               self.removeAllDragOver();
               return;
             }
 
             // 移到内部元素
             if (this.contains(to)) {
-              if (to.getAttribute('class').indexOf('cube-slot') > -1) {
+              if (to.getAttribute('class').indexOf('slot-placeholder') > -1) {
                 self.removeAllDragOver();
                 djs.addClass(target, 'drag-over');
               }
@@ -247,7 +241,7 @@
             }
 
             const dragInfo = JSON.parse(window.localStorage.getItem('cube-drag-element'));
-            const isPutBefore = dropTarget.getAttribute('data-put-before');
+            const isPutBefore = dropTarget.getAttribute('data-node-before');
             const relatedUid = dropTarget.getAttribute('data-uuid');
             let relatedSlotName = dropTarget.getAttribute('data-slot-name');
 
@@ -307,6 +301,7 @@
         });
       },
 
+      // 绑定拖拽、释放事件
       bindDragDropEvent() {
         this.bindDragEvent();
         this.bindDropEvent();
@@ -355,12 +350,12 @@
   .node-item__del:hover {
     color: #f56c6c;
   }
-  .cube-slot {
+  .slot-placeholder {
     transition: height 0.3s;
     height: 25px;
     background-color: #ffc;
   }
-  .cube-slot.drag-over {
+  .slot-placeholder.drag-over {
     background-color: #ff2;
     transition: height 0.3s;
     height: 45px;
