@@ -86,7 +86,7 @@
       // 等待组件加载完毕再触发
       setTimeout(() => {
         Store.commit('updateTree', tmpTree);
-      }, 50);
+      }, 100);
 
       // 监听struct change 事件
       this.$store.watch(this.$store.getters['detectStructChange'], (pre, after) => {

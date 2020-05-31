@@ -24,7 +24,7 @@ module.exports = {
         default: '#ccc',
         description: '',
       }
-    }
+    },
   },
   'block-image': {
     label: '图片组件',

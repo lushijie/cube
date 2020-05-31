@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ backgroundColor }">
+  <div>
     <slot />
     <div class="copyright">copyright @ lushijie</div>
   </div>
@@ -7,13 +7,6 @@
 
 <script>
   export default {
-    props: {
-      backgroundColor: {
-        type: String,
-        default: '#fff'
-      },
-    },
-
     mounted() {
       console.info('root 组件加载完毕');
     }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :style="{ backgroundColor }">
     <slot name="header" />
     <span class="click-btn" @click="handleClick"> 事件测试，点击我 </span>
     <slot name="footer" />
@@ -8,6 +8,13 @@
 
 <script>
   export default {
+    props: {
+      backgroundColor: {
+        type: String,
+        default: '#fff'
+      },
+    },
+
     methods: {
       handleClick() {
         alert('container 组件事件测试');
