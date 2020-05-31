@@ -1,7 +1,13 @@
-## cube 魔方系统技术复盘
+# Magic Cube
 
-cd ./client
+## Project setup
 
-yarn
+``` bash
+  # install dependencies
+  yarn
 
-npm run dev
+  # serve with hot reload at localhost:8000
+  yarn run dev
+```
+
+## Run Demo

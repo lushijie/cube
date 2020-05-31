@@ -76,16 +76,17 @@
 
     mounted() {
       this.treeId = this.currentRouteData.query.treeId; // 在 URL 中获取 tree id
-      // let tmpTree = this.treeInst.getCacheTree(this.treeId); // localStorage读取
+      let tmpTree = this.treeInst.getCacheTree(this.treeId); // localStorage读取
+      if (!tmpTree.treeId) { // 新建
+        tmpTree = Utils.extend({}, this.tree);
+        tmpTree.treeId = this.treeId;
+        this.treeInst.setCacheTree(this.treeId);
+      }
 
-      // if (!tmpTree.treeId) { // 新建
-      //   tmpTree = Utils.extend({}, this.tree);
-      //   tmpTree.treeId = this.treeId;
-      //   this.treeInst.setCacheTree(this.treeId);
-      // }
-      // Store.commit('updateTree', tmpTree);
-
-      const tmpTree = {};
+      // 等待组件加载完毕再触发
+      setTimeout(() => {
+        Store.commit('updateTree', tmpTree);
+      }, 50);
 
       // 监听struct change 事件
       this.$store.watch(this.$store.getters['detectStructChange'], (pre, after) => {
