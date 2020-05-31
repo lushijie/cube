@@ -1,7 +1,7 @@
 <template>
   <div
     class="cube-block-item"
-    :data-uuid="node.uuid"
+    :data-node-uuid="node.uuid"
     draggable="true">
 
     <!-- 组件body -->
@@ -9,7 +9,7 @@
       <div
         class="slot-placeholder"
         v-if="!node.root"
-        :data-uuid="node.uuid"
+        :data-node-uuid="node.uuid"
         :data-node-before="true">
         <!-- 非根组件节点前置占位，用于组件的位置排序 -->
       </div>
@@ -43,7 +43,7 @@
         <!-- 匿名 slot 占位-->
         <div
           class="slot-placeholder"
-          :data-uuid="node.uuid"
+          :data-node-uuid="node.uuid"
           :title="'匿名卡槽'"
           data-slot-name="default"
           data-slot-title="匿名卡槽"/>
@@ -62,7 +62,7 @@
         <!-- 具名 slot 占位-->
         <div
           class="slot-placeholder"
-          :data-uuid="node.uuid"
+          :data-node-uuid="node.uuid"
           :title="item.slotLabel"
           :data-slot-name="item.slotName"
           :data-slot-title="item.slotLabel"/>
@@ -129,7 +129,7 @@
           target.ondragend = null;
 
           target.ondragstart = function(event) {
-            const info = { uuid: event.target.getAttribute('data-uuid') };
+            const info = { uuid: event.target.getAttribute('data-node-uuid') };
             window.localStorage.setItem('cube-drag-element', JSON.stringify(info));
           };
 
@@ -139,32 +139,6 @@
             window.localStorage.removeItem('cube-drag-element');
           };
         });
-      },
-
-      closest(el, selector) {
-        let matchesFn;
-
-        // find vendor prefix
-        ['matches', 'webkitMatchesSelector', 'mozMatchesSelector', 'msMatchesSelector', 'oMatchesSelector'].some(function(fn) {
-          if (typeof document.body[fn] === 'function') {
-            matchesFn = fn;
-            return true;
-          }
-          return false;
-        });
-
-        let parent;
-
-        // traverse parents
-        while (el) {
-          parent = el.parentElement;
-          if (parent && parent[matchesFn](selector)) {
-            return parent;
-          }
-          el = parent;
-        }
-
-        return null;
       },
 
       // 移除所有的 drag-over 状态
@@ -195,10 +169,11 @@
 
             const to = event.toElement || event.relatedTarget;
             const dragUid = JSON.parse(window.localStorage.getItem('cube-drag-element')).uuid;
+
             // 存在 dragUid 是移动组件，不存在 dragUid 则是新建组件
             if (dragUid) {
               // 如果是移动元素，不能移动到自己的子级元素
-              if (!document.querySelectorAll(`.cube-block-item[data-uuid="${dragUid}"]`)[0].contains(to)) {
+              if (!document.querySelectorAll(`.cube-block-item[data-node-uuid="${dragUid}"]`)[0].contains(to)) {
                 djs.addClass(target, 'drag-over');
               }
             } else {
@@ -210,22 +185,9 @@
             event.preventDefault();
             event.stopPropagation();
 
-            const from = event.fromElement || event.relatedTarget;
-            const to = event.toElement || event.relatedTarget;
-
-            // 移除界外
-            if (!self.closest(from, '.slot-placeholder')) {
-              self.removeAllDragOver();
-              return;
-            }
-
-            // 移到内部元素
-            if (this.contains(to)) {
-              if (to.getAttribute('class').indexOf('slot-placeholder') > -1) {
-                self.removeAllDragOver();
-                djs.addClass(target, 'drag-over');
-              }
-            }
+            // const from = event.fromElement || event.relatedTarget;
+            // const to = event.toElement || event.relatedTarget;
+            self.removeAllDragOver();
           };
 
           target.ondrop = function(event) {
@@ -241,28 +203,29 @@
             }
 
             const dragInfo = JSON.parse(window.localStorage.getItem('cube-drag-element'));
-            const isPutBefore = dropTarget.getAttribute('data-node-before');
-            const relatedUid = dropTarget.getAttribute('data-uuid');
-            let relatedSlotName = dropTarget.getAttribute('data-slot-name');
+            const isMoveBefore = dropTarget.getAttribute('data-node-before');
+            const targetUid = dropTarget.getAttribute('data-node-uuid');
+            let targetSlotName = dropTarget.getAttribute('data-slot-name');
 
-            // 新建节点信息，1.移动的节点 2.从组件列表拖拽新建的
+            // 新建节点信息，分为两种情况: 1.移动的节点 2.从组件列表拖拽新建的
             let newNode = null;
 
             // 如果放置到 before 位置, 新节点slot名字一定与紧靠在其后面的那个组件的slot一致
-            if (isPutBefore) {
-              relatedSlotName = (self.treeInst.getNodeByUid(relatedUid).properties || {}).slot || 'default';
+            if (isMoveBefore) {
+              targetSlotName = (self.treeInst.getNodeByUid(targetUid).properties || {}).slot || 'default';
             }
 
             // 移动节点
             if (dragInfo.uuid) {
-              if (relatedUid !== dragInfo.uuid) { // 禁止拖拽自己到自身的子级节点中
+              if (targetUid !== dragInfo.uuid) { // 禁止拖拽自己到自身的子级节点中
                 newNode = self.treeInst.deleteNodeByUid(dragInfo.uuid);
-                if (relatedSlotName) {
+                if (targetSlotName) {
                   newNode.properties = newNode.properties || {};
-                  newNode.properties.slot = relatedSlotName;
+                  newNode.properties.slot = targetSlotName;
                 }
               }
             } else {
+              // 新建节点
               const { tag, label, props = {} } = dragInfo;
 
               // TODO: 属性根据类型解析
@@ -283,16 +246,14 @@
                   attrs: {
                     id: uuid
                   },
-                  slot: relatedSlotName
+                  slot: targetSlotName
                 },
                 ref: uuid
               };
             }
 
-            // 落点位置，组件的before 与 slot 处理逻辑不一致
-            // isPutBefore, 此时的relatedUid 其实为其相邻组件的uuid
-            // !isPutBefore, 此时的relatedUid 为slot所有者组件的uuid
-            self.treeInst[isPutBefore ? 'insertNodeBefore' : 'addNode'](relatedUid, newNode);
+            // 落点位置，组件的 before 与 slot 处理逻辑不一致
+            self.treeInst[isMoveBefore ? 'insertNodeBefore' : 'addNode'](targetUid, newNode);
 
             setTimeout(() => {
               self.bindDragDropEvent();
