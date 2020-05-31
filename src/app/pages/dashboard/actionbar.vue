@@ -102,8 +102,8 @@
       // 获取配置文件的 slots 信息
       getPackageSlots(tag) {
         const pkgInfo = this.packages.filter(ele => ele.tag === tag)[0] || {};
-        if (!pkgInfo.slots) {
-          pkgInfo.slots = false;
+        if (typeof pkgInfo.slots === 'undefined') {
+          pkgInfo.slots = false; // 省略 slots 时，false 补齐
         }
         return pkgInfo.slots;
       },
@@ -204,7 +204,7 @@
 
             const dragInfo = JSON.parse(window.localStorage.getItem('cube-drag-element'));
             const isMoveBefore = dropTarget.getAttribute('data-node-before');
-            const targetUid = dropTarget.getAttribute('data-node-uuid');
+            const targetUuid = dropTarget.getAttribute('data-node-uuid');
             let targetSlotName = dropTarget.getAttribute('data-slot-name');
 
             // 新建节点信息，分为两种情况: 1.移动的节点 2.从组件列表拖拽新建的
@@ -212,14 +212,14 @@
 
             // 如果放置到 before 位置, 新节点slot名字一定与紧靠在其后面的那个组件的slot一致
             if (isMoveBefore) {
-              targetSlotName = (self.treeInst.getNodeByUid(targetUid).properties || {}).slot || 'default';
+              targetSlotName = (self.treeInst.getNodeByUid(targetUuid).properties || {}).slot || 'default';
             }
 
             // 移动节点
             if (dragInfo.uuid) {
-              if (targetUid !== dragInfo.uuid) { // 禁止拖拽自己到自身的子级节点中
+              if (targetUuid !== dragInfo.uuid) { // 禁止拖拽自己到自身的子级节点中
                 newNode = self.treeInst.deleteNodeByUid(dragInfo.uuid);
-                if (targetSlotName) {
+                if (targetSlotName) { // 移动之后修改 slot
                   newNode.properties = newNode.properties || {};
                   newNode.properties.slot = targetSlotName;
                 }
@@ -237,24 +237,27 @@
 
               const uuid = Utils.uuid;
               newNode = {
+                // VNode
                 tag,
-                uuid,
-                label,
-                selected: true,
                 properties: {
                   props: vueProps,
                   attrs: {
-                    id: uuid
+                    id: uuid,
                   },
-                  slot: targetSlotName
+                  slot: targetSlotName, // 如果组件是其它组件的子组件，需指定所使用的插槽名称，默认 default
                 },
-                ref: uuid
+
+                // custom props
+                uuid,
+                label,
+                selected: true,
               };
             }
 
             // 落点位置，组件的 before 与 slot 处理逻辑不一致
-            self.treeInst[isMoveBefore ? 'insertNodeBefore' : 'addNode'](targetUid, newNode);
+            self.treeInst[isMoveBefore ? 'insertNodeBefore' : 'addNode'](targetUuid, newNode);
 
+            // 为了让新增的节点响应事件，重新绑定事件
             setTimeout(() => {
               self.bindDragDropEvent();
             }, 50);

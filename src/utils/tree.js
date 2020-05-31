@@ -363,6 +363,7 @@ export default class Tree {
       throw new Error('外部容器不存在');
     }
 
+    // https://cn.vuejs.org/v2/guide/render-function.html
     function createComponent(node, h) {
       const tag = node.tag;
       const properties = node.properties || {};
