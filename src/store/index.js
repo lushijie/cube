@@ -17,7 +17,7 @@ const state = {
       root: true,
       selected: true,
       properties: {
-        props: {}
+        props: {} // root 节点属性
       },
       slots: [],
     }
