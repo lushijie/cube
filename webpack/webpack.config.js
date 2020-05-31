@@ -23,9 +23,9 @@ module.exports = {
   devtool: SOURCE_MAP ? 'cheap-module-source-map' : '',
   output: {
     path: path.join(PRO_ROOT_PATH, `/static/dist`), // 打包文件输出路径，绝对路径
-    publicPath: `/static/dist/`, // 打包后浏览器访问服务时的 URL 路径
-    filename: isPubEnv ? `./js/[name].[hash:6].js` : `./js/[name].js`,
-    chunkFilename: isPubEnv ? `./js/chunk/[name].[chunkhash:6].chunk.js` : `./js/chunk/[name].chunk.js`,
+    publicPath: isPubEnv ? '../' : '/static/dist/', // 打包后浏览器访问服务时的 URL 路径
+    filename: isPubEnv ? `js/[name].[hash:6].js` : `js/[name].js`,
+    chunkFilename: isPubEnv ? `js/chunk/[name].[chunkhash:6].chunk.js` : `js/chunk/[name].chunk.js`,
   },
   devServer: {
     contentBase: PRO_ROOT_PATH,
@@ -69,7 +69,7 @@ module.exports = {
         }
       }) : noop,
       new OptimizeCSSAssetsPlugin({
-        assetNameRegExp: /\.css$/g, // 注意不要写成 /\.css$/g
+        assetNameRegExp: /\.css$/g,
         cssProcessor: require('cssnano'),
         cssProcessorOptions: {
           map: SOURCE_MAP,
@@ -177,8 +177,8 @@ module.exports = {
     new VuePlugin(),
 
     new MiniCssExtractPlugin({
-      filename: './css/[name].[hash:6].css',
-      chunkFilename: './css/chunk/[name].[chunkhash:6].css'
+      filename: 'css/[name].[hash:6].css',
+      chunkFilename: 'css/chunk/[name].[chunkhash:6].css'
     }),
 
     new webpack.DefinePlugin(CONF.DEFINE),
