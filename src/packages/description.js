@@ -34,7 +34,7 @@ module.exports = {
       imgURL: {
         label: '图片地址',
         type: 'input',
-        default: 'https://p0.meituan.net/travelcube/a6d651dfde0437d2e13449b82ffbaf129203.png',
+        default: 'https://p1.meituan.net/travelcube/f11e7a86ec699f1968c0ca9885ca3acd14521.png',
         description: '',
       }
     }

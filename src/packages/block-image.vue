@@ -18,5 +18,8 @@
 </script>
 
 <style scoped>
-
+  img {
+    width: auto;
+    max-width: 100%;
+  }
 </style>
