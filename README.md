@@ -11,4 +11,5 @@
 ```
 
 ## Running Demo
-[![watch the video](https://p1.meituan.net/travelcube/e3d3166b39684d92568a19b69cae3869283321.png)](https://flowplus.meituan.net/v1/mss_a002ed9fc97544cebd70304686903863/cube/1590919806173.mp4)
+
+[![watch the video](https://p1.meituan.net/travelcube/43401808901828d9fe8bf21fed260411164625.jpg)](https://flowplus.meituan.net/v1/mss_a002ed9fc97544cebd70304686903863/cube/1590919806173.mp4)
