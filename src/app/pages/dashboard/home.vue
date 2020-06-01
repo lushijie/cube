@@ -84,9 +84,9 @@
       }
 
       // 等待组件加载完毕再触发
-      setTimeout(() => {
+      global.ee.once('TreeLoadFinish', () => {
         Store.commit('updateTree', tmpTree);
-      }, 100);
+      });
 
       // 监听struct change 事件
       this.$store.watch(this.$store.getters['detectStructChange'], (pre, after) => {

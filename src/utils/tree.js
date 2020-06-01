@@ -1,8 +1,8 @@
 import Store from 'store';
 import Utils from 'utils';
 import Vue from 'vue';
-const registedComponents = new Set();
 
+const registedComponents = new Set();
 export default class Tree {
   constructor(tree = {}) {
     if (tree.treeId) {
@@ -395,6 +395,9 @@ export default class Tree {
           return createComponent(treeStruct, h);
         },
       });
+
+      // 组件加载完毕
+      global.ee.emit('TreeLoadFinish');
 
       // for second+ time render
       if (!document.getElementById(innerId)) {

@@ -3,6 +3,7 @@ import packages from 'packages/description';
 import BlankLayout from 'pages/common/blank.vue';
 import Router from 'app/router.js';
 import Store from 'store';
+import EventEmitter from 'eventemitter3';
 import 'filters';
 import 'mixins';
 import 'plugins';
@@ -10,6 +11,7 @@ import 'static/css/reset.css';
 
 Vue.config.devtools = INJECT.ENV !== 'production';
 Vue.config.silent = INJECT.ENV === 'production';
+global.ee = new EventEmitter();
 
 // 2.2.0+
 Vue.config.errorHandler = function(err, vm) {
