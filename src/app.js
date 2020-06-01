@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import packages from 'packages/description';
-import BlankLayout from 'pages/common/blank.vue';
+import Blank from 'pages/common/blank.vue';
 import Router from 'app/router.js';
 import Store from 'store';
 import EventEmitter from 'eventemitter3';
@@ -18,21 +18,18 @@ Vue.config.errorHandler = function(err, vm) {
   console.warn(err, vm);
 };
 
-// 格式化 components 信息
-const formatPackages = [];
-(function() {
-  Object.keys(packages).forEach((key) => {
-    const { label, visible, slots, props } = packages[key];
-    formatPackages.push({
-      tag: key,
-      label,
-      visible,
-      slots,
-      props
-    });
-  });
-  Store.commit('addPackages', formatPackages);
-})();
+// 格式化 packages 信息
+const formatPackages = Object.keys(packages).map((key) => {
+  const { label, visible, slots, props } = packages[key];
+  return {
+    tag: key,
+    label,
+    visible,
+    slots,
+    props
+  };
+}) || [];
+Store.commit('addPackages', formatPackages);
 
 // 挂载到根节点
 const vm = new Vue({
@@ -42,6 +39,6 @@ const vm = new Vue({
   data: {
     bus: new Vue() // 设立 BUS 总线
   },
-  render: h => h(BlankLayout)
+  render: h => h(Blank)
 });
 Vue.use(vm);
